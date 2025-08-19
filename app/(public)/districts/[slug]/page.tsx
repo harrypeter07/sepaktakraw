@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-export default async function DistrictPage({ params }: { params: { slug: string } }) {
-  const district = await prisma.district.findUnique({ where: { slug: params.slug }, include: { officials: true } });
+export default async function DistrictPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const district = await prisma.district.findUnique({ where: { slug }, include: { officials: true } });
   if (!district) return notFound();
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
