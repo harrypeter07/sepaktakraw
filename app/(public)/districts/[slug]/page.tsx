@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-type Params = { params: { slug: string } };
+interface PageProps { params: { slug: string } }
 
-export default async function DistrictPage({ params }: Params) {
+export default async function DistrictPage({ params }: PageProps) {
   const district = await prisma.district.findUnique({ where: { slug: params.slug }, include: { officials: true } });
   if (!district) return notFound();
   return (
