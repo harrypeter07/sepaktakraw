@@ -2,18 +2,18 @@
 import Link from "next/link";
 
 const items = [
-  { href: "/(admin)/dashboard", label: "Dashboard" },
-  { href: "/(admin)/results", label: "Results" },
-  { href: "/(admin)/districts", label: "Districts" },
-  { href: "/(admin)/officials", label: "Officials" },
-  { href: "/(admin)/forms", label: "Forms" },
-  { href: "/(admin)/media", label: "Media" },
-  { href: "/(admin)/notices", label: "Notices" },
-  { href: "/(admin)/news", label: "News" },
-  { href: "/(admin)/elections", label: "Elections" },
-  { href: "/(admin)/compliance", label: "Compliance" },
-  { href: "/(admin)/users", label: "Users" },
-  { href: "/(admin)/audit", label: "Audit" },
+  { href: "/admin/dashboard", label: "Dashboard" },
+  { href: "/admin/results", label: "Results" },
+  { href: "/admin/districts", label: "Districts" },
+  { href: "/admin/officials", label: "Officials" },
+  { href: "/admin/forms", label: "Forms" },
+  { href: "/admin/media", label: "Media" },
+  { href: "/admin/notices", label: "Notices" },
+  { href: "/admin/news", label: "News" },
+  { href: "/admin/elections", label: "Elections" },
+  { href: "/admin/compliance", label: "Compliance" },
+  { href: "/admin/users", label: "Users" },
+  { href: "/admin/audit", label: "Audit" },
 ];
 
 export function AdminNav() {
