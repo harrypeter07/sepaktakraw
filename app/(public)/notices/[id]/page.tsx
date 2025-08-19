@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-type Params = { params: { id: string } };
-
-export default async function NoticeDetail({ params }: Params) {
-  const item = await prisma.notice.findFirst({ where: { OR: [{ slug: params.id }, { id: Number(params.id) || 0 }] } });
+export default async function NoticeDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const item = await prisma.notice.findFirst({ where: { OR: [{ slug: id }, { id: Number(id) || 0 }] } });
   if (!item) return notFound();
   return (
     <section className="mx-auto max-w-3xl px-4 py-8">
