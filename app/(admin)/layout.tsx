@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AdminNav } from "@/components/nav/AdminNav";
-import "../../globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = { title: "Admin | MSKT" };
 

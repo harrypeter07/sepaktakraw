@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { hasAtLeast } from "./lib/rbac";
+import { hasAtLeast } from "@/lib/rbac";
 
 export function middleware(req: NextRequest) {
   const { pathname } = new URL(req.url);
-  if (pathname.startsWith("/app/(admin)")) {
+  if (pathname.startsWith("/admin")) {
     // Very simple gate; replace with real session lookup
     const role = (req.headers.get("x-role") || "VIEWER") as any;
     if (!hasAtLeast(role, "EDITOR" as any)) {
@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/app/(admin)/:path*"],
+  matcher: ["/admin/:path*"],
 };
 
 
