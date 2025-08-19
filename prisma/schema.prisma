@@ -1,0 +1,125 @@
+// PostgreSQL (Supabase)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  name       String?
+  role       Role      @default(VIEWER)
+  district   District? @relation(fields: [districtId], references: [id])
+  districtId Int?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+enum Role {
+  SUPER_ADMIN
+  STATE_ADMIN
+  DISTRICT_ADMIN
+  EDITOR
+  VIEWER
+}
+
+model District {
+  id        Int        @id @default(autoincrement())
+  slug      String     @unique
+  name      String
+  about     String?
+  officials Official[]
+  teams     Team[]
+  results   Result[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Official {
+  id         Int      @id @default(autoincrement())
+  name       String
+  position   String
+  phone      String?
+  email      String?
+  photoUrl   String?
+  districtId Int
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+}
+
+model Team {
+  id         Int      @id @default(autoincrement())
+  name       String
+  category   String
+  districtId Int
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+}
+
+model Result {
+  id         Int       @id @default(autoincrement())
+  level      String
+  stage      String?
+  matchNo    String?
+  teamA      String
+  teamB      String
+  scoreA     Int?
+  scoreB     Int?
+  date       DateTime
+  venue      String?
+  districtId Int?
+  district   District? @relation(fields: [districtId], references: [id])
+  tags       String[]
+  published  Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+}
+
+model Notice {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  body      String
+  category  String
+  fileUrl   String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model StaticDoc {
+  id        Int      @id @default(autoincrement())
+  section   String
+  title     String
+  fileUrl   String
+  createdAt DateTime @default(now())
+}
+
+model FormDef {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  title     String
+  desc      String?
+  schema    Json
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Submission {
+  id        Int      @id @default(autoincrement())
+  formKey   String
+  data      Json
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
