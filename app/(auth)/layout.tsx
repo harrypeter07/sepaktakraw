@@ -5,9 +5,9 @@ export const metadata: Metadata = { title: "Auth | MSKT" };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="antialiased min-h-screen grid place-items-center">{children}</body>
-    </html>
+    <div className="antialiased min-h-screen grid place-items-center">
+      {children}
+    </div>
   );
 }
 
