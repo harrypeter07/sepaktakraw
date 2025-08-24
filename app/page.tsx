@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { data } from "@/lib/data";
+import { Button, Card, Badge, Section, Grid } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -26,10 +27,10 @@ export default async function HomePage() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-off-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-16">
-        <div className="mx-auto max-w-7xl px-4 text-center">
+      <section className="bg-gradient-to-r from-dark-gray via-bright-red to-orange text-white py-16">
+        <div className="container-main text-center">
           <div className="mb-8">
             <div className="inline-block p-3 bg-white/20 rounded-full mb-6">
               <Image 
@@ -41,43 +42,34 @@ export default async function HomePage() {
               />
             </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-hero mb-6">
             Maharashtra Sepaktakraw Association
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-4xl mx-auto">
+          <p className="text-subtitle mb-8 max-w-4xl mx-auto text-white">
             Official portal for results, notices, districts and compliance. Promoting the traditional sport of Sepaktakraw across Maharashtra.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
-              href="/results" 
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
+            <Button variant="primary" size="lg" href="/results">
               View Results
-            </Link>
-            <Link 
-              href="/districts" 
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200"
-            >
+            </Button>
+            <Button variant="secondary" size="lg" href="/districts">
               Explore Districts
-            </Link>
-            <Link 
-              href="/events" 
-              className="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
+            </Button>
+            <Button variant="accent" size="lg" href="/events">
               Upcoming Events
-            </Link>
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Main Content with Sidebars */}
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="container-main py-8">
+        <div className="grid-sidebar">
           
           {/* Left Sidebar - Districts Navigation */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            <div className="sidebar-sticky">
+              <h2 className="section-subheader flex items-center">
                 <Image 
                   src="/mskt-logo.svg" 
                   alt="MSKT Logo" 
@@ -92,11 +84,11 @@ export default async function HomePage() {
                   <Link
                     key={district.id}
                     href={`/districts/${district.slug}`}
-                    className="block p-3 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 border-l-4 border-transparent hover:border-blue-500"
+                    className="block p-3 rounded-lg hover:bg-off-white hover:text-bright-red transition-colors duration-200 border-l-4 border-transparent hover:border-bright-red"
                   >
-                    <div className="font-medium text-gray-800">{district.name}</div>
+                    <div className="font-medium text-dark-gray">{district.name}</div>
                     {district.about && (
-                      <div className="text-sm text-gray-600 mt-1 line-clamp-2">
+                      <div className="text-caption mt-1 line-clamp-2">
                         {district.about}
                       </div>
                     )}
@@ -104,7 +96,7 @@ export default async function HomePage() {
                 ))}
                 <Link
                   href="/districts"
-                  className="block p-3 rounded-lg bg-blue-50 text-blue-700 font-medium text-center hover:bg-blue-100 transition-colors duration-200"
+                  className="block p-3 rounded-lg bg-off-white text-bright-red font-medium text-center hover:bg-bright-red hover:text-white transition-colors duration-200"
                 >
                   View All Districts →
                 </Link>
@@ -115,61 +107,61 @@ export default async function HomePage() {
           {/* Main Content Area */}
           <div className="lg:col-span-6">
             {/* Quick Stats */}
-            <section className="bg-white rounded-lg shadow-md p-6 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <Card className="mb-8">
+              <h2 className="section-header">
                 Association Overview
               </h2>
-              <div className="grid grid-cols-3 gap-6">
+              <Grid cols={3} gap="lg">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">{districts.length}</div>
-                  <div className="text-gray-600 text-sm">Active Districts</div>
+                  <div className="text-3xl font-bold text-bright-red mb-2">{districts.length}</div>
+                  <div className="text-caption">Active Districts</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-2">{recentResults.length}</div>
-                  <div className="text-gray-600 text-sm">Recent Matches</div>
+                  <div className="text-3xl font-bold text-orange mb-2">{recentResults.length}</div>
+                  <div className="text-caption">Recent Matches</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">{recentNotices.length}</div>
-                  <div className="text-gray-600 text-sm">Latest Updates</div>
+                  <div className="text-3xl font-bold text-dark-gray mb-2">{recentNotices.length}</div>
+                  <div className="text-caption">Latest Updates</div>
                 </div>
-              </div>
-            </section>
+              </Grid>
+            </Card>
 
             {/* Quick Links */}
-            <section className="bg-white rounded-lg shadow-md p-6 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Quick Access</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Link href="/rules" className="flex flex-col items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
-                  <svg className="w-8 h-8 text-blue-600 mb-2" fill="currentColor" viewBox="0 0 20 20">
+            <Card className="mb-8">
+              <h2 className="section-subheader">Quick Access</h2>
+              <Grid cols={4} gap="md">
+                <Link href="/rules" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200">
+                  <svg className="w-8 h-8 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm font-medium text-gray-700">Rules</span>
+                  <span className="text-sm font-medium">Rules</span>
                 </Link>
-                <Link href="/compliance" className="flex flex-col items-center p-4 rounded-lg bg-gray-50 hover:bg-green-50 transition-colors duration-200">
-                  <svg className="w-8 h-8 text-green-600 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                <Link href="/compliance" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200">
+                  <svg className="w-8 h-8 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm font-medium text-gray-700">Compliance</span>
+                  <span className="text-sm font-medium">Compliance</span>
                 </Link>
-                <Link href="/events" className="flex flex-col items-center p-4 rounded-lg bg-gray-50 hover:bg-orange-50 transition-colors duration-200">
-                  <svg className="w-8 h-8 text-orange-600 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                <Link href="/events" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200">
+                  <svg className="w-8 h-8 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm font-medium text-gray-700">Events</span>
+                  <span className="text-sm font-medium">Events</span>
                 </Link>
-                <Link href="/media" className="flex flex-col items-center p-4 rounded-lg bg-gray-50 hover:bg-purple-50 transition-colors duration-200">
-                  <svg className="w-8 h-8 text-purple-600 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                <Link href="/media" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200">
+                  <svg className="w-8 h-8 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                   </svg>
-                  <span className="text-sm font-medium text-gray-700">Media</span>
+                  <span className="text-sm font-medium">Media</span>
                 </Link>
-              </div>
-            </section>
+              </Grid>
+            </Card>
 
             {/* About Section */}
-            <section className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">About Sepaktakraw</h2>
-              <p className="text-gray-600 leading-relaxed">
+            <Card>
+              <h2 className="section-subheader">About Sepaktakraw</h2>
+              <p className="text-body">
                 Sepaktakraw is a traditional sport native to Southeast Asia, particularly popular in Malaysia, 
                 Thailand, and Indonesia. It combines elements of volleyball, football, and martial arts, 
                 requiring exceptional skill, agility, and teamwork. The Maharashtra Sepaktakraw Association 
@@ -179,89 +171,89 @@ export default async function HomePage() {
               <div className="mt-6">
                 <Link 
                   href="/rules" 
-                  className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                  className="link-primary"
                 >
                   Learn more about the rules and gameplay →
                 </Link>
               </div>
-            </section>
+            </Card>
           </div>
 
           {/* Right Sidebar - News, Results, Notices */}
           <div className="lg:col-span-3">
             <div className="space-y-6">
               {/* Recent Results */}
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <Card>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-800">Recent Results</h3>
-                  <Link href="/results" className="text-sm text-blue-600 hover:underline">View All</Link>
+                  <h3 className="section-subheader">Recent Results</h3>
+                  <Link href="/results" className="link-primary text-sm">View All</Link>
                 </div>
                 <div className="space-y-3">
                   {recentResults.slice(0, 3).map((result) => (
-                    <div key={result.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="text-xs text-gray-500 mb-1">
+                    <div key={result.id} className="p-3 bg-off-white rounded-lg">
+                      <div className="text-caption mb-1">
                         {new Date(result.date).toLocaleDateString()}
                       </div>
-                      <div className="font-medium text-sm text-gray-800 mb-1">
+                      <div className="font-medium text-sm text-dark-gray mb-1">
                         {result.teamA} vs {result.teamB}
                       </div>
                       {result.scoreA !== null && result.scoreB !== null && (
-                        <div className="text-lg font-bold text-blue-600 text-center">
+                        <div className="text-lg font-bold text-bright-red text-center">
                           {result.scoreA} - {result.scoreB}
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
-              </div>
+              </Card>
 
               {/* Latest News */}
               {recentNews.length > 0 && (
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <Card>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-gray-800">Latest News</h3>
-                    <Link href="/notices" className="text-sm text-blue-600 hover:underline">View All</Link>
+                    <h3 className="section-subheader">Latest News</h3>
+                    <Link href="/notices" className="link-primary text-sm">View All</Link>
                   </div>
                   <div className="space-y-3">
                     {recentNews.map((news) => (
-                      <div key={news.id} className="p-3 bg-gray-50 rounded-lg">
-                        <div className="text-xs text-gray-500 mb-1">
+                      <div key={news.id} className="p-3 bg-off-white rounded-lg">
+                        <div className="text-caption mb-1">
                           {new Date(news.createdAt).toLocaleDateString()}
                         </div>
-                        <div className="font-medium text-sm text-gray-800 line-clamp-2">
+                        <div className="font-medium text-sm text-dark-gray line-clamp-2">
                           {news.title}
                         </div>
                       </div>
                     ))}
                   </div>
-                </div>
+                </Card>
               )}
 
               {/* Latest Notices */}
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <Card>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-800">Latest Notices</h3>
-                  <Link href="/notices" className="text-sm text-blue-600 hover:underline">View All</Link>
+                  <h3 className="section-subheader">Latest Notices</h3>
+                  <Link href="/notices" className="link-primary text-sm">View All</Link>
                 </div>
                 <div className="space-y-3">
                   {recentNotices.slice(0, 3).map((notice) => (
-                    <div key={notice.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="text-xs text-gray-500 mb-1">
+                    <div key={notice.id} className="p-3 bg-off-white rounded-lg">
+                      <div className="text-caption mb-1">
                         {new Date(notice.createdAt).toLocaleDateString()}
                       </div>
-                      <div className="font-medium text-sm text-gray-800 line-clamp-2 mb-2">
+                      <div className="font-medium text-sm text-dark-gray line-clamp-2 mb-2">
                         {notice.title}
                       </div>
-                      <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                      <Badge variant="primary" size="sm">
                         {notice.category}
-                      </span>
+                      </Badge>
                     </div>
                   ))}
                 </div>
-              </div>
+              </Card>
 
               {/* Contact Info */}
-              <div className="bg-blue-600 text-white rounded-lg p-6">
+              <div className="bg-bright-red text-white rounded-lg p-6">
                 <h3 className="text-lg font-bold mb-4">Get in Touch</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center">
@@ -278,12 +270,14 @@ export default async function HomePage() {
                     <span>+91-98765-43210</span>
                   </div>
                 </div>
-                <Link 
-                  href="/contact" 
-                  className="inline-block mt-4 bg-white text-blue-600 px-4 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors"
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  href="/contact"
+                  className="mt-4 w-full"
                 >
                   Contact Us
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

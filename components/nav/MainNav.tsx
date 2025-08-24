@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const items = [
   { href: "/notices", label: "Notices" },
@@ -12,16 +13,24 @@ const items = [
 ];
 
 export function MainNav() {
+  const pathname = usePathname();
+
   return (
     <nav aria-label="Primary">
       <ul className="flex gap-4 text-sm">
-        {items.map((it) => (
-          <li key={it.href}>
-            <Link href={it.href} className="hover:underline">
-              {it.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <li key={item.href}>
+              <Link 
+                href={item.href} 
+                className={isActive ? 'nav-link-active' : 'nav-link'}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
