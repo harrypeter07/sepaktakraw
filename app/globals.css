@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Color Palette */
-:root {
-  --color-dark-gray: #2C2A2B;
-  --color-bright-red: #F83008;
-  --color-medium-gray: #929292;
-  --color-off-white: #F5F5F5;
-  --color-orange: #F0641B;
-}
-
 /* Base Styles */
 @layer base {
   body {
@@ -18,7 +9,7 @@
   }
 }
 
-/* Utility Classes */
+/* Component Classes */
 @layer components {
   /* Button Components */
   .btn-primary {
@@ -162,37 +153,4 @@
   .status-error {
     @apply text-bright-red bg-red-100 px-3 py-2 rounded-lg;
   }
-}
-
-/* Custom Tailwind Colors */
-@layer utilities {
-  .bg-dark-gray { background-color: var(--color-dark-gray); }
-  .bg-bright-red { background-color: var(--color-bright-red); }
-  .bg-medium-gray { background-color: var(--color-medium-gray); }
-  .bg-off-white { background-color: var(--color-off-white); }
-  .bg-orange { background-color: var(--color-orange); }
-  
-  .text-dark-gray { color: var(--color-dark-gray); }
-  .text-bright-red { color: var(--color-bright-red); }
-  .text-medium-gray { color: var(--color-medium-gray); }
-  .text-off-white { color: var(--color-off-white); }
-  .text-orange { color: var(--color-orange); }
-  
-  .border-dark-gray { border-color: var(--color-dark-gray); }
-  .border-bright-red { border-color: var(--color-bright-red); }
-  .border-medium-gray { border-color: var(--color-medium-gray); }
-  .border-off-white { border-color: var(--color-off-white); }
-  .border-orange { border-color: var(--color-orange); }
-  
-  .hover\:bg-dark-gray:hover { background-color: var(--color-dark-gray); }
-  .hover\:bg-bright-red:hover { background-color: var(--color-bright-red); }
-  .hover\:bg-medium-gray:hover { background-color: var(--color-medium-gray); }
-  .hover\:bg-off-white:hover { background-color: var(--color-off-white); }
-  .hover\:bg-orange:hover { background-color: var(--color-orange); }
-  
-  .hover\:text-dark-gray:hover { color: var(--color-dark-gray); }
-  .hover\:text-bright-red:hover { color: var(--color-bright-red); }
-  .hover\:text-medium-gray:hover { color: var(--color-medium-gray); }
-  .hover\:text-off-white:hover { color: var(--color-off-white); }
-  .hover\:text-orange:hover { color: var(--color-orange); }
 }

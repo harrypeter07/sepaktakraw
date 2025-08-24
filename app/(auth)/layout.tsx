@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import "../../globals.css";
 
-export const metadata: Metadata = { title: "Auth | MSKT" };
+export const metadata: Metadata = { 
+  metadataBase: new URL('http://localhost:3000'),
+  title: "Auth | MSKT" 
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

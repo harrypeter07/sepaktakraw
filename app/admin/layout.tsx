@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { AdminNav } from "@/components/nav/AdminNav";
 
-export const metadata: Metadata = { title: "Admin | MSKT" };
+export const metadata: Metadata = { 
+  metadataBase: new URL('http://localhost:3000'),
+  title: "Admin | MSKT" 
+};
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: "Maharashtra Sepaktakraw Association",
   description: "Official portal for results, notices, districts and compliance of the Maharashtra Sepaktakraw Association.",
   keywords: ["sepaktakraw", "maharashtra", "association", "sports", "results", "districts"],
