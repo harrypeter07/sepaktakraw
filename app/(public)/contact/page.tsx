@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ContactPage() {
   return (
@@ -6,6 +7,15 @@ export default function ContactPage() {
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
         <div className="text-center mb-12">
+          <div className="flex justify-center mb-6">
+            <Image 
+              src="/mskt-logo.svg" 
+              alt="MSKT Logo" 
+              width={80} 
+              height={80}
+              className="w-20 h-20"
+            />
+          </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
           <p className="text-xl text-gray-600">
             Get in touch with the Maharashtra Sepaktakraw Association

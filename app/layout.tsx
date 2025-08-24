@@ -19,11 +19,24 @@ export const metadata: Metadata = {
   authors: [{ name: "Maharashtra Sepaktakraw Association" }],
   viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "Maharashtra Sepaktakraw Association",
     description: "Official portal for results, notices, districts and compliance",
     type: "website",
     locale: "en_IN",
+    images: [
+      {
+        url: "/mskt-logo.svg",
+        width: 100,
+        height: 100,
+        alt: "MSKT Logo",
+      },
+    ],
   },
 };
 

@@ -10,6 +10,11 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   title: "Maharashtra Sepaktakraw Association",
   description: "Official website of the Maharashtra Sepaktakraw Association",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {

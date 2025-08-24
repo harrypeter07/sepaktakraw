@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { data } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -20,8 +21,8 @@ export default async function HomePage() {
 
   // Filter notices to get news items
   const recentNews = data.notices
-    .filter((n: any) => n.published && n.category === 'NEWS')
-    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .filter((n) => n.published && n.category === 'NEWS')
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 3);
 
   return (
@@ -31,9 +32,13 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 text-center">
           <div className="mb-8">
             <div className="inline-block p-3 bg-white/20 rounded-full mb-6">
-              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
+              <Image 
+                src="/mskt-logo.svg" 
+                alt="MSKT Logo" 
+                width={60} 
+                height={60}
+                className="w-12 h-12"
+              />
             </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
@@ -73,9 +78,13 @@ export default async function HomePage() {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                </svg>
+                <Image 
+                  src="/mskt-logo.svg" 
+                  alt="MSKT Logo" 
+                  width={20} 
+                  height={20}
+                  className="w-5 h-5 mr-2"
+                />
                 Districts
               </h2>
               <nav className="space-y-2">
@@ -214,7 +223,7 @@ export default async function HomePage() {
                     <Link href="/notices" className="text-sm text-blue-600 hover:underline">View All</Link>
                   </div>
                   <div className="space-y-3">
-                    {recentNews.map((news: any) => (
+                    {recentNews.map((news) => (
                       <div key={news.id} className="p-3 bg-gray-50 rounded-lg">
                         <div className="text-xs text-gray-500 mb-1">
                           {new Date(news.createdAt).toLocaleDateString()}

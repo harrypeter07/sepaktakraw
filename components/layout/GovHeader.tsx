@@ -10,14 +10,14 @@ export function GovHeader() {
         <div className="flex items-center gap-3">
           <div className="flex-shrink-0">
             <Image 
-              src="/mskt-logo.svg" 
+              src="/mskt-text-logo.svg" 
               alt="MSKT Logo" 
-              width={40} 
-              height={40}
-              className="w-10 h-10"
+              width={80} 
+              height={32}
+              className="w-20 h-8"
             />
           </div>
-          <div>
+          <div className="hidden sm:block">
             <Link href="/" className="font-semibold text-gray-900 text-lg">Maharashtra Sepaktakraw Association</Link>
             <div className="text-xs text-gray-600">Registered Sports Federation</div>
           </div>
