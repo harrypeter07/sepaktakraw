@@ -211,7 +211,7 @@ export default async function HomePage() {
                 <div className="bg-white rounded-lg shadow-md p-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-bold text-gray-800">Latest News</h3>
-                    <Link href="/news" className="text-sm text-blue-600 hover:underline">View All</Link>
+                    <Link href="/notices" className="text-sm text-blue-600 hover:underline">View All</Link>
                   </div>
                   <div className="space-y-3">
                     {recentNews.map((news: any) => (

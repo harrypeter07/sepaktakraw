@@ -1,0 +1,24 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="58" fill="#1e40af" stroke="#1e3a8a" stroke-width="4"/>
+  
+  <!-- Sepaktakraw ball pattern -->
+  <circle cx="60" cy="60" r="45" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+  
+  <!-- Ball segments -->
+  <path d="M60 15 Q75 25 85 40 Q90 55 85 70 Q75 85 60 95 Q45 85 35 70 Q30 55 35 40 Q45 25 60 15" fill="#60a5fa" stroke="#1e40af" stroke-width="1"/>
+  <path d="M60 15 Q45 25 35 40 Q30 55 35 70 Q45 85 60 95 Q75 85 85 70 Q90 55 85 40 Q75 25 60 15" fill="#93c5fd" stroke="#1e40af" stroke-width="1"/>
+  
+  <!-- Center design -->
+  <circle cx="60" cy="60" r="20" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="60" cy="60" r="12" fill="#1e40af"/>
+  
+  <!-- Text ring -->
+  <circle cx="60" cy="60" r="75" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="25" cy="25" r="3" fill="#fbbf24"/>
+  <circle cx="95" cy="25" r="3" fill="#fbbf24"/>
+  <circle cx="25" cy="95" r="3" fill="#fbbf24"/>
+  <circle cx="95" cy="95" r="3" fill="#fbbf24"/>
+</svg>
