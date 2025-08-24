@@ -1,36 +1,54 @@
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
+import { data, getResultsWithDistricts } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   // Fetch dashboard statistics
-  const [
-    totalUsers,
-    totalDistricts,
-    totalResults,
-    totalNotices,
-    totalForms,
-    totalOfficials,
-    recentResults,
-    recentNotices
-  ] = await Promise.all([
-    prisma.user.count(),
-    prisma.district.count(),
-    prisma.result.count(),
-    prisma.notice.count(),
-    prisma.formDef.count(),
-    prisma.official.count(),
-    prisma.result.findMany({
-      orderBy: { date: "desc" },
-      take: 5,
-      include: { district: true }
-    }),
-    prisma.notice.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5
-    })
-  ]);
+  // TODO: Replace with Prisma queries when database is ready
+  // const [
+  //   totalUsers,
+  //   totalDistricts,
+  //   totalResults,
+  //   totalNotices,
+  //   totalForms,
+  //   totalOfficials,
+  //   recentResults,
+  //   recentNotices
+  // ] = await Promise.all([
+  //   prisma.user.count(),
+  //   prisma.district.count(),
+  //   prisma.result.count(),
+  //   prisma.notice.count(),
+  //   prisma.formDef.count(),
+  //   prisma.official.count(),
+  //   prisma.result.findMany({
+  //     orderBy: { date: "desc" },
+  //     take: 5,
+  //     include: { district: true }
+  //   }),
+  //   prisma.notice.findMany({
+  //     orderBy: { createdAt: "desc" },
+  //     take: 5
+  //   })
+  // ]);
+
+  // Using mock data instead
+  const totalUsers = data.users.length;
+  const totalDistricts = data.districts.length;
+  const totalResults = data.results.length;
+  const totalNotices = data.notices.length;
+  const totalForms = data.formDefs.length;
+  const totalOfficials = data.officials.length;
+  
+  const recentResults = getResultsWithDistricts()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
+  
+  const recentNotices = data.notices
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5);
 
   return (
     <section className="py-8">

@@ -1,0 +1,317 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin User",
+      "email": "admin@mskt.org",
+      "role": "SUPER_ADMIN",
+      "districtId": null,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "District Manager",
+      "email": "manager@mskt.org",
+      "role": "DISTRICT_ADMIN",
+      "districtId": 1,
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Editor User",
+      "email": "editor@mskt.org",
+      "role": "EDITOR",
+      "districtId": 2,
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    }
+  ],
+  "districts": [
+    {
+      "id": 1,
+      "name": "Mumbai",
+      "slug": "mumbai",
+      "about": "Mumbai district is the largest and most active district in Maharashtra Sepaktakraw Association.",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Pune",
+      "slug": "pune",
+      "about": "Pune district has a rich history in sepaktakraw with many talented players.",
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Nagpur",
+      "slug": "nagpur",
+      "about": "Nagpur district is known for its strong team performances in regional tournaments.",
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Thane",
+      "slug": "thane",
+      "about": "Thane district has been growing rapidly in sepaktakraw development.",
+      "createdAt": "2024-01-04T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "name": "Nashik",
+      "slug": "nashik",
+      "about": "Nashik district is home to many upcoming sepaktakraw talents.",
+      "createdAt": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "name": "Aurangabad",
+      "slug": "aurangabad",
+      "about": "Aurangabad district has a strong foundation in traditional sports including sepaktakraw.",
+      "createdAt": "2024-01-06T00:00:00.000Z"
+    }
+  ],
+  "officials": [
+    {
+      "id": 1,
+      "name": "Rajesh Kumar",
+      "position": "President",
+      "districtId": 1,
+      "email": "president@mskt.org",
+      "phone": "+91-98765-43210",
+      "photoUrl": null,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Priya Sharma",
+      "position": "Secretary",
+      "districtId": 1,
+      "email": "secretary@mskt.org",
+      "phone": "+91-98765-43211",
+      "photoUrl": null,
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Amit Patel",
+      "position": "Treasurer",
+      "districtId": 2,
+      "email": "treasurer@mskt.org",
+      "phone": "+91-98765-43212",
+      "photoUrl": null,
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    }
+  ],
+  "results": [
+    {
+      "id": 1,
+      "teamA": "Mumbai Warriors",
+      "teamB": "Pune Panthers",
+      "scoreA": 21,
+      "scoreB": 19,
+      "date": "2024-01-15T00:00:00.000Z",
+      "venue": "Mumbai Sports Complex",
+      "level": "STATE",
+      "stage": "SEMI_FINAL",
+      "published": true,
+      "districtId": 1,
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "teamA": "Nagpur Eagles",
+      "teamB": "Thane Thunder",
+      "scoreA": 18,
+      "scoreB": 21,
+      "date": "2024-01-16T00:00:00.000Z",
+      "venue": "Nagpur Indoor Stadium",
+      "level": "STATE",
+      "stage": "QUARTER_FINAL",
+      "published": true,
+      "districtId": 3,
+      "createdAt": "2024-01-16T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "teamA": "Nashik Knights",
+      "teamB": "Aurangabad Arrows",
+      "scoreA": 21,
+      "scoreB": 15,
+      "date": "2024-01-17T00:00:00.000Z",
+      "venue": "Nashik Sports Center",
+      "level": "DISTRICT",
+      "stage": "FINAL",
+      "published": true,
+      "districtId": 5,
+      "createdAt": "2024-01-17T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "teamA": "Mumbai Warriors",
+      "teamB": "Thane Thunder",
+      "scoreA": null,
+      "scoreB": null,
+      "date": "2024-02-01T00:00:00.000Z",
+      "venue": "Mumbai Sports Complex",
+      "level": "STATE",
+      "stage": "FINAL",
+      "published": true,
+      "districtId": 1,
+      "createdAt": "2024-01-20T00:00:00.000Z"
+    }
+  ],
+  "notices": [
+    {
+      "id": 1,
+      "title": "State Championship Registration Open",
+      "body": "Registration for the Maharashtra State Sepaktakraw Championship 2024 is now open. All districts are requested to submit their team entries by January 31st, 2024.",
+      "category": "TOURNAMENT",
+      "published": true,
+      "slug": "state-championship-registration",
+      "fileUrl": null,
+      "createdAt": "2024-01-10T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "New Training Program Announced",
+      "body": "We are pleased to announce a new training program for coaches and officials. This program will be conducted in collaboration with the National Sepaktakraw Federation.",
+      "category": "TRAINING",
+      "published": true,
+      "slug": "new-training-program",
+      "fileUrl": null,
+      "createdAt": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "District Tournament Results",
+      "body": "Congratulations to all participants in the recent district tournaments. Special recognition to Mumbai Warriors for their outstanding performance.",
+      "category": "NEWS",
+      "published": true,
+      "slug": "district-tournament-results",
+      "fileUrl": null,
+      "createdAt": "2024-01-14T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Equipment Donation Drive",
+      "body": "We are organizing an equipment donation drive to support underprivileged districts. Please contact the association office for more details.",
+      "category": "ANNOUNCEMENT",
+      "published": false,
+      "slug": "equipment-donation-drive",
+      "fileUrl": null,
+      "createdAt": "2024-01-18T00:00:00.000Z"
+    }
+  ],
+  "formDefs": [
+    {
+      "id": 1,
+      "title": "Player Registration Form",
+      "key": "player-registration",
+      "desc": "Official form for player registration in district teams",
+      "active": true,
+      "schema": {
+        "name": "string",
+        "age": "number",
+        "district": "string",
+        "experience": "string"
+      },
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Tournament Entry Form",
+      "key": "tournament-entry",
+      "desc": "Form for teams to enter tournaments",
+      "active": true,
+      "schema": {
+        "teamName": "string",
+        "district": "string",
+        "players": "array",
+        "category": "string"
+      },
+      "createdAt": "2024-01-05T00:00:00.000Z"
+    }
+  ],
+  "submissions": [
+    {
+      "id": 1,
+      "formKey": "player-registration",
+      "data": {
+        "name": "Rahul Singh",
+        "age": 22,
+        "district": "Mumbai",
+        "experience": "3 years"
+      },
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "formKey": "tournament-entry",
+      "data": {
+        "teamName": "Mumbai Warriors",
+        "district": "Mumbai",
+        "players": ["Rahul Singh", "Priya Sharma", "Amit Patel"],
+        "category": "Men's Team"
+      },
+      "createdAt": "2024-01-16T00:00:00.000Z"
+    }
+  ],
+  "staticDocs": [
+    {
+      "id": 1,
+      "title": "Official Rules and Regulations",
+      "section": "RULES",
+      "fileUrl": "/documents/rules.pdf",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Tournament Guidelines",
+      "section": "GUIDELINES",
+      "fileUrl": "/documents/tournament-guidelines.pdf",
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Code of Conduct",
+      "section": "POLICIES",
+      "fileUrl": "/documents/code-of-conduct.pdf",
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Player Registration Form",
+      "section": "FORMS",
+      "fileUrl": "/documents/player-registration.pdf",
+      "createdAt": "2024-01-04T00:00:00.000Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": 1,
+      "userId": "1",
+      "action": "USER_LOGIN",
+      "entity": "User",
+      "entityId": "1",
+      "ip": "192.168.1.1",
+      "createdAt": "2024-01-20T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "userId": "1",
+      "action": "CREATE_NOTICE",
+      "entity": "Notice",
+      "entityId": "1",
+      "ip": "192.168.1.1",
+      "createdAt": "2024-01-20T10:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "userId": "2",
+      "action": "UPDATE_RESULT",
+      "entity": "Result",
+      "entityId": "1",
+      "ip": "192.168.1.2",
+      "createdAt": "2024-01-20T11:00:00.000Z"
+    }
+  ]
+}

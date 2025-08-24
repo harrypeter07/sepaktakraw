@@ -1,26 +1,43 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
+import { data } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   // Fetch some recent data for the homepage
-  const recentResults = await prisma.result.findMany({
-    orderBy: { date: "desc" },
-    take: 3,
-    where: { published: true }
-  });
+  // TODO: Replace with Prisma queries when database is ready
+  // const recentResults = await prisma.result.findMany({
+  //   orderBy: { date: "desc" },
+  //   take: 3,
+  //   where: { published: true }
+  // });
 
-  const recentNotices = await prisma.notice.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 3,
-    where: { published: true }
-  });
+  // const recentNotices = await prisma.notice.findMany({
+  //   orderBy: { createdAt: "desc" },
+  //   take: 3,
+  //   where: { published: true }
+  // });
 
-  const districts = await prisma.district.findMany({
-    orderBy: { name: "asc" },
-    take: 6
-  });
+  // const districts = await prisma.district.findMany({
+  //   orderBy: { name: "asc" },
+  //   take: 6
+  // });
+
+  // Using mock data instead
+  const recentResults = data.results
+    .filter(r => r.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+
+  const recentNotices = data.notices
+    .filter(n => n.published)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 3);
+
+  const districts = data.districts
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -1,83 +1,157 @@
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
+import { data } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function NoticesPage() {
-  const notices = await prisma.notice.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-  });
+  // Fetch all published notices
+  // TODO: Replace with Prisma query when database is ready
+  // const notices = await prisma.notice.findMany({
+  //   where: {
+  //     published: true
+  //   },
+  //   orderBy: {
+  //     createdAt: "desc"
+  //   }
+  // });
+
+  // Using mock data instead
+  const notices = data.notices
+    .filter(notice => notice.published)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   // Group notices by category
   const noticesByCategory = notices.reduce((acc, notice) => {
-    if (!acc[notice.category]) {
-      acc[notice.category] = [];
+    const category = notice.category || 'General';
+    if (!acc[category]) {
+      acc[category] = [];
     }
-    acc[notice.category].push(notice);
+    acc[category].push(notice);
     return acc;
   }, {} as Record<string, typeof notices>);
 
-  const categories = Object.keys(noticesByCategory);
+  const categories = Object.keys(noticesByCategory).sort();
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Notices & Announcements</h1>
-      
-      {categories.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No Notices Available</h3>
-          <p className="text-gray-500">Check back later for updates and announcements.</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <section className="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-16">
+        <div className="mx-auto max-w-6xl px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Notices & Updates
+          </h1>
+          <p className="text-xl text-purple-100">
+            Stay informed with the latest announcements from Maharashtra Sepaktakraw Association
+          </p>
         </div>
-      ) : (
-        <div className="space-y-8">
-          {categories.map((category) => (
-            <div key={category} className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 capitalize">
-                {category.replace("_", " ")}
-              </h2>
-              
-              <div className="space-y-4">
-                {noticesByCategory[category].map((notice) => (
-                  <div key={notice.id} className="border-l-4 border-blue-500 pl-4 py-3">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">
-                          {notice.title}
-                        </h3>
-                        <p className="text-gray-600 mb-3 line-clamp-3">
-                          {notice.body}
-                        </p>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <span>📅 {new Date(notice.createdAt).toLocaleDateString()}</span>
-                          {notice.fileUrl && (
-                            <span className="ml-4 text-blue-600">
-                              📎 Has attachment
+      </section>
+
+      {/* Notices by Category */}
+      <section className="py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          {categories.length > 0 ? (
+            <div className="space-y-12">
+              {categories.map((category) => (
+                <div key={category}>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span className="w-2 h-8 bg-purple-600 rounded mr-3"></span>
+                    {category}
+                  </h2>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {noticesByCategory[category].map((notice) => (
+                      <div key={notice.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">
+                              {notice.category}
                             </span>
+                            <span className="text-xs text-gray-500">
+                              {new Date(notice.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          
+                          <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                            {notice.title}
+                          </h3>
+                          
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {notice.body}
+                          </p>
+                          
+                          {notice.attachments && notice.attachments.length > 0 && (
+                            <div className="mb-4">
+                              <div className="text-xs text-gray-500 mb-2">Attachments:</div>
+                              <div className="flex flex-wrap gap-2">
+                                {notice.attachments.map((attachment, index) => (
+                                  <span
+                                    key={index}
+                                    className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
+                                  >
+                                    📎 {attachment}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
                           )}
+                          
+                          <div className="flex justify-between items-center">
+                            <Link
+                              href={`/notices/${notice.id}`}
+                              className="text-purple-600 hover:text-purple-800 font-semibold text-sm hover:underline"
+                            >
+                              Read More →
+                            </Link>
+                            
+                            {notice.priority === 'HIGH' && (
+                              <span className="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+                                High Priority
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                      
-                      <Link
-                        href={`/notices/${notice.slug}`}
-                        className="ml-4 text-blue-600 hover:text-blue-800 font-medium text-sm whitespace-nowrap"
-                      >
-                        Read More →
-                      </Link>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="text-center py-12">
+              <div className="text-gray-500 text-lg mb-2">No notices available</div>
+              <p className="text-gray-400">Check back later for the latest updates</p>
+            </div>
+          )}
         </div>
-      )}
-    </section>
+      </section>
+
+      {/* Footer CTA */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-4xl px-4 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Stay Connected
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Never miss an important update from the association
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/results"
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+            >
+              View Results
+            </Link>
+            <Link
+              href="/districts"
+              className="border-2 border-purple-600 text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+            >
+              Explore Districts
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
