@@ -56,34 +56,34 @@ export default function MediaPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-off-white py-12">
+    <div className="min-h-screen bg-off-white py-8 md:py-12">
       <div className="container-content">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center mb-4 md:mb-6">
             <Image 
               src="/mskt-logo.svg" 
               alt="MSKT Logo" 
-              width={80} 
-              height={80}
-              className="w-20 h-20"
+              width={60} 
+              height={60}
+              className="w-16 h-16"
             />
           </div>
-          <h1 className="text-hero text-dark-gray mb-4">Media & Resources</h1>
-          <p className="text-subtitle">
+          <h1 className="text-display text-dark-gray mb-3 md:mb-4">Media & Resources</h1>
+          <p className="text-lead">
             Access official documents, media resources, and latest updates
           </p>
         </div>
 
         {/* Media Categories */}
-        <Section title="Media Categories" className="mb-12">
+        <Section title="Media Categories" className="mb-8 md:mb-12">
           <Grid cols={4} gap="lg">
             {mediaCategories.map((category, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-200">
-                <div className={`${category.color} text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-4`}>
+              <Card key={index} className="text-center hover:shadow-md transition-shadow duration-200">
+                <div className={`${category.color} text-white w-12 h-12 rounded-full flex items-center justify-center text-xl mx-auto mb-3`}>
                   {category.icon}
                 </div>
-                <h3 className="section-subheader mb-2">{category.title}</h3>
+                <h3 className="text-heading mb-2">{category.title}</h3>
                 <p className="text-body mb-4">{category.description}</p>
                 <Button variant="outline" href={category.href} size="sm">
                   Explore
@@ -94,7 +94,7 @@ export default function MediaPage() {
         </Section>
 
         {/* Recent Updates */}
-        <Section title="Recent Updates" className="mb-12">
+        <Section title="Recent Updates" className="mb-8 md:mb-12">
           <Grid cols={3} gap="lg">
             {recentUpdates.map((update, index) => (
               <Card key={index}>
@@ -106,9 +106,9 @@ export default function MediaPage() {
                     {new Date(update.date).toLocaleDateString()}
                   </span>
                 </div>
-                <h3 className="font-semibold text-dark-gray mb-2">{update.title}</h3>
+                <h3 className="font-semibold text-dark-gray mb-2 text-sm">{update.title}</h3>
                 <div className="flex items-center justify-between">
-                  <Badge 
+                  <Badge
                     variant={update.status === 'Active' ? 'primary' : update.status === 'Upcoming' ? 'secondary' : 'neutral'}
                     size="sm"
                   >
@@ -124,25 +124,25 @@ export default function MediaPage() {
         </Section>
 
         {/* Media Guidelines */}
-        <Card className="mb-12">
-          <h2 className="section-subheader">Media Guidelines</h2>
+        <Card className="mb-8 md:mb-12">
+          <h2 className="text-heading mb-4">Media Guidelines</h2>
           <div className="space-y-4">
-            <div className="p-4 bg-off-white rounded-lg">
-              <h3 className="font-semibold text-dark-gray mb-2">Photo & Video Usage</h3>
+            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Photo & Video Usage</h3>
               <p className="text-body">
                 All media content is property of MSKT. For commercial use, please contact our media team.
               </p>
             </div>
-            
-            <div className="p-4 bg-off-white rounded-lg">
-              <h3 className="font-semibold text-dark-gray mb-2">Press Inquiries</h3>
+
+            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Press Inquiries</h3>
               <p className="text-body">
                 Journalists and media representatives can contact us at press@mskt.org for official statements and interviews.
               </p>
             </div>
-            
-            <div className="p-4 bg-off-white rounded-lg">
-              <h3 className="font-semibold text-dark-gray mb-2">Content Requests</h3>
+
+            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Content Requests</h3>
               <p className="text-body">
                 For specific content requests or high-resolution images, please use the contact form below.
               </p>
@@ -151,12 +151,12 @@ export default function MediaPage() {
         </Card>
 
         {/* Contact Section */}
-        <div className="bg-dark-gray text-white rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">Need Media Resources?</h2>
-          <p className="text-white mb-6">
+        <div className="bg-gradient-to-r from-dark-gray to-medium-gray text-white rounded-xl p-6 md:p-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Media Resources?</h2>
+          <p className="text-white/90 mb-6 text-sm md:text-base">
             Contact our media team for specific content requests, press inquiries, or media partnerships.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
             <Button
               variant="primary"
               href="/contact"

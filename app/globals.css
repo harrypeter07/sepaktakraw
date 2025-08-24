@@ -5,7 +5,31 @@
 /* Base Styles */
 @layer base {
   body {
-    @apply bg-off-white text-dark-gray;
+    @apply bg-off-white text-dark-gray font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  p {
+    @apply leading-relaxed;
   }
 }
 
@@ -13,33 +37,33 @@
 @layer components {
   /* Button Components */
   .btn-primary {
-    @apply bg-bright-red text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange transition-all duration-200 shadow-lg hover:shadow-xl;
+    @apply bg-bright-red text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-orange transition-all duration-200 shadow-md hover:shadow-lg text-sm md:text-base;
   }
   
   .btn-secondary {
-    @apply border-2 border-bright-red text-bright-red px-6 py-3 rounded-lg font-semibold hover:bg-bright-red hover:text-white transition-all duration-200;
+    @apply border-2 border-bright-red text-bright-red px-5 py-2.5 rounded-lg font-semibold hover:bg-bright-red hover:text-white transition-all duration-200 text-sm md:text-base;
   }
   
   .btn-outline {
-    @apply border-2 border-dark-gray text-dark-gray px-6 py-3 rounded-lg font-semibold hover:bg-dark-gray hover:text-off-white transition-all duration-200;
+    @apply border-2 border-dark-gray text-dark-gray px-5 py-2.5 rounded-lg font-semibold hover:bg-dark-gray hover:text-off-white transition-all duration-200 text-sm md:text-base;
   }
   
   .btn-accent {
-    @apply bg-orange text-white px-6 py-3 rounded-lg font-semibold hover:bg-bright-red transition-all duration-200 shadow-lg hover:shadow-xl;
+    @apply bg-orange text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-bright-red transition-all duration-200 shadow-md hover:shadow-lg text-sm md:text-base;
   }
   
   /* Card Components */
   .card {
-    @apply bg-white rounded-lg shadow-md p-6;
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6;
   }
   
   .card-hover {
-    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200;
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md hover:border-gray-200 transition-all duration-200;
   }
   
   /* Navigation Components */
   .nav-link {
-    @apply text-dark-gray hover:text-bright-red transition-colors duration-200 font-medium;
+    @apply text-dark-gray hover:text-bright-red transition-colors duration-200 font-medium text-sm md:text-base;
   }
   
   .nav-link-active {
@@ -47,34 +71,34 @@
   }
   
   .nav-button {
-    @apply px-4 py-2 rounded-lg text-dark-gray hover:bg-bright-red hover:text-white transition-all duration-200;
+    @apply px-3 py-2 rounded-lg text-dark-gray hover:bg-bright-red hover:text-white transition-all duration-200 text-sm;
   }
   
   /* Form Components */
   .form-input {
-    @apply w-full px-3 py-2 border border-medium-gray rounded-md focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent;
+    @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm;
   }
   
   .form-select {
-    @apply w-full px-3 py-2 border border-medium-gray rounded-md focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent;
+    @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm;
   }
   
   .form-textarea {
-    @apply w-full px-3 py-2 border border-medium-gray rounded-md focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent;
+    @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm;
   }
   
   /* Section Components */
   .section-header {
-    @apply text-3xl font-bold text-dark-gray mb-6 text-center;
+    @apply text-2xl md:text-3xl font-bold text-dark-gray mb-4 md:mb-6 text-center;
   }
   
   .section-subheader {
-    @apply text-xl font-semibold text-dark-gray mb-4;
+    @apply text-lg md:text-xl font-semibold text-dark-gray mb-3 md:mb-4;
   }
   
   /* Badge Components */
   .badge {
-    @apply inline-block px-2 py-1 text-xs font-medium rounded;
+    @apply inline-block px-2.5 py-1 text-xs font-medium rounded-full;
   }
   
   .badge-primary {
@@ -91,66 +115,139 @@
   
   /* Layout Components */
   .container-main {
-    @apply mx-auto max-w-7xl px-4;
+    @apply mx-auto max-w-7xl px-3 md:px-4 lg:px-6;
   }
   
   .container-content {
-    @apply mx-auto max-w-6xl px-4;
+    @apply mx-auto max-w-6xl px-3 md:px-4 lg:px-6;
   }
   
   .sidebar {
-    @apply bg-white rounded-lg shadow-md p-6;
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-5;
   }
   
   .sidebar-sticky {
-    @apply bg-white rounded-lg shadow-md p-6 sticky top-4;
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-5 sticky top-4;
   }
   
   /* Grid Components */
   .grid-responsive {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6;
   }
   
   .grid-sidebar {
-    @apply grid grid-cols-1 lg:grid-cols-12 gap-8;
+    @apply grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8;
   }
   
   /* Text Components */
   .text-hero {
-    @apply text-4xl md:text-6xl font-bold leading-tight;
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight;
   }
   
   .text-subtitle {
-    @apply text-xl md:text-2xl text-medium-gray;
+    @apply text-base md:text-lg lg:text-xl text-medium-gray font-normal;
   }
   
   .text-body {
-    @apply text-dark-gray leading-relaxed;
+    @apply text-dark-gray leading-relaxed text-sm md:text-base;
   }
   
   .text-caption {
-    @apply text-sm text-medium-gray;
+    @apply text-xs md:text-sm text-medium-gray;
   }
   
   /* Interactive Components */
   .link-primary {
-    @apply text-bright-red hover:text-orange font-medium transition-colors duration-200;
+    @apply text-bright-red hover:text-orange font-medium transition-colors duration-200 text-sm md:text-base;
   }
   
   .link-secondary {
-    @apply text-dark-gray hover:text-bright-red font-medium transition-colors duration-200;
+    @apply text-dark-gray hover:text-bright-red font-medium transition-colors duration-200 text-sm md:text-base;
   }
   
   /* Status Components */
   .status-success {
-    @apply text-green-600 bg-green-100 px-3 py-2 rounded-lg;
+    @apply text-green-700 bg-green-50 border border-green-200 px-3 py-2 rounded-lg text-sm;
   }
   
   .status-warning {
-    @apply text-orange-600 bg-orange-100 px-3 py-2 rounded-lg;
+    @apply text-orange-700 bg-orange-50 border border-orange-200 px-3 py-2 rounded-lg text-sm;
   }
   
   .status-error {
-    @apply text-bright-red bg-red-100 px-3 py-2 rounded-lg;
+    @apply text-bright-red bg-red-50 border border-red-200 px-3 py-2 rounded-lg text-sm;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  .hero-content {
+    @apply max-w-4xl mx-auto text-center;
+  }
+  
+  .hero-title {
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 md:mb-6;
+  }
+  
+  .hero-subtitle {
+    @apply text-base md:text-lg lg:text-xl text-white/90 mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed;
+  }
+  
+  .hero-buttons {
+    @apply flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center;
+  }
+  
+  /* Sidebar Improvements */
+  .sidebar-compact {
+    @apply p-3 md:p-4;
+  }
+  
+  .sidebar-item {
+    @apply p-2.5 md:p-3 rounded-lg hover:bg-gray-50 hover:text-bright-red transition-all duration-200 border-l-2 border-transparent hover:border-bright-red;
+  }
+  
+  .sidebar-title {
+    @apply text-lg md:text-xl font-semibold text-dark-gray mb-3 md:mb-4 flex items-center;
+  }
+  
+  /* Content Improvements */
+  .content-section {
+    @apply mb-6 md:mb-8;
+  }
+  
+  .content-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-shadow duration-200;
+  }
+  
+  /* Typography Improvements */
+  .text-display {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-dark-gray;
+  }
+  
+  .text-heading {
+    @apply text-xl md:text-2xl font-semibold text-dark-gray;
+  }
+  
+  .text-lead {
+    @apply text-lg md:text-xl text-medium-gray leading-relaxed;
+  }
+  
+  .text-small {
+    @apply text-sm text-medium-gray;
+  }
+  
+  /* Spacing Improvements */
+  .section-padding {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+  
+  .content-padding {
+    @apply px-3 md:px-4 lg:px-6;
+  }
+  
+  .sidebar-padding {
+    @apply px-3 md:px-4;
   }
 }
