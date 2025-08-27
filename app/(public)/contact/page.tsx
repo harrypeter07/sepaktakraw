@@ -1,6 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Button, Card, Section, Grid, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea, Label } from "@/components/ui";
+import { Button, Card, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea, Label } from "@/components/ui";
 
 export default function ContactPage() {
   const subjectOptions = [
