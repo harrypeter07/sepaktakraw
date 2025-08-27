@@ -1,6 +1,15 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/NavigationMenu";
+import { cn } from "@/lib/utils";
 
 const items = [
   { href: "/", label: "Home" },
@@ -16,27 +25,29 @@ export function MainNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary">
-      <ul className="flex gap-3 md:gap-4 text-sm">
+    <NavigationMenu>
+      <NavigationMenuList>
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive 
-                    ? 'bg-bright-red text-white shadow-sm' 
-                    : 'text-dark-gray hover:text-bright-red hover:bg-gray-50'
-                }`}
-              >
-                {item.label}
+            <NavigationMenuItem key={item.href}>
+              <Link href={item.href} legacyBehavior passHref>
+                <NavigationMenuLink
+                  className={cn(
+                    "block select-none space-y-1 rounded-2xl px-3 py-2 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-bright-red focus:bg-gray-100 focus:text-bright-red",
+                    isActive 
+                      ? 'bg-bright-red text-white shadow-sm' 
+                      : 'text-dark-gray'
+                  )}
+                >
+                  {item.label}
+                </NavigationMenuLink>
               </Link>
-            </li>
+            </NavigationMenuItem>
           );
         })}
-      </ul>
-    </nav>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }
 
