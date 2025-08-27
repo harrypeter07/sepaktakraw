@@ -26,23 +26,30 @@ export function Timeline({ items, className }: TimelineProps) {
 
   return (
     <div className={cn("relative", className)}>
-      {/* Progress Bar */}
-      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-bright-red via-orange to-bright-red opacity-20"></div>
-      </div>
+      {/* Horizontal Timeline Container */}
+      <div className="relative">
+        {/* Progress Line */}
+        <div className="absolute top-8 left-0 right-0 h-1 bg-gray-200 rounded-full">
+          <div 
+            className="h-1 bg-gradient-to-r from-bright-red to-orange rounded-full transition-all duration-500"
+            style={{ 
+              width: `${(items.filter(item => getCurrentStatus(item.date) === "completed").length / items.length) * 100}%` 
+            }}
+          ></div>
+        </div>
 
-      <div className="space-y-8">
-        {items.map((item, index) => {
-          const status = item.status || getCurrentStatus(item.date);
-          const isCompleted = status === "completed";
-          const isCurrent = status === "current";
-          
-          return (
-            <div key={index} className="relative flex items-start gap-6">
-              {/* Timeline Dot */}
-              <div className="relative flex-shrink-0">
+        {/* Timeline Items */}
+        <div className="flex justify-between items-start relative">
+          {items.map((item, index) => {
+            const status = item.status || getCurrentStatus(item.date);
+            const isCompleted = status === "completed";
+            const isCurrent = status === "current";
+            
+            return (
+              <div key={index} className="relative flex flex-col items-center group">
+                {/* Timeline Circle */}
                 <div className={cn(
-                  "w-12 h-12 rounded-full flex items-center justify-center border-4 transition-all duration-300",
+                  "w-16 h-16 rounded-full flex items-center justify-center border-4 transition-all duration-300 relative z-10",
                   isCompleted && "bg-bright-red border-bright-red shadow-lg",
                   isCurrent && "bg-orange border-orange shadow-lg animate-pulse",
                   !isCompleted && !isCurrent && "bg-white border-gray-300"
@@ -55,102 +62,75 @@ export function Timeline({ items, className }: TimelineProps) {
                     <span className="text-gray-400 text-lg font-bold">{index + 1}</span>
                   )}
                 </div>
-                
-                {/* Connection Line */}
-                {index < items.length - 1 && (
+
+                {/* Event Name - Minimal Display */}
+                <div className="mt-4 text-center max-w-24">
                   <div className={cn(
-                    "absolute left-1/2 top-12 w-0.5 h-8 -translate-x-1/2",
-                    isCompleted ? "bg-bright-red" : "bg-gray-200"
-                  )}></div>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className={cn(
-                  "p-6 rounded-xl border-2 transition-all duration-300",
-                  isCompleted && "bg-green-50 border-green-200 shadow-md",
-                  isCurrent && "bg-orange-50 border-orange-200 shadow-lg",
-                  !isCompleted && !isCurrent && "bg-white border-gray-200"
-                )}>
-                  {/* Date Badge */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className={cn(
-                      "px-3 py-1 rounded-full text-xs font-semibold",
-                      isCompleted && "bg-green-100 text-green-800",
-                      isCurrent && "bg-orange-100 text-orange-800",
-                      !isCompleted && !isCurrent && "bg-gray-100 text-gray-600"
-                    )}>
-                      {new Date(item.date).toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
-                      })}
-                    </span>
-                    
-                    {isCurrent && (
-                      <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full animate-pulse">
-                        CURRENT
-                      </span>
-                    )}
-                    
-                    {isCompleted && (
-                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                        COMPLETED
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Event Title */}
-                  <h3 className={cn(
-                    "text-lg font-bold mb-2",
-                    isCompleted && "text-green-800",
-                    isCurrent && "text-orange-800",
-                    !isCompleted && !isCurrent && "text-dark-gray"
-                  )}>
-                    {item.event}
-                  </h3>
-
-                  {/* Description */}
-                  <p className={cn(
-                    "text-sm leading-relaxed",
+                    "text-xs font-semibold leading-tight",
                     isCompleted && "text-green-700",
                     isCurrent && "text-orange-700",
-                    !isCompleted && !isCurrent && "text-medium-gray"
+                    !isCompleted && !isCurrent && "text-gray-600"
                   )}>
-                    {item.description}
-                  </p>
+                    {item.event.split(' ').slice(0, 2).join(' ')}
+                    {item.event.split(' ').length > 2 && '...'}
+                  </div>
+                  
+                  {/* Date */}
+                  <div className="text-xs text-gray-500 mt-1">
+                    {new Date(item.date).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short'
+                    })}
+                  </div>
+                </div>
 
-                  {/* Progress Indicator */}
-                  <div className="mt-4">
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
-                        <div className={cn(
-                          "h-2 rounded-full transition-all duration-500",
-                          isCompleted && "bg-green-500 w-full",
-                          isCurrent && "bg-orange-500 w-3/4",
-                          !isCompleted && !isCurrent && "bg-gray-300 w-0"
-                        )}></div>
+                {/* Hover Tooltip with Full Details */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
+                  <div className="bg-dark-gray text-white p-4 rounded-lg shadow-xl max-w-xs">
+                    {/* Arrow */}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-dark-gray"></div>
+                    
+                    {/* Content */}
+                    <div className="text-center">
+                      <div className="text-sm font-semibold mb-2">{item.event}</div>
+                      <div className="text-xs text-gray-300 mb-2">
+                        {new Date(item.date).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        })}
                       </div>
-                      <span className={cn(
-                        "text-xs font-semibold",
-                        isCompleted && "text-green-600",
-                        isCurrent && "text-orange-600",
-                        !isCompleted && !isCurrent && "text-gray-400"
-                      )}>
-                        {isCompleted ? "100%" : isCurrent ? "75%" : "0%"}
-                      </span>
+                      <div className="text-xs leading-relaxed">{item.description}</div>
+                      
+                      {/* Status Badge */}
+                      <div className="mt-2">
+                        {isCurrent && (
+                          <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full">
+                            CURRENT
+                          </span>
+                        )}
+                        {isCompleted && (
+                          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                            COMPLETED
+                          </span>
+                        )}
+                        {!isCompleted && !isCurrent && (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full">
+                            UPCOMING
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      {/* Overall Progress */}
-      <div className="mt-8 p-6 bg-white rounded-xl border border-gray-200">
+      {/* Overall Progress Summary */}
+      <div className="mt-12 p-6 bg-white rounded-xl border border-gray-200">
         <div className="flex items-center justify-between mb-3">
           <h4 className="font-semibold text-dark-gray">Overall Election Progress</h4>
           <span className="text-sm font-semibold text-bright-red">
