@@ -39,7 +39,7 @@ export default function SignOutPage() {
             href="/"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
-            Click here if you're not redirected automatically
+            Click here if you&apos;re not redirected automatically
           </Link>
         </div>
       </div>
