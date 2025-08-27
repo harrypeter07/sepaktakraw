@@ -80,21 +80,7 @@ export default async function NoticesPage() {
                             {notice.body}
                           </p>
                           
-                          {notice.attachments && notice.attachments.length > 0 && (
-                            <div className="mb-4">
-                              <div className="text-xs text-gray-500 mb-2">Attachments:</div>
-                              <div className="flex flex-wrap gap-2">
-                                {notice.attachments.map((attachment, index) => (
-                                  <span
-                                    key={index}
-                                    className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
-                                  >
-                                    📎 {attachment}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+
                           
                           <div className="flex justify-between items-center">
                             <Link
@@ -104,11 +90,7 @@ export default async function NoticesPage() {
                               Read More →
                             </Link>
                             
-                            {notice.priority === 'HIGH' && (
-                              <span className="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                                High Priority
-                              </span>
-                            )}
+
                           </div>
                         </div>
                       </div>
