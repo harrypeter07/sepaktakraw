@@ -62,14 +62,13 @@
   
   body {
     @apply bg-off-white text-dark-gray font-sans text-base leading-relaxed;
-    /* Ensure minimum contrast ratio of 4.5:1 for normal text */
-    color: #1f2937; /* Dark gray with high contrast */
+    color: #1f2937;
   }
   
   /* Enhanced Typography with Better Contrast */
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
-    color: #111827; /* Very dark gray for maximum contrast */
+    color: #111827;
   }
   
   h1 {
@@ -104,7 +103,7 @@
   
   p {
     @apply leading-relaxed text-sm sm:text-base;
-    color: #374151; /* Medium dark gray for good contrast */
+    color: #374151;
   }
   
   /* Ensure text doesn't overflow containers */
@@ -139,90 +138,62 @@
   /* Enhanced Button Components with Better Contrast */
   .btn-primary {
     @apply bg-bright-red text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg font-semibold hover:bg-red-700 active:bg-red-800 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base focus:ring-2 focus:ring-bright-red focus:ring-offset-2;
-    /* Ensure high contrast */
-    background-color: #dc2626;
-    color: #ffffff;
   }
   
   .btn-secondary {
     @apply border-2 border-bright-red text-bright-red px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg font-semibold hover:bg-bright-red hover:text-white transition-all duration-200 text-sm sm:text-base focus:ring-2 focus:ring-bright-red focus:ring-offset-2;
-    border-color: #dc2626;
-    color: #dc2626;
   }
   
   .btn-outline {
     @apply border-2 border-dark-gray text-dark-gray px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg font-semibold hover:bg-dark-gray hover:text-white transition-all duration-200 text-sm sm:text-base focus:ring-2 focus:ring-dark-gray focus:ring-offset-2;
-    border-color: #1f2937;
-    color: #1f2937;
   }
   
   .btn-accent {
     @apply bg-orange text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg font-semibold hover:bg-orange-600 active:bg-orange-700 transition-all duration-200 shadow-md hover:shadow-lg text-sm sm:text-base focus:ring-2 focus:ring-orange focus:ring-offset-2;
-    background-color: #ea580c;
-    color: #ffffff;
   }
   
   /* Enhanced Card Components */
   .card {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6;
-    /* Ensure good contrast */
-    background-color: #ffffff;
-    border-color: #e5e7eb;
   }
   
   .card-hover {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6 hover:shadow-md hover:border-gray-300 transition-all duration-200;
-    background-color: #ffffff;
   }
   
   /* Enhanced Navigation Components */
   .nav-link {
     @apply text-dark-gray hover:text-bright-red transition-colors duration-200 font-medium text-sm sm:text-base px-3 py-2 rounded-lg hover:bg-gray-50;
-    color: #1f2937;
   }
   
   .nav-link-active {
     @apply text-white bg-bright-red font-semibold;
-    background-color: #dc2626;
-    color: #ffffff;
   }
   
   .nav-button {
     @apply px-3 py-2 rounded-lg text-dark-gray hover:bg-bright-red hover:text-white transition-all duration-200 text-sm focus:ring-2 focus:ring-bright-red focus:ring-offset-2;
-    color: #1f2937;
   }
   
   /* Enhanced Form Components */
   .form-input {
     @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm sm:text-base bg-white;
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #1f2937;
   }
   
   .form-select {
     @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm sm:text-base bg-white;
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #1f2937;
   }
   
   .form-textarea {
     @apply w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm sm:text-base bg-white resize-vertical;
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #1f2937;
   }
   
   /* Enhanced Section Components */
   .section-header {
     @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-dark-gray mb-4 sm:mb-5 md:mb-6 text-center;
-    color: #111827;
   }
   
   .section-subheader {
     @apply text-lg sm:text-xl md:text-2xl font-semibold text-dark-gray mb-3 sm:mb-4;
-    color: #111827;
   }
   
   /* Enhanced Badge Components */
@@ -232,20 +203,14 @@
   
   .badge-primary {
     @apply bg-bright-red text-white;
-    background-color: #dc2626;
-    color: #ffffff;
   }
   
   .badge-secondary {
     @apply bg-orange text-white;
-    background-color: #ea580c;
-    color: #ffffff;
   }
   
   .badge-neutral {
     @apply bg-gray-600 text-white;
-    background-color: #4b5563;
-    color: #ffffff;
   }
   
   /* Enhanced Layout Components */
@@ -259,14 +224,10 @@
   
   .sidebar {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6;
-    background-color: #ffffff;
-    border-color: #e5e7eb;
   }
   
   .sidebar-sticky {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6 sticky top-4;
-    background-color: #ffffff;
-    border-color: #e5e7eb;
   }
   
   /* Enhanced Grid Components */
@@ -281,55 +242,40 @@
   /* Enhanced Text Components */
   .text-hero {
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight;
-    color: #111827;
   }
   
   .text-subtitle {
     @apply text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 font-normal;
-    color: #4b5563;
   }
   
   .text-body {
     @apply text-dark-gray leading-relaxed text-sm sm:text-base;
-    color: #374151;
   }
   
   .text-caption {
     @apply text-xs sm:text-sm text-gray-500;
-    color: #6b7280;
   }
   
   /* Enhanced Interactive Components */
   .link-primary {
     @apply text-bright-red hover:text-red-700 font-medium transition-colors duration-200 text-sm sm:text-base underline decoration-2 underline-offset-2;
-    color: #dc2626;
   }
   
   .link-secondary {
     @apply text-dark-gray hover:text-bright-red font-medium transition-colors duration-200 text-sm sm:text-base underline decoration-2 underline-offset-2;
-    color: #1f2937;
   }
   
   /* Enhanced Status Components */
   .status-success {
     @apply text-green-800 bg-green-50 border border-green-200 px-3 py-2 rounded-lg text-sm;
-    color: #166534;
-    background-color: #f0fdf4;
-    border-color: #bbf7d0;
   }
   
   .status-warning {
     @apply text-orange-800 bg-orange-50 border border-orange-200 px-3 py-2 rounded-lg text-sm;
-    color: #9a3412;
-    background-color: #fff7ed;
-    border-color: #fed7aa;
   }
   
   .status-error {
     @apply text-red-800 bg-red-50 border border-red-200 px-3 py-2 rounded-lg text-sm;
-    color: #991b1b;
-    background-color: #fef2f2;
-    border-color: #fecaca;
   }
   
   /* Enhanced Sidebar Improvements */
@@ -339,12 +285,10 @@
   
   .sidebar-item {
     @apply p-2.5 sm:p-3 rounded-lg hover:bg-gray-50 hover:text-bright-red transition-all duration-200 border-l-2 border-transparent hover:border-bright-red;
-    color: #374151;
   }
   
   .sidebar-title {
     @apply text-base sm:text-lg md:text-xl font-semibold text-dark-gray mb-3 sm:mb-4 flex items-center;
-    color: #111827;
   }
   
   /* Enhanced Content Improvements */
@@ -354,29 +298,23 @@
   
   .content-card {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-200;
-    background-color: #ffffff;
-    border-color: #e5e7eb;
   }
   
   /* Enhanced Typography Improvements */
   .text-display {
     @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-dark-gray;
-    color: #111827;
   }
   
   .text-heading {
     @apply text-lg sm:text-xl md:text-2xl font-semibold text-dark-gray;
-    color: #111827;
   }
   
   .text-lead {
     @apply text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed;
-    color: #4b5563;
   }
   
   .text-small {
     @apply text-xs sm:text-sm text-gray-500;
-    color: #6b7280;
   }
   
   /* Enhanced Spacing Improvements */
@@ -422,20 +360,15 @@
   /* Better mobile navigation */
   .mobile-nav-item {
     @apply block w-full text-left px-4 py-3 text-base font-medium text-dark-gray hover:bg-gray-50 hover:text-bright-red transition-colors duration-200 border-b border-gray-100 last:border-b-0;
-    color: #1f2937;
   }
   
   .mobile-nav-item-active {
     @apply bg-bright-red text-white;
-    background-color: #dc2626;
-    color: #ffffff;
   }
   
   /* Improved mobile cards */
   .mobile-card {
     @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6;
-    background-color: #ffffff;
-    border-color: #e5e7eb;
   }
   
   /* Better mobile buttons */
@@ -454,14 +387,10 @@
   
   .mobile-form-label {
     @apply block text-sm font-medium text-dark-gray mb-1;
-    color: #111827;
   }
   
   .mobile-form-input {
     @apply w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-base bg-white;
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #1f2937;
   }
   
   /* Better mobile spacing */
