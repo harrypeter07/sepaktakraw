@@ -31,7 +31,7 @@ export function ContactForm() {
       <CardHeader>
         <CardTitle>Contact Us</CardTitle>
         <CardDescription>
-          Get in touch with us. We'd love to hear from you.
+          Get in touch with us. We&apos;d love to hear from you.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
