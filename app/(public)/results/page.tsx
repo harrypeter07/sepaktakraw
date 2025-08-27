@@ -111,13 +111,7 @@ export default async function ResultsPage() {
                     </div>
                   </div>
                   
-                  {result.notes && (
-                    <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm text-gray-700">
-                        <span className="font-medium">Notes:</span> {result.notes}
-                      </div>
-                    </div>
-                  )}
+
                 </div>
               ))}
             </div>
