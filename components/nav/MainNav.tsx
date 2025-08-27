@@ -45,8 +45,9 @@ export function MainNav() {
             const isActive = pathname === item.href;
             return (
               <NavigationMenuItem key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
-                  <NavigationMenuLink
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={item.href}
                     className={cn(
                       "block select-none space-y-1 rounded-2xl px-3 py-2 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-bright-red focus:bg-gray-100 focus:text-bright-red",
                       isActive 
@@ -55,8 +56,8 @@ export function MainNav() {
                     )}
                   >
                     {item.label}
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             );
           })}
@@ -68,8 +69,9 @@ export function MainNav() {
             const isActive = pathname === item.href;
             return (
               <NavigationMenuItem key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
-                  <NavigationMenuLink
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={item.href}
                     className={cn(
                       "block select-none space-y-1 rounded-2xl px-3 py-2 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-bright-red focus:bg-gray-100 focus:text-bright-red",
                       isActive 
@@ -78,8 +80,8 @@ export function MainNav() {
                     )}
                   >
                     {item.label}
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             );
           })}
