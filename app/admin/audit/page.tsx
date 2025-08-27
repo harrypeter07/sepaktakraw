@@ -1,15 +1,12 @@
-import { prisma } from "@/lib/prisma";
+import { getAuditLogsWithUsers } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminAuditPage() {
-  const auditLogs = await prisma.auditLog.findMany({
-    include: {
-      user: true,
-    },
-    orderBy: { createdAt: "desc" },
-    take: 100, // Limit to last 100 entries
-  });
+  // Using mock data instead of Prisma
+  const auditLogs = getAuditLogsWithUsers()
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 100); // Limit to last 100 entries
 
   return (
     <section className="py-8">
