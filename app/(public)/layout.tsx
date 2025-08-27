@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { GovHeader } from "@/components/layout/GovHeader";
 import { GovFooter } from "@/components/layout/GovFooter";

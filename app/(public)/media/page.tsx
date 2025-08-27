@@ -109,7 +109,7 @@ export default function MediaPage() {
                 <h3 className="font-semibold text-dark-gray mb-2 text-sm">{update.title}</h3>
                 <div className="flex items-center justify-between">
                   <Badge
-                    variant={update.status === 'Active' ? 'primary' : update.status === 'Upcoming' ? 'secondary' : 'neutral'}
+                    variant={update.status === 'Active' ? 'primary' : update.status === 'Upcoming' ? 'secondary' : 'default'}
                     size="sm"
                   >
                     {update.status}

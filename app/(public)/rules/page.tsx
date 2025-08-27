@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Card, Section, Grid, Badge } from "@/components/ui";
+import { Button, Card, Section, Grid } from "@/components/ui";
 
 export default function RulesPage() {
   const gameRules = [

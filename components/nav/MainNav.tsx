@@ -3,11 +3,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/NavigationMenu";
 import { cn } from "@/lib/utils";
 

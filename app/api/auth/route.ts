@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE() {
   try {
     const supabase = createClient();
     

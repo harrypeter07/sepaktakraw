@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense, lazy } from "react";
 import { data } from "@/lib/data";
-import { Button, Card, Badge, Section, Grid } from "@/components/ui";
+import { Button, Card, Badge, Grid } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
