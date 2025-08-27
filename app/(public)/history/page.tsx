@@ -163,8 +163,8 @@ export default function HistoryPage() {
                 Established in 1985
               </h2>
               <p className="text-xl text-white/90 mb-6">
-                From humble beginnings to becoming one of India's leading Sepaktakraw associations, 
-                we've been dedicated to promoting this beautiful sport for over 35 years.
+                From humble beginnings to becoming one of India&apos;s leading Sepaktakraw associations, 
+                we&apos;ve been dedicated to promoting this beautiful sport for over 35 years.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <div className="text-center">
