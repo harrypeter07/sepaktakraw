@@ -83,6 +83,16 @@
   p {
     @apply leading-relaxed;
   }
+  
+  /* Ensure text doesn't overflow containers */
+  .text-container {
+    @apply overflow-hidden break-words;
+  }
+  
+  /* Prevent text from escaping containers */
+  .text-safe {
+    @apply overflow-hidden text-ellipsis;
+  }
 }
 
 /* Component Classes */

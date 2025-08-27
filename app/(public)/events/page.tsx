@@ -13,6 +13,9 @@ export default async function EventsPage() {
       },
       published: true,
     },
+    include: {
+      district: true,
+    },
     orderBy: { date: "asc" },
     take: 10,
   });
@@ -23,6 +26,9 @@ export default async function EventsPage() {
         lt: new Date(),
       },
       published: true,
+    },
+    include: {
+      district: true,
     },
     orderBy: { date: "desc" },
     take: 20,
