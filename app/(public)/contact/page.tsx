@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button, Card, Section, Grid, FormInput, FormSelect, FormTextarea } from "@/components/ui";
+import { Button, Card, Section, Grid, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea, Label } from "@/components/ui";
 
 export default function ContactPage() {
   const subjectOptions = [
@@ -102,37 +102,59 @@ export default function ContactPage() {
           <h2 className="text-heading mb-6">Send us a Message</h2>
           <form className="space-y-6">
             <Grid cols={2} gap="lg">
-              <FormInput
-                label="First Name"
-                required
-                placeholder="Enter your first name"
-              />
-              <FormInput
-                label="Last Name"
-                required
-                placeholder="Enter your last name"
-              />
+              <div className="space-y-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  required
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  required
+                  placeholder="Enter your last name"
+                />
+              </div>
             </Grid>
 
-            <FormInput
-              label="Email Address"
-              type="email"
-              required
-              placeholder="Enter your email address"
-            />
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                required
+                placeholder="Enter your email address"
+              />
+            </div>
 
-            <FormSelect
-              label="Subject"
-              required
-              options={subjectOptions}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="subject">Subject</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a subject" />
+                </SelectTrigger>
+                <SelectContent>
+                  {subjectOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-            <FormTextarea
-              label="Message"
-              required
-              rows={5}
-              placeholder="Please describe your inquiry or message..."
-            />
+            <div className="space-y-2">
+              <Label htmlFor="message">Message</Label>
+              <Textarea
+                id="message"
+                required
+                rows={5}
+                placeholder="Please describe your inquiry or message..."
+              />
+            </div>
 
             <div className="flex items-center justify-between">
               <div className="text-small text-medium-gray">
