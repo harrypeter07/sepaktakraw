@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   description: "Official portal for results, notices, districts and compliance. Promoting the traditional sport of Sepaktakraw across Maharashtra.",
   keywords: "sepaktakraw, maharashtra, sports, association, results, districts, events",
   authors: [{ name: "Maharashtra Sepaktakraw Association" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   openGraph: {
     title: "Maharashtra Sepaktakraw Association",
@@ -18,6 +17,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 // Loading component for Suspense fallback
