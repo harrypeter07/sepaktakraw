@@ -25,9 +25,6 @@ export default async function NoticeDetail({ params }: { params: Promise<{ id: s
               </span>
             </div>
             <h1 className="text-display text-dark-gray mb-4">{item.title}</h1>
-            {item.summary && (
-              <p className="text-lead text-medium-gray mb-6">{item.summary}</p>
-            )}
           </div>
 
           {/* Content */}
