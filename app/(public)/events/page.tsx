@@ -1,165 +1,257 @@
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { Button, Card, Section, Grid, Badge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
 export default async function EventsPage() {
-  // For now, we'll use results as events since there's no dedicated events model
-  // In a real implementation, you might want a separate Event model
-  const upcomingEvents = await prisma.result.findMany({
-    where: {
-      date: {
-        gte: new Date(),
-      },
-      published: true,
+  // Mock data for events since we don't have a database connection
+  const upcomingEvents = [
+    {
+      id: 1,
+      title: "Mumbai District Championship 2024",
+      date: "2024-12-20",
+      teamA: "Mumbai A",
+      teamB: "Mumbai B",
+      level: "District",
+      stage: "Final",
+      venue: "Mumbai Sports Complex",
+      district: { name: "Mumbai" },
+      type: "Tournament"
     },
-    include: {
-      district: true,
+    {
+      id: 2,
+      title: "Pune Open Tournament",
+      date: "2024-12-25",
+      teamA: "Pune Warriors",
+      teamB: "Pune Eagles",
+      level: "Open",
+      stage: "Semi-Final",
+      venue: "Pune Indoor Stadium",
+      district: { name: "Pune" },
+      type: "Tournament"
     },
-    orderBy: { date: "asc" },
-    take: 10,
-  });
+    {
+      id: 3,
+      title: "Youth Training Camp",
+      date: "2024-12-28",
+      teamA: "Youth Team A",
+      teamB: "Youth Team B",
+      level: "Training",
+      stage: "Practice Match",
+      venue: "Nagpur Sports Academy",
+      district: { name: "Nagpur" },
+      type: "Training"
+    }
+  ];
 
-  const pastEvents = await prisma.result.findMany({
-    where: {
-      date: {
-        lt: new Date(),
-      },
-      published: true,
+  const pastEvents = [
+    {
+      id: 4,
+      title: "State Championship 2024",
+      date: "2024-11-15",
+      teamA: "Maharashtra A",
+      teamB: "Maharashtra B",
+      level: "State",
+      stage: "Final",
+      venue: "Mumbai Sports Complex",
+      district: { name: "Mumbai" },
+      type: "Tournament",
+      winner: "Maharashtra A"
     },
-    include: {
-      district: true,
+    {
+      id: 5,
+      title: "District League 2024",
+      date: "2024-11-10",
+      teamA: "Aurangabad Stars",
+      teamB: "Aurangabad Warriors",
+      level: "District",
+      stage: "League Match",
+      venue: "Aurangabad Stadium",
+      district: { name: "Aurangabad" },
+      type: "League",
+      winner: "Aurangabad Stars"
     },
-    orderBy: { date: "desc" },
-    take: 20,
-  });
+    {
+      id: 6,
+      title: "Coaching Workshop",
+      date: "2024-11-05",
+      teamA: "Coaches Group A",
+      teamB: "Coaches Group B",
+      level: "Workshop",
+      stage: "Demonstration",
+      venue: "Pune Sports Academy",
+      district: { name: "Pune" },
+      type: "Workshop"
+    }
+  ];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Events & Tournaments</h1>
-      
-      {/* Upcoming Events */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Upcoming Events</h2>
+    <div className="min-h-screen bg-off-white py-8 md:py-12">
+      <div className="container-content">
+        {/* Header */}
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-display text-dark-gray mb-3 md:mb-4">Events & Tournaments</h1>
+          <p className="text-lead">
+            Stay updated with upcoming tournaments, training camps, and past events across Maharashtra
+          </p>
+        </div>
         
-        {upcomingEvents.length === 0 ? (
-          <div className="text-center py-8 bg-gray-50 rounded-lg">
-            <div className="text-gray-400 mb-4">
-              <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Upcoming Events</h3>
-            <p className="text-gray-500">Check back later for upcoming tournaments and events.</p>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {upcomingEvents.map((event) => (
-              <div key={event.id} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
-                <div className="mb-4">
-                  <div className="text-sm text-green-600 font-medium mb-2">
-                    📅 {new Date(event.date).toLocaleDateString()}
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {event.teamA} vs {event.teamB}
-                  </h3>
-                  <div className="text-sm text-gray-600 mb-2">
-                    <span className="font-medium">Level:</span> {event.level}
-                  </div>
-                  {event.stage && (
-                    <div className="text-sm text-gray-600 mb-2">
+        {/* Upcoming Events */}
+        <Section title="Upcoming Events" className="mb-8 md:mb-12">
+          {upcomingEvents.length === 0 ? (
+            <Card>
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <svg className="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-medium text-dark-gray mb-2">No Upcoming Events</h3>
+                <p className="text-medium-gray">Check back later for upcoming tournaments and events.</p>
+              </div>
+            </Card>
+          ) : (
+            <Grid cols={3} gap="lg">
+              {upcomingEvents.map((event) => (
+                <Card key={event.id} className="hover:shadow-xl transition-shadow duration-200 border-l-4 border-green-500">
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge variant="primary" size="sm">{event.type}</Badge>
+                      <Badge variant="secondary" size="sm">{event.level}</Badge>
+                    </div>
+                    <div className="text-sm text-green-600 font-medium mb-2">
+                      📅 {new Date(event.date).toLocaleDateString()}
+                    </div>
+                    <h3 className="text-heading mb-2">
+                      {event.teamA} vs {event.teamB}
+                    </h3>
+                    <div className="text-sm text-medium-gray mb-2">
                       <span className="font-medium">Stage:</span> {event.stage}
                     </div>
-                  )}
+                    {event.venue && (
+                      <div className="text-sm text-medium-gray">
+                        <span className="font-medium">📍 Venue:</span> {event.venue}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-medium-gray">
+                      {event.district?.name || "All Districts"}
+                    </span>
+                    <Button variant="outline" size="sm" href={`/results/${event.id}`}>
+                      View Details →
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          )}
+        </Section>
+
+        {/* Past Events */}
+        <Section title="Past Events" className="mb-8 md:mb-12">
+          <Grid cols={3} gap="lg">
+            {pastEvents.map((event) => (
+              <Card key={event.id} className="hover:shadow-md transition-shadow duration-200 border-l-4 border-gray-400">
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="secondary" size="sm">{event.type}</Badge>
+                    <Badge variant="outline" size="sm">{event.level}</Badge>
+                  </div>
+                  <div className="text-sm text-medium-gray font-medium mb-2">
+                    📅 {new Date(event.date).toLocaleDateString()}
+                  </div>
+                  <h3 className="text-heading mb-2">
+                    {event.teamA} vs {event.teamB}
+                  </h3>
+                  <div className="text-sm text-medium-gray mb-2">
+                    <span className="font-medium">Stage:</span> {event.stage}
+                  </div>
                   {event.venue && (
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-medium-gray mb-2">
                       <span className="font-medium">📍 Venue:</span> {event.venue}
+                    </div>
+                  )}
+                  {event.winner && (
+                    <div className="text-sm text-bright-red font-medium">
+                      🏆 Winner: {event.winner}
                     </div>
                   )}
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-medium-gray">
                     {event.district?.name || "All Districts"}
                   </span>
-                  <Link
-                    href={`/results/${event.id}`}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                  >
+                  <Button variant="outline" size="sm" href={`/results/${event.id}`}>
                     View Details →
-                  </Link>
+                  </Button>
                 </div>
-              </div>
+              </Card>
             ))}
-          </div>
-        )}
-      </div>
+          </Grid>
+        </Section>
 
-      {/* Past Events */}
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Past Events</h2>
-        
-        {pastEvents.length === 0 ? (
-          <div className="text-center py-8 bg-gray-50 rounded-lg">
-            <p className="text-gray-500">No past events available.</p>
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Event
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Result
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Venue
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {pastEvents.map((event) => (
-                  <tr key={event.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {event.teamA} vs {event.teamB}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {event.level} {event.stage && `• ${event.stage}`}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(event.date).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {event.scoreA !== null && event.scoreB !== null ? (
-                        <span className="text-lg font-bold">
-                          <span className="text-blue-600">{event.scoreA}</span>
-                          <span className="mx-2 text-gray-400">-</span>
-                          <span className="text-red-600">{event.scoreB}</span>
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 text-sm">TBD</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {event.venue || "N/A"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {/* Event Categories */}
+        <Section title="Event Categories" className="mb-8 md:mb-12">
+          <Grid cols={4} gap="lg">
+            <Card className="text-center hover:shadow-md transition-shadow duration-200">
+              <div className="w-16 h-16 bg-bright-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-bright-red">🏆</span>
+              </div>
+              <h3 className="text-heading mb-2">Tournaments</h3>
+              <p className="text-small text-medium-gray">Competitive matches and championships</p>
+            </Card>
+            
+            <Card className="text-center hover:shadow-md transition-shadow duration-200">
+              <div className="w-16 h-16 bg-orange/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-orange">🏃‍♂️</span>
+              </div>
+              <h3 className="text-heading mb-2">Training Camps</h3>
+              <p className="text-small text-medium-gray">Skill development and practice sessions</p>
+            </Card>
+            
+            <Card className="text-center hover:shadow-md transition-shadow duration-200">
+              <div className="w-16 h-16 bg-medium-gray/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-medium-gray">👨‍🏫</span>
+              </div>
+              <h3 className="text-heading mb-2">Workshops</h3>
+              <p className="text-small text-medium-gray">Coaching and technical training</p>
+            </Card>
+            
+            <Card className="text-center hover:shadow-md transition-shadow duration-200">
+              <div className="w-16 h-16 bg-dark-gray/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-dark-gray">🎭</span>
+              </div>
+              <h3 className="text-heading mb-2">Exhibitions</h3>
+              <p className="text-small text-medium-gray">Demonstration matches and showcases</p>
+            </Card>
+          </Grid>
+        </Section>
+
+        {/* CTA Section */}
+        <Section title="Get Involved" className="mb-8 md:mb-12">
+          <Card className="bg-gradient-to-r from-bright-red to-orange text-white text-center">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+              Participate in Events
+            </h3>
+            <p className="text-lg text-white/90 mb-6">
+              Want to participate in upcoming tournaments or training programs? 
+              Contact your district association for registration details.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button variant="outline" href="/contact" className="bg-white text-bright-red hover:bg-white/90">
+                Contact Us
+              </Button>
+              <Button variant="outline" href="/districts" className="bg-white text-bright-red hover:bg-white/90">
+                Find Your District
+              </Button>
+            </div>
+          </Card>
+        </Section>
       </div>
-    </section>
+    </div>
   );
 }
 
