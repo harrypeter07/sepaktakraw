@@ -101,7 +101,7 @@ export default function ContactPage() {
             </div>
             <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-orange/10 border border-orange/20 rounded-lg">
               <div className="text-xs sm:text-sm text-orange-800">
-                <strong>Note:</strong> For urgent matters outside office hours, please email us and we'll respond within 24 hours.
+                <strong>Note:</strong> For urgent matters outside office hours, please email us and we&apos;ll respond within 24 hours.
               </div>
             </div>
           </Card>
