@@ -177,37 +177,37 @@ export default function ElectionsPage() {
     {
       date: "2024-11-01",
       event: "Notification of Elections",
-      description: "Official notification and call for nominations"
+      description: "Official notification published in newspapers and website. Call for nominations begins for all positions including President, Vice President, Secretary General, Joint Secretary, Treasurer, and Executive Members."
     },
     {
       date: "2024-11-15",
       event: "Last Date for Nominations",
-      description: "Deadline for submitting nomination forms"
+      description: "Deadline for submitting nomination forms. All forms must be submitted with required documents and nomination fees. Late submissions will not be accepted."
     },
     {
       date: "2024-11-20",
       event: "Scrutiny of Nominations",
-      description: "Verification and validation of nominations"
+      description: "Returning Officer conducts scrutiny of all nominations. Verification of eligibility criteria, documents, and nomination fees. Invalid nominations will be rejected."
     },
     {
       date: "2024-11-25",
       event: "Last Date for Withdrawal",
-      description: "Deadline for candidates to withdraw nominations"
+      description: "Candidates can withdraw their nominations. Withdrawal forms must be submitted in person or through authorized representatives. No withdrawals accepted after this date."
     },
     {
       date: "2024-12-01",
       event: "Publication of Final List",
-      description: "Final list of contesting candidates"
+      description: "Final list of contesting candidates published. Voter list finalized. Election symbols allocated to candidates. Campaign period begins."
     },
     {
       date: "2024-12-15",
       event: "Election Day",
-      description: "Voting and counting of votes"
+      description: "Annual General Meeting and voting process. Secret ballot voting from 10:00 AM to 4:00 PM. Counting of votes begins immediately after voting ends."
     },
     {
       date: "2024-12-16",
       event: "Declaration of Results",
-      description: "Official announcement of election results"
+      description: "Official announcement of election results. New office bearers take oath. Handover ceremony from outgoing to incoming committee."
     }
   ];
 
@@ -266,6 +266,27 @@ export default function ElectionsPage() {
                 Track the progress of the election process from notification to result declaration
               </p>
             </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-2xl font-bold text-green-600">7</div>
+                <div className="text-sm text-green-700">Total Steps</div>
+              </div>
+              <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="text-2xl font-bold text-orange-600">45</div>
+                <div className="text-sm text-orange-700">Days Duration</div>
+              </div>
+              <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="text-2xl font-bold text-blue-600">6</div>
+                <div className="text-sm text-blue-700">Positions</div>
+              </div>
+              <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <div className="text-2xl font-bold text-purple-600">Dec 15</div>
+                <div className="text-sm text-purple-700">Election Day</div>
+              </div>
+            </div>
+            
             <Timeline items={electionSchedule} />
           </Card>
         </Section>
