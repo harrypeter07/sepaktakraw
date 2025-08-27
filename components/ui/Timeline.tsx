@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +24,30 @@ export function Timeline({ items, className }: TimelineProps) {
     if (itemDate < today) return "completed";
     if (itemDate.toDateString() === today.toDateString()) return "current";
     return "upcoming";
+  };
+
+  const getTooltipPosition = (index: number, totalItems: number) => {
+    // Calculate if tooltip should appear above or below
+    const shouldShowAbove = true; // Always show above for this design
+    
+    // Calculate horizontal positioning to keep within window
+    let horizontalPosition = "left-1/2 transform -translate-x-1/2";
+    
+    // For first few items, ensure tooltip doesn't go off left edge
+    if (index < 2) {
+      horizontalPosition = "left-0 transform translate-x-2";
+    }
+    
+    // For last few items, ensure tooltip doesn't go off right edge
+    if (index >= totalItems - 2) {
+      horizontalPosition = "right-0 transform -translate-x-2";
+    }
+    
+    return {
+      position: shouldShowAbove ? "bottom-full mb-4" : "top-full mt-4",
+      horizontal: horizontalPosition,
+      arrowPosition: shouldShowAbove ? "top-full" : "bottom-full"
+    };
   };
 
   return (
@@ -63,16 +89,15 @@ export function Timeline({ items, className }: TimelineProps) {
                   )}
                 </div>
 
-                {/* Event Name - Minimal Display */}
-                <div className="mt-4 text-center max-w-24">
+                {/* Event Name - Complete Display */}
+                <div className="mt-4 text-center max-w-32">
                   <div className={cn(
                     "text-xs font-semibold leading-tight",
                     isCompleted && "text-green-700",
                     isCurrent && "text-orange-700",
                     !isCompleted && !isCurrent && "text-gray-600"
                   )}>
-                    {item.event.split(' ').slice(0, 2).join(' ')}
-                    {item.event.split(' ').length > 2 && '...'}
+                    {item.event}
                   </div>
                   
                   {/* Date */}
@@ -85,44 +110,58 @@ export function Timeline({ items, className }: TimelineProps) {
                 </div>
 
                 {/* Hover Tooltip with Full Details */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
-                  <div className="bg-dark-gray text-white p-4 rounded-lg shadow-xl max-w-xs">
-                    {/* Arrow */}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-dark-gray"></div>
-                    
-                    {/* Content */}
-                    <div className="text-center">
-                      <div className="text-sm font-semibold mb-2">{item.event}</div>
-                      <div className="text-xs text-gray-300 mb-2">
-                        {new Date(item.date).toLocaleDateString('en-IN', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric'
-                        })}
-                      </div>
-                      <div className="text-xs leading-relaxed">{item.description}</div>
-                      
-                      {/* Status Badge */}
-                      <div className="mt-2">
-                        {isCurrent && (
-                          <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full">
-                            CURRENT
-                          </span>
-                        )}
-                        {isCompleted && (
-                          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                            COMPLETED
-                          </span>
-                        )}
-                        {!isCompleted && !isCurrent && (
-                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full">
-                            UPCOMING
-                          </span>
-                        )}
+                {(() => {
+                  const tooltipPos = getTooltipPosition(index, items.length);
+                  return (
+                    <div className={cn(
+                      "absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20",
+                      tooltipPos.position,
+                      tooltipPos.horizontal
+                    )}>
+                                             <div className="bg-dark-gray text-white p-4 rounded-none shadow-xl max-w-xs relative border border-gray-600">
+                        {/* Arrow */}
+                        <div className={cn(
+                          "absolute w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-dark-gray",
+                          tooltipPos.arrowPosition,
+                          tooltipPos.horizontal.includes("left-1/2") ? "left-1/2 transform -translate-x-1/2" : 
+                          tooltipPos.horizontal.includes("left-0") ? "left-4" : "right-4"
+                        )}></div>
+                        
+                        {/* Content */}
+                        <div className="text-center">
+                          <div className="text-sm font-semibold mb-2">{item.event}</div>
+                          <div className="text-xs text-gray-300 mb-2">
+                            {new Date(item.date).toLocaleDateString('en-IN', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric'
+                            })}
+                          </div>
+                          <div className="text-xs leading-relaxed">{item.description}</div>
+                          
+                          {/* Status Badge */}
+                          <div className="mt-2">
+                            {isCurrent && (
+                              <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full">
+                                CURRENT
+                              </span>
+                            )}
+                            {isCompleted && (
+                              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                                COMPLETED
+                              </span>
+                            )}
+                            {!isCompleted && !isCurrent && (
+                              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full">
+                                UPCOMING
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })()}
               </div>
             );
           })}
