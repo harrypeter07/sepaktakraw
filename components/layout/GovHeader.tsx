@@ -1,9 +1,20 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { MainNav } from "@/components/nav/MainNav";
-import { MobileNav } from "@/components/nav/MobileNav";
+
+// Lazy load the mobile navigation component
+const MobileNav = lazy(() => import("@/components/nav/MobileNav").then(mod => ({ default: mod.MobileNav })));
+
+// Loading component for mobile nav
+function MobileNavLoading() {
+  return (
+    <div className="lg:hidden">
+      <div className="w-6 h-6 animate-pulse bg-gray-300 rounded"></div>
+    </div>
+  );
+}
 
 export function GovHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -67,8 +78,12 @@ export function GovHeader() {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+      {/* Mobile Navigation - Lazy Loaded */}
+      <Suspense fallback={<MobileNavLoading />}>
+        {isMobileMenuOpen && (
+          <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+        )}
+      </Suspense>
     </header>
   );
 }

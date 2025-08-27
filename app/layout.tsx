@@ -1,61 +1,48 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
   title: "Maharashtra Sepaktakraw Association",
-  description: "Official portal for results, notices, districts and compliance of the Maharashtra Sepaktakraw Association.",
-  keywords: ["sepaktakraw", "maharashtra", "association", "sports", "results", "districts"],
+  description: "Official portal for results, notices, districts and compliance. Promoting the traditional sport of Sepaktakraw across Maharashtra.",
+  keywords: "sepaktakraw, maharashtra, sports, association, results, districts, events",
   authors: [{ name: "Maharashtra Sepaktakraw Association" }],
+  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
   openGraph: {
     title: "Maharashtra Sepaktakraw Association",
-    description: "Official portal for results, notices, districts and compliance",
+    description: "Official portal for results, notices, districts and compliance.",
     type: "website",
     locale: "en_IN",
-    images: [
-      {
-        url: "/mskt-logo.svg",
-        width: 100,
-        height: 100,
-        alt: "MSKT Logo",
-      },
-    ],
   },
 };
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
+// Loading component for Suspense fallback
+function LoadingSpinner() {
+  return (
+    <div className="min-h-screen bg-off-white flex items-center justify-center">
+      <div className="text-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-bright-red mb-4"></div>
+        <p className="text-dark-gray text-lg">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-off-white text-dark-gray`}
-      >
-        {children}
+    <html lang="en" className="scroll-smooth">
+      <body className={inter.className}>
+        <Suspense fallback={<LoadingSpinner />}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
