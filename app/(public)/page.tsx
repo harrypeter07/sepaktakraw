@@ -1,9 +1,73 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense, lazy } from "react";
 import { data } from "@/lib/data";
 import { Button, Card, Badge, Section, Grid } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
+
+// Lazy load heavy components
+const NewsSection = lazy(() => import("@/components/sections/NewsSection").then(mod => ({ default: mod.NewsSection })));
+const CTASection = lazy(() => import("@/components/sections/CTASection").then(mod => ({ default: mod.CTASection })));
+
+// Loading components
+function HeroLoading() {
+  return (
+    <section className="bg-gradient-to-r from-dark-gray via-bright-red to-orange text-white py-12 sm:py-16 md:py-20">
+      <div className="container-main text-center">
+        <div className="animate-pulse">
+          <div className="w-16 h-16 bg-white/20 rounded-full mx-auto mb-4"></div>
+          <div className="h-8 bg-white/20 rounded mb-4 mx-auto max-w-md"></div>
+          <div className="h-4 bg-white/20 rounded mb-8 mx-auto max-w-2xl"></div>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <div className="w-32 h-10 bg-white/20 rounded"></div>
+            <div className="w-32 h-10 bg-white/20 rounded"></div>
+            <div className="w-32 h-10 bg-white/20 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatsLoading() {
+  return (
+    <Card className="mobile-card">
+      <div className="animate-pulse">
+        <div className="h-6 bg-gray-200 rounded mb-4"></div>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="h-8 bg-gray-200 rounded mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+          <div className="text-center">
+            <div className="h-8 bg-gray-200 rounded mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+          <div className="text-center">
+            <div className="h-8 bg-gray-200 rounded mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function QuickLinksLoading() {
+  return (
+    <Card className="mobile-card">
+      <div className="animate-pulse">
+        <div className="h-6 bg-gray-200 rounded mb-4"></div>
+        <div className="grid grid-cols-2 gap-3">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-20 bg-gray-200 rounded"></div>
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+}
 
 export default async function HomePage() {
   // Fetch data for the homepage
@@ -29,62 +93,67 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-off-white">
       {/* Hero Section - Mobile Optimized */}
-      <section className="bg-gradient-to-r from-dark-gray via-bright-red to-orange text-white py-12 sm:py-16 md:py-20">
-        <div className="container-main text-center">
-          <div className="mb-4 sm:mb-6">
-            <div className="inline-block p-2 sm:p-3 bg-white/20 rounded-full mb-3 sm:mb-4">
-              <Image 
-                src="/mskt-logo.svg" 
-                alt="MSKT Logo" 
-                width={50} 
-                height={50}
-                className="w-10 h-10 sm:w-12 sm:h-12"
-              />
+      <Suspense fallback={<HeroLoading />}>
+        <section className="bg-gradient-to-r from-dark-gray via-bright-red to-orange text-white py-12 sm:py-16 md:py-20">
+          <div className="container-main text-center">
+            <div className="mb-4 sm:mb-6">
+              <div className="inline-block p-2 sm:p-3 bg-white/20 rounded-full mb-3 sm:mb-4">
+                <Image 
+                  src="/mskt-logo.svg" 
+                  alt="MSKT Logo" 
+                  width={50} 
+                  height={50}
+                  className="w-10 h-10 sm:w-12 sm:h-12"
+                  priority
+                />
+              </div>
+            </div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
+              Maharashtra Sepaktakraw Association
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
+              Official portal for results, notices, districts and compliance. Promoting the traditional sport of Sepaktakraw across Maharashtra.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
+              <Button variant="outline" size="lg" href="/results" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
+                View Results
+              </Button>
+              <Button variant="outline" size="lg" href="/districts" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
+                Explore Districts
+              </Button>
+              <Button variant="outline" size="lg" href="/events" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
+                Upcoming Events
+              </Button>
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
-            Maharashtra Sepaktakraw Association
-          </h1>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-            Official portal for results, notices, districts and compliance. Promoting the traditional sport of Sepaktakraw across Maharashtra.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
-            <Button variant="outline" size="lg" href="/results" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              View Results
-            </Button>
-            <Button variant="outline" size="lg" href="/districts" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              Explore Districts
-            </Button>
-            <Button variant="outline" size="lg" href="/events" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              Upcoming Events
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </Suspense>
 
       {/* Main Content - Mobile First Layout */}
       <div className="container-main py-6 sm:py-8">
         {/* Mobile Stats Section */}
         <div className="block lg:hidden mb-6">
-          <Card className="mobile-card">
-            <h2 className="text-lg sm:text-xl font-bold text-dark-gray mb-4 text-center">
-              Association Overview
-            </h2>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-xl sm:text-2xl font-bold text-bright-red mb-1">{districts.length}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Active Districts</div>
+          <Suspense fallback={<StatsLoading />}>
+            <Card className="mobile-card">
+              <h2 className="text-lg sm:text-xl font-bold text-dark-gray mb-4 text-center">
+                Association Overview
+              </h2>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold text-bright-red mb-1">{districts.length}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Active Districts</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold text-orange mb-1">{recentResults.length}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Recent Matches</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold text-dark-gray mb-1">{recentNotices.length}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Latest Updates</div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-xl sm:text-2xl font-bold text-orange mb-1">{recentResults.length}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Recent Matches</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xl sm:text-2xl font-bold text-dark-gray mb-1">{recentNotices.length}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Latest Updates</div>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </Suspense>
         </div>
 
         {/* Desktop Layout */}
@@ -265,35 +334,37 @@ export default async function HomePage() {
 
         {/* Mobile Quick Links */}
         <div className="block lg:hidden">
-          <Card className="mobile-card">
-            <h2 className="text-lg sm:text-xl font-semibold text-dark-gray mb-4">Quick Access</h2>
-            <div className="grid grid-cols-2 gap-3">
-              <Link href="/rules" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200 touch-target">
-                <svg className="w-6 h-6 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm font-medium text-center">Rules</span>
-              </Link>
-              <Link href="/compliance" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200 touch-target">
-                <svg className="w-6 h-6 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm font-medium text-center">Compliance</span>
-              </Link>
-              <Link href="/events" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200 touch-target">
-                <svg className="w-6 h-6 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm font-medium text-center">Events</span>
-              </Link>
-              <Link href="/media" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200 touch-target">
-                <svg className="w-6 h-6 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                </svg>
-                <span className="text-sm font-medium text-center">Media</span>
-              </Link>
-            </div>
-          </Card>
+          <Suspense fallback={<QuickLinksLoading />}>
+            <Card className="mobile-card">
+              <h2 className="text-lg sm:text-xl font-semibold text-dark-gray mb-4">Quick Access</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <Link href="/rules" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200 touch-target">
+                  <svg className="w-6 h-6 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm font-medium text-center">Rules</span>
+                </Link>
+                <Link href="/compliance" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200 touch-target">
+                  <svg className="w-6 h-6 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm font-medium text-center">Compliance</span>
+                </Link>
+                <Link href="/events" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-bright-red hover:text-white transition-colors duration-200 touch-target">
+                  <svg className="w-6 h-6 text-bright-red mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm font-medium text-center">Events</span>
+                </Link>
+                <Link href="/media" className="flex flex-col items-center p-4 rounded-lg bg-off-white hover:bg-orange hover:text-white transition-colors duration-200 touch-target">
+                  <svg className="w-6 h-6 text-orange mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
+                  </svg>
+                  <span className="text-sm font-medium text-center">Media</span>
+                </Link>
+              </div>
+            </Card>
+          </Suspense>
         </div>
 
         {/* Mobile About Section */}
@@ -317,58 +388,44 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* News Section - Mobile Optimized */}
+      {/* News Section - Lazy Loaded */}
       {recentNews.length > 0 && (
-        <section className="bg-white py-8 sm:py-12">
-          <div className="container-main">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-gray mb-6 text-center">Latest News</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {recentNews.map((news) => (
-                <Card key={news.id} className="hover:shadow-md transition-shadow duration-200 mobile-card">
-                  <div className="mb-4">
-                    <Badge variant="primary" size="sm" className="mb-2">{news.category}</Badge>
-                    <h3 className="text-base sm:text-lg font-semibold text-dark-gray mb-2 line-clamp-2">{news.title}</h3>
-                    <p className="text-xs sm:text-sm text-gray-500 mb-3">
-                      {new Date(news.createdAt).toLocaleDateString()}
-                    </p>
-                    <p className="text-sm sm:text-base text-gray-700 line-clamp-3">{news.body}</p>
-                  </div>
-                  <Link 
-                    href={`/notices/${news.id}`}
-                    className="text-bright-red hover:text-red-700 font-medium text-sm underline decoration-2 underline-offset-2"
-                  >
-                    Read more →
-                  </Link>
-                </Card>
-              ))}
+        <Suspense fallback={
+          <section className="bg-white py-8 sm:py-12">
+            <div className="container-main">
+              <div className="animate-pulse">
+                <div className="h-8 bg-gray-200 rounded mb-6 mx-auto max-w-xs"></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="h-64 bg-gray-200 rounded"></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        }>
+          <NewsSection news={recentNews} />
+        </Suspense>
+      )}
+
+      {/* CTA Section - Lazy Loaded */}
+      <Suspense fallback={
+        <section className="bg-gradient-to-r from-bright-red to-orange text-white py-12 sm:py-16">
+          <div className="container-main text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-white/20 rounded mb-4 mx-auto max-w-xs"></div>
+              <div className="h-4 bg-white/20 rounded mb-6 mx-auto max-w-2xl"></div>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <div className="w-32 h-10 bg-white/20 rounded"></div>
+                <div className="w-32 h-10 bg-white/20 rounded"></div>
+                <div className="w-32 h-10 bg-white/20 rounded"></div>
+              </div>
             </div>
           </div>
         </section>
-      )}
-
-      {/* CTA Section - Mobile Optimized */}
-      <section className="bg-gradient-to-r from-bright-red to-orange text-white py-12 sm:py-16">
-        <div className="container-main text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            Get Involved
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-            Join the Maharashtra Sepaktakraw Association and be part of promoting this 
-            exciting traditional sport across the state.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
-            <Button variant="outline" size="lg" href="/districts" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              Find Your District
-            </Button>
-            <Button variant="outline" size="lg" href="/contact" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              Contact Us
-            </Button>
-            <Button variant="outline" size="lg" href="/media" className="w-full sm:w-auto bg-white text-bright-red hover:bg-white/90 touch-target">
-              View Resources
-            </Button>
-          </div>
-        </div>
-      </section>
+      }>
+        <CTASection />
+      </Suspense>
     </div>
   );
 }

@@ -189,14 +189,14 @@ export default function ContactPage() {
               <Label htmlFor="message" className="text-sm sm:text-base font-medium text-dark-gray">
                 Message *
               </Label>
-              <Textarea
-                id="message"
-                name="message"
-                required
-                rows={6}
-                className="mobile-form-input resize-vertical"
-                placeholder="Enter your message here..."
-              />
+                             <Textarea
+                 id="message"
+                 name="message"
+                 required
+                 rows={6}
+                 className="mobile-form-input resize-y"
+                 placeholder="Enter your message here..."
+               />
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
