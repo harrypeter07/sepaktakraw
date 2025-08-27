@@ -10,3 +10,4 @@ export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "./Dialog"
 export { Section } from "./Section"
 export { Grid } from "./Grid"
+export { Timeline } from "./Timeline"

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Card, Section, Grid, Badge } from "@/components/ui";
+import { Button, Card, Section, Grid, Badge, Timeline } from "@/components/ui";
 
 export default function ElectionsPage() {
   const electionDocuments = [
@@ -257,27 +257,16 @@ export default function ElectionsPage() {
           </Card>
         </Section>
 
-        {/* Election Schedule */}
-        <Section title="Election Schedule" className="mb-8 md:mb-12">
+        {/* Election Schedule Timeline */}
+        <Section title="Election Schedule Timeline" className="mb-8 md:mb-12">
           <Card>
-            <div className="grid md:grid-cols-2 gap-6">
-              {electionSchedule.map((item, index) => (
-                <div key={index} className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-bright-red/10 rounded-full flex items-center justify-center">
-                      <span className="text-bright-red font-bold text-lg">{index + 1}</span>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm text-bright-red font-semibold mb-1">
-                      {new Date(item.date).toLocaleDateString()}
-                    </div>
-                    <h4 className="font-semibold text-dark-gray mb-1">{item.event}</h4>
-                    <p className="text-sm text-medium-gray">{item.description}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-dark-gray mb-2">Complete Election Timeline</h3>
+              <p className="text-medium-gray">
+                Track the progress of the election process from notification to result declaration
+              </p>
             </div>
+            <Timeline items={electionSchedule} />
           </Card>
         </Section>
 
