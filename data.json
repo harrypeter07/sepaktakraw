@@ -169,6 +169,7 @@
       "published": true,
       "slug": "state-championship-registration",
       "fileUrl": null,
+      "attachments": ["registration-form.pdf", "tournament-rules.docx"],
       "createdAt": "2024-01-10T00:00:00.000Z"
     },
     {
@@ -180,6 +181,7 @@
       "published": true,
       "slug": "new-training-program",
       "fileUrl": null,
+      "attachments": ["training-schedule.pdf"],
       "createdAt": "2024-01-12T00:00:00.000Z"
     },
     {
@@ -191,6 +193,7 @@
       "published": true,
       "slug": "district-tournament-results",
       "fileUrl": null,
+      "attachments": [],
       "createdAt": "2024-01-14T00:00:00.000Z"
     },
     {
@@ -202,6 +205,7 @@
       "published": false,
       "slug": "equipment-donation-drive",
       "fileUrl": null,
+      "attachments": ["donation-form.pdf", "equipment-list.xlsx"],
       "createdAt": "2024-01-18T00:00:00.000Z"
     }
   ],
