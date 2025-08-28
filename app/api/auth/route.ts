@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE() {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     
     const { error } = await supabase.auth.signOut();
     
