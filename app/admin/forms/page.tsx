@@ -42,7 +42,7 @@ export default async function AdminForms() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {form.name}
+                  {form.title}
                 </h3>
                 <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                   form.active 
@@ -65,9 +65,9 @@ export default async function AdminForms() {
                 </div>
               </div>
               
-              {form.description && (
+              {form.desc && (
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {form.description}
+                  {form.desc}
                 </p>
               )}
               
