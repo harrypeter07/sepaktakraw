@@ -34,3 +34,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Deployment Notes
+
+This project has been configured for Vercel deployment with the following fixes:
+
+1. **Prisma Client Generation**: The build script now includes `prisma generate` to ensure the Prisma client is properly generated during deployment.
+
+2. **Mock Data Usage**: The application currently uses mock data instead of a live database, which eliminates database connection issues during deployment.
+
+3. **Supabase Edge Runtime**: The middleware has been simplified to avoid Supabase Edge Runtime compatibility issues.
+
+4. **API Routes**: All API routes have been updated to use mock data instead of Prisma to prevent database connection errors.
+
+### Environment Variables
+
+For local development, you can create a `.env.local` file with the following variables (optional since we're using mock data):
+
+```bash
+# Database (optional - for future use)
+DATABASE_URL="postgresql://username:password@localhost:5432/sepaktakraw"
+
+# NextAuth (optional - for future use)
+NEXTAUTH_SECRET="your-secret-key-here"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Supabase (optional - for future use)
+NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key-here"
+```
