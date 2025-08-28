@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/middleware";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = new URL(req.url);
@@ -11,27 +10,20 @@ export async function middleware(req: NextRequest) {
 
   // Check if user is trying to access admin routes
   if (pathname.startsWith("/admin")) {
-    try {
-      const supabase = createClient(req);
-      
-      // Get the session from the request
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error || !session) {
-        // No valid session, redirect to sign in
-        return NextResponse.redirect(new URL("/sign-in", req.url));
-      }
-
-      // Check if user has required role (you can implement role-based checks here)
-      // For now, we'll just check if they have a valid session
-      
-      // Continue to the requested page
-      return NextResponse.next();
-    } catch (error) {
-      console.error("Middleware error:", error);
-      // On error, redirect to sign in
+    // For now, allow access to admin routes without authentication
+    // This can be implemented later when Supabase is properly configured
+    // TODO: Implement proper authentication when Supabase is set up
+    
+    // Check for a simple session cookie (mock authentication)
+    const sessionCookie = req.cookies.get("user-session");
+    
+    if (!sessionCookie) {
+      // No session cookie, redirect to sign in
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
+    
+    // Continue to the requested page
+    return NextResponse.next();
   }
 
   // For all other routes, continue normally
