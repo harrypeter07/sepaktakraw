@@ -2,8 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { env } from "@/env.mjs";
 
-export function createClient() {
-  const cookieStore = cookies();
+export async function createClient() {
+  const cookieStore = await cookies();
+
+  // Check if Supabase environment variables are available
+  if (!env.NEXT_PUBLIC_SUPABASE_URL || !env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    // Return a mock client or throw an error if Supabase is required
+    throw new Error("Supabase environment variables are not configured");
+  }
 
   return createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
