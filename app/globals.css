@@ -330,79 +330,144 @@
     @apply px-3 sm:px-4;
   }
   
-  /* Mobile-specific improvements */
+    /* Mobile-specific improvements */
   .mobile-only {
     @apply block sm:hidden;
   }
-  
+
   .desktop-only {
     @apply hidden sm:block;
   }
-  
+
   .tablet-up {
     @apply hidden md:block;
   }
-  
+
   .mobile-tablet {
     @apply block lg:hidden;
   }
-  
+
   /* Touch-friendly improvements */
   .touch-target {
     @apply min-h-[44px] min-w-[44px];
   }
-  
+
   /* Improved focus indicators */
   .focus-visible {
     @apply focus:outline-none focus:ring-2 focus:ring-bright-red focus:ring-offset-2;
   }
-  
+
   /* Better mobile navigation */
   .mobile-nav-item {
-    @apply block w-full text-left px-4 py-3 text-base font-medium text-dark-gray hover:bg-gray-50 hover:text-bright-red transition-colors duration-200 border-b border-gray-100 last:border-b-0;
+    @apply block w-full text-left px-3 py-2 text-sm font-medium text-dark-gray hover:bg-gray-50 hover:text-bright-red transition-colors duration-200 border-b border-gray-100 last:border-b-0;
   }
-  
+
   .mobile-nav-item-active {
     @apply bg-bright-red text-white;
   }
-  
-  /* Improved mobile cards */
+
+  /* Improved mobile cards - COMPACT VERSION */
   .mobile-card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6;
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6;
   }
-  
-  /* Better mobile buttons */
+
+  /* Better mobile buttons - COMPACT VERSION */
   .mobile-btn {
-    @apply w-full sm:w-auto px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 focus:ring-2 focus:ring-offset-2;
+    @apply w-full sm:w-auto px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:ring-2 focus:ring-offset-2;
   }
-  
-  /* Improved mobile forms */
+
+  /* Improved mobile forms - COMPACT VERSION */
   .mobile-form {
-    @apply space-y-4 sm:space-y-6;
+    @apply space-y-3 sm:space-y-4;
   }
-  
+
   .mobile-form-group {
-    @apply space-y-2;
+    @apply space-y-1;
   }
-  
+
   .mobile-form-label {
-    @apply block text-sm font-medium text-dark-gray mb-1;
+    @apply block text-xs sm:text-sm font-medium text-dark-gray mb-1;
   }
-  
+
   .mobile-form-input {
-    @apply w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-base bg-white;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bright-red focus:border-transparent text-sm bg-white;
   }
-  
-  /* Better mobile spacing */
+
+  /* Better mobile spacing - COMPACT VERSION */
   .mobile-spacing {
-    @apply space-y-4 sm:space-y-6 md:space-y-8;
+    @apply space-y-3 sm:space-y-4 md:space-y-6;
   }
-  
+
   .mobile-margin {
-    @apply mb-4 sm:mb-6 md:mb-8;
+    @apply mb-3 sm:mb-4 md:mb-6;
   }
-  
+
   .mobile-padding {
-    @apply p-4 sm:p-6 md:p-8;
+    @apply p-3 sm:p-4 md:p-6;
+  }
+
+  /* NEW: Ultra-compact mobile styles */
+  .mobile-compact {
+    @apply p-2 sm:p-3 md:p-4;
+  }
+
+  .mobile-text-xs {
+    @apply text-xs sm:text-sm;
+  }
+
+  .mobile-text-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .mobile-text-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .mobile-gap-2 {
+    @apply gap-2 sm:gap-3 md:gap-4;
+  }
+
+  .mobile-gap-3 {
+    @apply gap-3 sm:gap-4 md:gap-6;
+  }
+
+  /* NEW: Two-column mobile grid */
+  .mobile-grid-2 {
+    @apply grid grid-cols-2 gap-2 sm:gap-3 md:gap-4;
+  }
+
+  .mobile-grid-3 {
+    @apply grid grid-cols-3 gap-2 sm:gap-3 md:gap-4;
+  }
+
+  /* NEW: Compact table styles for mobile */
+  .mobile-table {
+    @apply text-xs sm:text-sm;
+  }
+
+  .mobile-table-cell {
+    @apply px-2 py-2 sm:px-3 sm:py-3;
+  }
+
+  .mobile-table-header {
+    @apply px-2 py-2 sm:px-3 sm:py-3 text-xs font-medium;
+  }
+
+  /* NEW: Compact card styles */
+  .mobile-card-compact {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-2 sm:p-3 md:p-4;
+  }
+
+  .mobile-card-mini {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-2 sm:p-3;
+  }
+
+  /* NEW: Compact badge styles */
+  .mobile-badge {
+    @apply text-xs px-2 py-1 rounded-full;
+  }
+
+  .mobile-badge-sm {
+    @apply text-xs px-1.5 py-0.5 rounded;
   }
 }

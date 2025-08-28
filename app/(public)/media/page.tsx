@@ -76,16 +76,16 @@ export default function MediaPage() {
         </div>
 
         {/* Media Categories */}
-        <Section title="Media Categories" className="mb-8 md:mb-12">
-          <Grid cols={4} gap="lg">
+        <Section title="Media Categories" className="mb-6 sm:mb-8 md:mb-12">
+          <Grid cols={2} gap="md">
             {mediaCategories.map((category, index) => (
-              <Card key={index} className="text-center hover:shadow-md transition-shadow duration-200">
-                <div className={`${category.color} text-white w-12 h-12 rounded-full flex items-center justify-center text-xl mx-auto mb-3`}>
+              <Card key={index} className="text-center hover:shadow-md transition-shadow duration-200 mobile-card-compact">
+                <div className={`${category.color} text-white w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl mx-auto mb-2 sm:mb-3`}>
                   {category.icon}
                 </div>
-                <h3 className="text-heading mb-2">{category.title}</h3>
-                <p className="text-body mb-4">{category.description}</p>
-                <Button variant="outline" href={category.href} size="sm">
+                <h3 className="mobile-text-sm font-semibold text-dark-gray mb-1 sm:mb-2">{category.title}</h3>
+                <p className="mobile-text-xs text-gray-600 mb-3 sm:mb-4 line-clamp-2">{category.description}</p>
+                <Button variant="outline" href={category.href} size="sm" className="mobile-text-xs">
                   Explore
                 </Button>
               </Card>
@@ -94,27 +94,28 @@ export default function MediaPage() {
         </Section>
 
         {/* Recent Updates */}
-        <Section title="Recent Updates" className="mb-8 md:mb-12">
-          <Grid cols={3} gap="lg">
+        <Section title="Recent Updates" className="mb-6 sm:mb-8 md:mb-12">
+          <Grid cols={2} gap="md">
             {recentUpdates.map((update, index) => (
-              <Card key={index}>
-                <div className="flex items-start justify-between mb-3">
-                  <Badge variant="secondary" size="sm">
+              <Card key={index} className="mobile-card-compact">
+                <div className="flex items-start justify-between mb-2">
+                  <Badge variant="secondary" size="sm" className="mobile-badge-sm">
                     {update.type}
                   </Badge>
-                  <span className="text-caption">
+                  <span className="mobile-text-xs text-gray-500">
                     {new Date(update.date).toLocaleDateString()}
                   </span>
                 </div>
-                <h3 className="font-semibold text-dark-gray mb-2 text-sm">{update.title}</h3>
+                <h3 className="mobile-text-sm font-semibold text-dark-gray mb-2 line-clamp-2">{update.title}</h3>
                 <div className="flex items-center justify-between">
                   <Badge
                     variant={update.status === 'Active' ? 'primary' : update.status === 'Upcoming' ? 'secondary' : 'default'}
                     size="sm"
+                    className="mobile-badge-sm"
                   >
                     {update.status}
                   </Badge>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="mobile-text-xs">
                     Learn More
                   </Button>
                 </div>
@@ -124,26 +125,26 @@ export default function MediaPage() {
         </Section>
 
         {/* Media Guidelines */}
-        <Card className="mb-8 md:mb-12">
-          <h2 className="text-heading mb-4">Media Guidelines</h2>
-          <div className="space-y-4">
-            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
-              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Photo & Video Usage</h3>
-              <p className="text-body">
+        <Card className="mb-6 sm:mb-8 md:mb-12 mobile-card-compact">
+          <h2 className="mobile-text-base sm:text-lg font-semibold text-dark-gray mb-3">Media Guidelines</h2>
+          <div className="space-y-3">
+            <div className="p-2 sm:p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="mobile-text-sm font-semibold text-dark-gray mb-1">Photo & Video Usage</h3>
+              <p className="mobile-text-xs text-gray-600">
                 All media content is property of MSKT. For commercial use, please contact our media team.
               </p>
             </div>
 
-            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
-              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Press Inquiries</h3>
-              <p className="text-body">
+            <div className="p-2 sm:p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="mobile-text-sm font-semibold text-dark-gray mb-1">Press Inquiries</h3>
+              <p className="mobile-text-xs text-gray-600">
                 Journalists and media representatives can contact us at press@mskt.org for official statements and interviews.
               </p>
             </div>
 
-            <div className="p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
-              <h3 className="font-semibold text-dark-gray mb-2 text-sm">Content Requests</h3>
-              <p className="text-body">
+            <div className="p-2 sm:p-3 md:p-4 bg-off-white rounded-lg border border-gray-100">
+              <h3 className="mobile-text-sm font-semibold text-dark-gray mb-1">Content Requests</h3>
+              <p className="mobile-text-xs text-gray-600">
                 For specific content requests or high-resolution images, please use the contact form below.
               </p>
             </div>
@@ -151,12 +152,12 @@ export default function MediaPage() {
         </Card>
 
         {/* Contact Section */}
-        <div className="bg-gradient-to-r from-dark-gray to-medium-gray text-white rounded-xl p-6 md:p-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Media Resources?</h2>
-          <p className="text-white/90 mb-6 text-sm md:text-base">
+        <div className="bg-gradient-to-r from-dark-gray to-medium-gray text-white rounded-xl p-4 sm:p-6 md:p-8 text-center">
+          <h2 className="mobile-text-base sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Need Media Resources?</h2>
+          <p className="text-white/90 mb-4 sm:mb-6 mobile-text-xs sm:text-sm md:text-base">
             Contact our media team for specific content requests, press inquiries, or media partnerships.
           </p>
-          <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center">
             <Button
               variant="primary"
               href="/contact"

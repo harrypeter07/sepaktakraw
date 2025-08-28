@@ -150,27 +150,27 @@ export default async function CompliancePage() {
           <div className="space-y-8">
             {Object.entries(docsBySection).map(([section, docs]) => (
               <Section key={section} title={section.replace("_", " ")}>
-                <Grid cols={3} gap="lg">
+                <Grid cols={2} gap="md">
                   {docs.map((doc) => (
-                    <Card key={doc.id} className="hover:shadow-md transition-shadow duration-200">
-                      <div className="mb-4">
-                        <Badge variant="secondary" size="sm" className="mb-3">{section}</Badge>
-                        <h3 className="text-heading mb-2 line-clamp-2">
+                    <Card key={doc.id} className="hover:shadow-md transition-shadow duration-200 mobile-card-compact">
+                      <div className="mb-3">
+                        <Badge variant="secondary" size="sm" className="mb-2">{section}</Badge>
+                        <h3 className="mobile-text-sm font-semibold text-dark-gray mb-1 line-clamp-2">
                           {doc.title}
                         </h3>
-                        <p className="text-body text-medium-gray mb-3">
+                        <p className="mobile-text-xs text-gray-600 mb-2 line-clamp-2">
                           {doc.description}
                         </p>
-                        <div className="text-xs text-medium-gray">
+                        <div className="mobile-text-xs text-gray-500">
                           Updated: {new Date(doc.updatedAt).toLocaleDateString()}
                         </div>
                       </div>
                       
-                      <div className="flex gap-2">
-                        <Button variant="primary" size="sm" className="flex-1">
+                      <div className="flex gap-1 sm:gap-2">
+                        <Button variant="primary" size="sm" className="flex-1 mobile-text-xs">
                           📥 Download
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className="mobile-text-xs">
                           👁️ Preview
                         </Button>
                       </div>
