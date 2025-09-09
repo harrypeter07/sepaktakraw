@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { env } from "@/env.mjs";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,6 +22,13 @@ export async function POST(req: NextRequest) {
           { status: 401 }
         );
       }
+
+      // Ensure a local user exists for this dev session
+      await prisma.user.upsert({
+        where: { email: "dev-pin@local" },
+        update: {},
+        create: { id: crypto.randomUUID(), email: "dev-pin@local" },
+      });
 
       const response = NextResponse.json({ message: "PIN authentication successful" });
       response.cookies.set("user-session", "dev-pin-session", {
@@ -55,6 +63,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (data.user) {
+      // Upsert user in Prisma using Supabase user id and email
+      await prisma.user.upsert({
+        where: { id: data.user.id },
+        update: { email: data.user.email ?? "" },
+        create: { id: data.user.id, email: data.user.email ?? "" },
+      });
+
       // Set session cookie
       const response = NextResponse.json({ 
         user: data.user,
