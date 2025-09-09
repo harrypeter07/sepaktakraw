@@ -21,7 +21,12 @@ export function ResultActions({ resultId }: ResultActionsProps) {
       >
         Edit
       </Link>
-      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
+      <button className="text-red-600 hover:text-red-900" onClick={() => {
+        handleDelete();
+        fetch(`/api/results/${resultId}`, { method: 'DELETE' })
+          .then(() => location.reload())
+          .catch(() => alert('Failed to delete result'));
+      }}>
         Delete
       </button>
     </div>
