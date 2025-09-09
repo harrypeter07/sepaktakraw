@@ -1,10 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { env } from "@/env.mjs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
-    
+    const { email, password, pin } = await req.json();
+
+    // 1) Fast-path: PIN-based login for development
+    if (pin) {
+      if (!env.ADMIN_PIN) {
+        return NextResponse.json(
+          { error: "ADMIN_PIN not configured on server" },
+          { status: 500 }
+        );
+      }
+
+      if (pin !== env.ADMIN_PIN) {
+        return NextResponse.json(
+          { error: "Invalid PIN" },
+          { status: 401 }
+        );
+      }
+
+      const response = NextResponse.json({ message: "PIN authentication successful" });
+      response.cookies.set("user-session", "dev-pin-session", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+      return response;
+    }
+
+    // 2) Default: Email/password via Supabase
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
