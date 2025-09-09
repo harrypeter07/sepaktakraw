@@ -21,7 +21,15 @@ export function UserActions({ userId }: UserActionsProps) {
       >
         Edit
       </Link>
-      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
+      <button
+        className="text-red-600 hover:text-red-900"
+        onClick={() => {
+          handleDelete();
+          fetch(`/api/users/${userId}`, { method: 'DELETE' })
+            .then(() => location.reload())
+            .catch(() => alert('Failed to delete user'));
+        }}
+      >
         Delete
       </button>
     </div>

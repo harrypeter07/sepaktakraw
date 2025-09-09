@@ -21,7 +21,12 @@ export function OfficialActions({ officialId }: OfficialActionsProps) {
       >
         Edit
       </Link>
-      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
+      <button className="text-red-600 hover:text-red-900" onClick={() => {
+        handleDelete();
+        fetch(`/api/officials/${officialId}`, { method: 'DELETE' })
+          .then(() => location.reload())
+          .catch(() => alert('Failed to delete official'));
+      }}>
         Delete
       </button>
     </div>
