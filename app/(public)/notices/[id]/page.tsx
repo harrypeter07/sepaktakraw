@@ -1,14 +1,12 @@
 import { notFound } from "next/navigation";
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import { Button, Card, Badge } from "@/components/ui";
 
 export default async function NoticeDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   
-  // Use mock data instead of Prisma
-  const item = data.notices.find(n => 
-    n.slug === id || n.id.toString() === id
-  );
+  const list = await repo.notices.list();
+  const item = list.find((n: any) => n.slug === id || n.id?.toString() === id);
   
   if (!item) return notFound();
 

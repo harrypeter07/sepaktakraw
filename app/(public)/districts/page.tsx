@@ -1,5 +1,4 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -13,9 +12,13 @@ export default async function DistrictsPage() {
   //   }
   // });
 
-  // Using mock data instead
-  const districts = data.districts
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const districts = (await repo.safe(
+    () => prisma.district.findMany({ orderBy: { name: 'asc' } }) as any,
+    [] as any,
+  )).length ? await repo.safe(
+    () => prisma.district.findMany({ orderBy: { name: 'asc' } }) as any,
+    [] as any,
+  ) : (await import("@/lib/data")).data.districts.sort((a: any, b: any) => a.name.localeCompare(b.name));
 
   return (
     <div className="min-h-screen bg-gray-50">

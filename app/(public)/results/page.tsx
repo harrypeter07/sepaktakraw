@@ -1,5 +1,4 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { getResultsWithDistricts } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -19,10 +18,7 @@ export default async function ResultsPage() {
   //   }
   // });
 
-  // Using mock data instead
-  const results = getResultsWithDistricts()
-    .filter(result => result.published)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const results = (await repo.results.list()).filter((r: any) => r.published);
 
   return (
     <div className="min-h-screen bg-gray-50">

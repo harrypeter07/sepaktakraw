@@ -1,5 +1,4 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -16,10 +15,7 @@ export default async function NoticesPage() {
   //   }
   // });
 
-  // Using mock data instead
-  const notices = data.notices
-    .filter(notice => notice.published)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const notices = (await repo.notices.list()).filter((n: any) => n.published);
 
   // Group notices by category
   const noticesByCategory = notices.reduce((acc, notice) => {

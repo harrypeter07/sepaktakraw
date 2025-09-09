@@ -1,12 +1,15 @@
 import { notFound } from "next/navigation";
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import { Button, Card, Section, Grid, Badge } from "@/components/ui";
 
 export default async function DistrictPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  // Use mock data instead of Prisma
-  const district = data.districts.find(d => d.slug === slug);
+  const districts = await repo.safe(
+    () => prisma.district.findMany() as any,
+    (await import("@/lib/data")).data.districts as any,
+  );
+  const district = districts.find((d: any) => d.slug === slug);
   
   if (!district) return notFound();
 
