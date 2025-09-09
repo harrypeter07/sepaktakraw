@@ -1,6 +1,7 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
 import { getResultsWithDistricts } from "@/lib/data";
 import Link from "next/link";
+import { ResultActions } from "./ResultActions";
 
 export const dynamic = "force-dynamic";
 
@@ -97,25 +98,7 @@ export default async function AdminResults() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <Link
-                        href={`/admin/results/${result.id}/edit`}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        className="text-red-600 hover:text-red-900"
-                        onClick={() => {
-                          // TODO: Implement delete functionality
-                          if (confirm("Are you sure you want to delete this result?")) {
-                            // Delete logic here
-                          }
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    <ResultActions resultId={result.id} />
                   </td>
                 </tr>
               ))}
