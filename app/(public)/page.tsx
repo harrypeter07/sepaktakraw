@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense, lazy } from "react";
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import { Button, Card, Badge, Grid } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
@@ -70,24 +70,26 @@ function QuickLinksLoading() {
 }
 
 export default async function HomePage() {
-  // Fetch data for the homepage
-  const recentResults = data.results
-    .filter(r => r.published)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  // Fetch data for the homepage (Prisma-backed with fallback)
+  const [resultsAll, noticesAll, districts] = await Promise.all([
+    repo.results.list(),
+    repo.notices.list(),
+    repo.safe(() => prisma.district.findMany({ orderBy: { name: 'asc' } }) as any, (await import("@/lib/data")).data.districts as any),
+  ]);
+
+  const recentResults = resultsAll
+    .filter((r: any) => r.published)
+    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
 
-  const recentNotices = data.notices
-    .filter(n => n.published)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const recentNotices = noticesAll
+    .filter((n: any) => n.published)
+    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
-  const districts = data.districts
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  // Filter notices to get news items
-  const recentNews = data.notices
-    .filter((n) => n.published && n.category === 'NEWS')
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const recentNews = noticesAll
+    .filter((n: any) => n.published && n.category === 'NEWS')
+    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 3);
 
   return (
