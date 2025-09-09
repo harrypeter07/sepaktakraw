@@ -1,6 +1,7 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
 import { getUsersWithDistricts } from "@/lib/data";
 import Link from "next/link";
+import { UserActions } from "./UserActions";
 
 export const dynamic = "force-dynamic";
 
@@ -100,25 +101,7 @@ export default async function AdminUsers() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <Link
-                        href={`/admin/users/${user.id}/edit`}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        className="text-red-600 hover:text-red-900"
-                        onClick={() => {
-                          // TODO: Implement delete functionality
-                          if (confirm("Are you sure you want to delete this user?")) {
-                            // Delete logic here
-                          }
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    <UserActions userId={user.id} />
                   </td>
                 </tr>
               ))}

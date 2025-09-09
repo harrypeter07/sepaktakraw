@@ -1,6 +1,7 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
 import { data } from "@/lib/data";
 import Link from "next/link";
+import { NoticeActions } from "./NoticeActions";
 
 export const dynamic = "force-dynamic";
 
@@ -111,31 +112,7 @@ export default async function AdminNotices() {
                     {new Date(notice.createdAt).toLocaleDateString()}
                   </td>
                   <td className="mobile-table-cell whitespace-nowrap mobile-text-xs font-medium">
-                    <div className="flex space-x-1 sm:space-x-2">
-                      <Link
-                        href={`/notices/${notice.id}`}
-                        className="text-green-600 hover:text-green-900"
-                      >
-                        View
-                      </Link>
-                      <Link
-                        href={`/admin/notices/${notice.id}/edit`}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        className="text-red-600 hover:text-red-900"
-                        onClick={() => {
-                          // TODO: Implement delete functionality
-                          if (confirm("Are you sure you want to delete this notice?")) {
-                            // Delete logic here
-                          }
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    <NoticeActions noticeId={notice.id} />
                   </td>
                 </tr>
               ))}

@@ -34,12 +34,13 @@ export default async function AdminDashboard() {
   //   })
   // ]);
 
-  // Using mock data instead
+  // Using mock data instead (temporary until Prisma is wired)
   const totalUsers = data.users.length;
   const totalDistricts = data.districts.length;
   const totalResults = data.results.length;
   const totalNotices = data.notices.length;
   const totalForms = data.formDefs.length;
+  const totalSubmissions = data.submissions.length;
   const totalOfficials = data.officials.length;
   
   const recentResults = getResultsWithDistricts()
@@ -50,12 +51,20 @@ export default async function AdminDashboard() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
+  const formKeyToTitle: Record<string, string> = Object.fromEntries(
+    data.formDefs.map((f) => [f.key, f.title])
+  );
+
+  const recentSubmissions = data.submissions
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5);
+
   return (
     <section className="py-8">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
       
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="p-2 bg-blue-100 rounded-lg">
@@ -109,6 +118,20 @@ export default async function AdminDashboard() {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Notices</p>
               <p className="text-2xl font-semibold text-gray-900">{totalNotices}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center">
+            <div className="p-2 bg-teal-100 rounded-lg">
+              <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3M4 11h16M5 19h14a2 2 0 002-2v-6H3v6a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Form Submissions</p>
+              <p className="text-2xl font-semibold text-gray-900">{totalSubmissions}</p>
             </div>
           </div>
         </div>
@@ -170,6 +193,10 @@ export default async function AdminDashboard() {
               <span className="text-sm font-medium text-gray-900">{totalOfficials}</span>
             </div>
             <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Total Submissions</span>
+              <span className="text-sm font-medium text-gray-900">{totalSubmissions}</span>
+            </div>
+            <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600">Published Results</span>
               <span className="text-sm font-medium text-gray-900">
                 {recentResults.filter(r => r.published).length}
@@ -186,7 +213,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Recent Results</h2>
@@ -234,6 +261,37 @@ export default async function AdminDashboard() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Recent Form Submissions</h2>
+            <Link href="/api/export/submissions" className="text-sm text-blue-600 hover:text-blue-800">
+              Export CSV →
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {recentSubmissions.map((s) => {
+              const payload = s.data as Record<string, unknown>;
+              const primary = (payload.name || payload.teamName || "Submission");
+              const secondary = (payload.district || payload.category || "");
+              return (
+                <div key={s.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {String(primary)}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {formKeyToTitle[s.formKey]}{secondary ? ` • ${String(secondary)}` : ""}
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {new Date(s.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
