@@ -1,5 +1,5 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { getResultsWithDistricts } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 import { ResultActions } from "./ResultActions";
 
@@ -17,9 +17,7 @@ export default async function AdminResults() {
   //   }
   // });
 
-  // Using mock data instead
-  const results = getResultsWithDistricts()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const results = await repo.results.list();
 
   return (
     <section className="py-8">

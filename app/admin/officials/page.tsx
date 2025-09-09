@@ -1,5 +1,5 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { getOfficialsWithDistricts } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 import { OfficialActions } from "./OfficialActions";
 
@@ -17,9 +17,7 @@ export default async function AdminOfficials() {
   //   }
   // });
 
-  // Using mock data instead
-  const officials = getOfficialsWithDistricts()
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const officials = await repo.officials.list();
 
   return (
     <section className="py-8">

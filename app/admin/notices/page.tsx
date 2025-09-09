@@ -1,5 +1,5 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { data } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 import { NoticeActions } from "./NoticeActions";
 
@@ -14,9 +14,7 @@ export default async function AdminNotices() {
   //   }
   // });
 
-  // Using mock data instead
-  const notices = data.notices
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const notices = await repo.notices.list();
 
   return (
     <section className="py-8">

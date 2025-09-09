@@ -1,5 +1,5 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { data, getResultsWithDistricts } from "@/lib/data";
+import { data, getResultsWithDistricts, repo } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -34,30 +34,36 @@ export default async function AdminDashboard() {
   //   })
   // ]);
 
-  // Using mock data instead (temporary until Prisma is wired)
-  const totalUsers = data.users.length;
-  const totalDistricts = data.districts.length;
-  const totalResults = data.results.length;
-  const totalNotices = data.notices.length;
-  const totalForms = data.formDefs.length;
-  const totalSubmissions = data.submissions.length;
-  const totalOfficials = data.officials.length;
-  
-  const recentResults = getResultsWithDistricts()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5);
-  
-  const recentNotices = data.notices
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5);
+  // Prisma-backed with mock fallback
+  const [
+    totalUsers,
+    totalDistricts,
+    totalResults,
+    totalNotices,
+    totalForms,
+    totalSubmissions,
+    totalOfficials,
+    recentResults,
+    recentNotices,
+  ] = await Promise.all([
+    repo.users.count(),
+    repo.districts.count(),
+    repo.results.count(),
+    repo.notices.count(),
+    repo.forms.count(),
+    repo.forms.submissions.count(),
+    repo.officials.count(),
+    repo.results.list().then((r: any[]) => r.slice(0, 5)),
+    repo.notices.list().then((n: any[]) => n.slice(0, 5)),
+  ]);
 
   const formKeyToTitle: Record<string, string> = Object.fromEntries(
     data.formDefs.map((f) => [f.key, f.title])
   );
 
-  const recentSubmissions = data.submissions
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5);
+  const recentSubmissions = await repo.forms.submissions
+    .list()
+    .then((s: any[]) => s.slice(0, 5));
 
   return (
     <section className="py-8">

@@ -1,5 +1,5 @@
 // import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { getUsersWithDistricts } from "@/lib/data";
+import { repo } from "@/lib/data";
 import Link from "next/link";
 import { UserActions } from "./UserActions";
 
@@ -17,9 +17,7 @@ export default async function AdminUsers() {
   //   }
   // });
 
-  // Using mock data instead
-  const users = getUsersWithDistricts()
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const users = await repo.users.list();
 
   return (
     <section className="py-8">
