@@ -8,9 +8,10 @@ type NoticeActionsProps = {
 
 export function NoticeActions({ noticeId }: NoticeActionsProps) {
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this notice?")) {
-      // TODO: Implement delete logic via API when backend is ready
-    }
+    if (!confirm("Are you sure you want to delete this notice?")) return;
+    fetch(`/api/notices/${noticeId}`, { method: "DELETE" })
+      .then(() => location.reload())
+      .catch(() => alert("Failed to delete notice"));
   };
 
   return (
