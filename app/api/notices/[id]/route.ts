@@ -9,6 +9,8 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = req.cookies.get("user-session");
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const id = Number(params.id);
   const body = await req.json();
   const updated = await prisma.notice.update({ where: { id }, data: body });
@@ -16,6 +18,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+  // Note: middleware already requires cookie for /admin, but enforce for API as well if needed
   const id = Number(params.id);
   await prisma.notice.delete({ where: { id } });
   return NextResponse.json({ ok: true });
