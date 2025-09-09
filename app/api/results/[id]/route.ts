@@ -9,6 +9,8 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = req.cookies.get("user-session");
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const id = Number(params.id);
   const body = await req.json();
   const updated = await prisma.result.update({ where: { id }, data: body });
@@ -16,6 +18,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+  // Optionally check cookie here too
   const id = Number(params.id);
   await prisma.result.delete({ where: { id } });
   return NextResponse.json({ ok: true });

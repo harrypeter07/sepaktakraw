@@ -7,6 +7,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const session = req.cookies.get("user-session");
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const body = await req.json();
   const created = await prisma.user.create({ data: body });
   return NextResponse.json(created, { status: 201 });
