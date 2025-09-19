@@ -33,6 +33,10 @@ model District {
   slug      String     @unique
   name      String
   about     String?
+  address   String?
+  phone     String?
+  email     String?
+  website   String?
   officials Official[]
   teams     Team[]
   results   Result[]
@@ -74,19 +78,22 @@ model Result {
   districtId Int?
   district   District? @relation(fields: [districtId], references: [id])
   tags       String[]
+  notes      String?
   published  Boolean   @default(true)
   createdAt  DateTime  @default(now())
 }
 
 model Notice {
-  id        Int      @id @default(autoincrement())
-  title     String
-  slug      String   @unique
-  body      String
-  category  String
-  fileUrl   String?
-  published Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  body        String
+  category    String
+  fileUrl     String?
+  attachments String[]
+  priority    String   @default("NORMAL")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
 }
 
 model StaticDoc {

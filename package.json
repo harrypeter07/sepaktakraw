@@ -10,7 +10,9 @@
     "postinstall": "prisma generate",
     "seed": "node scripts/run-seed.js",
     "seed:supabase": "npx tsx scripts/seed-supabase.ts",
-    "setup:db": "node scripts/setup-database.js"
+    "seed:prisma": "npx tsx scripts/seed-prisma.ts",
+    "setup:db": "node scripts/setup-database.js",
+    "setup:supabase": "node scripts/setup-supabase-only.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

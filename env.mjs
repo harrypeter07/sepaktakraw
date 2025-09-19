@@ -3,8 +3,8 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    // Make database URL optional since we're not using Prisma right now
-    DATABASE_URL: z.string().url().optional(),
+    // Required for Prisma to connect to Supabase
+    DATABASE_URL: z.string().url(),
     NEXTAUTH_SECRET: z.string().min(1).optional(),
     NEXTAUTH_URL: z.string().url().optional(),
     ADMIN_PIN: z.string().min(4).optional(),
