@@ -3,16 +3,16 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    // Make database URL optional since we're using mock data
+    // Make database URL optional since we're not using Prisma right now
     DATABASE_URL: z.string().url().optional(),
     NEXTAUTH_SECRET: z.string().min(1).optional(),
     NEXTAUTH_URL: z.string().url().optional(),
     ADMIN_PIN: z.string().min(4).optional(),
   },
   client: {
-    // Make Supabase variables optional since we're using mock data
-    NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
+    // Required for Supabase integration
+    NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(10),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,

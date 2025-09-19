@@ -1,24 +1,20 @@
-import { repo } from "@/lib/data";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function ResultsPage() {
-  // Fetch all published results with district information
-  // TODO: Replace with Prisma query when database is ready
-  // const results = await prisma.result.findMany({
-  //   where: {
-  //     published: true
-  //   },
-  //   include: {
-  //     district: true
-  //   },
-  //   orderBy: {
-  //     date: "desc"
-  //   }
-  // });
+  const supabase = createClient();
+  let results: any[] = [];
 
-  const results = (await repo.results.list()).filter((r: any) => r.published);
+  try {
+    const { data, error } = await supabase
+      .from("results")
+      .select("id, date, teamA, teamB, scoreA, scoreB, venue, level, stage, notes, published")
+      .eq("published", true)
+      .order("date", { ascending: false });
+    if (!error && data) results = data;
+  } catch {}
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,13 +43,7 @@ export default async function ResultsPage() {
                         <h3 className="text-xl font-semibold text-gray-900">
                           {result.teamA} vs {result.teamB}
                         </h3>
-                        {result.district && (
-                          <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                            {result.district.name}
-                          </span>
-                        )}
                       </div>
-                      
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
                         <div>
                           <span className="font-medium">Date:</span>
@@ -83,31 +73,29 @@ export default async function ResultsPage() {
                         )}
                       </div>
                     </div>
-                    
                     <div className="mt-4 md:mt-0 md:ml-6">
                       {result.scoreA !== null && result.scoreB !== null ? (
                         <div className="text-center">
                           <div className="text-3xl font-bold text-blue-600 mb-2">
                             {result.scoreA} - {result.scoreB}
                           </div>
-                          <div className="text-sm text-gray-500">
-                            Final Score
-                          </div>
+                          <div className="text-sm text-gray-500">Final Score</div>
                         </div>
                       ) : (
                         <div className="text-center">
-                          <div className="text-2xl font-semibold text-gray-400 mb-2">
-                            TBD
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            Score Pending
-                          </div>
+                          <div className="text-2xl font-semibold text-gray-400 mb-2">TBD</div>
+                          <div className="text-sm text-gray-500">Score Pending</div>
                         </div>
                       )}
                     </div>
                   </div>
-                  
-
+                  {result.notes && (
+                    <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                      <div className="text-sm text-gray-700">
+                        <span className="font-medium">Notes:</span> {result.notes}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -123,9 +111,7 @@ export default async function ResultsPage() {
       {/* Footer CTA */}
       <section className="py-16 bg-white">
         <div className="mx-auto max-w-4xl px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Stay Updated
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Stay Updated</h2>
           <p className="text-gray-600 mb-6">
             Get the latest results, notices, and updates from the Maharashtra Sepaktakraw Association
           </p>
