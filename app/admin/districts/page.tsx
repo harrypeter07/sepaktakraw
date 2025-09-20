@@ -1,31 +1,11 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { getDistrictsWithCounts } from "@/lib/data";
+import { db } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDistricts() {
-  // Fetch all districts with counts
-  // TODO: Replace with Prisma query when database is ready
-  // const districts = await prisma.district.findMany({
-  //   include: {
-  //     _count: {
-  //       select: {
-  //         officials: true,
-  //         teams: true,
-  //         results: true,
-  //         users: true
-  //       }
-  //     }
-  //   },
-  //   orderBy: {
-  //     name: "asc"
-  //   }
-  // });
-
-  // Using mock data instead
-  const districts = getDistrictsWithCounts()
-    .sort((a, b) => a.name.localeCompare(b.name));
+  // Fetch all districts with counts from database
+  const districts = await db.getDistricts();
 
   return (
     <section className="py-8">

@@ -1,20 +1,12 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { db } from "@/lib/data";
+import { Card, Section, Grid, Badge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
 export default async function ResultsPage() {
-  const supabase = createClient();
-  let results: any[] = [];
-
-  try {
-    const { data, error } = await supabase
-      .from("results")
-      .select("id, date, teamA, teamB, scoreA, scoreB, venue, level, stage, notes, published")
-      .eq("published", true)
-      .order("date", { ascending: false });
-    if (!error && data) results = data;
-  } catch {}
+  // Fetch results from database
+  const results = await db.getResults({ published: true, limit: 20 });
 
   return (
     <div className="min-h-screen bg-gray-50">

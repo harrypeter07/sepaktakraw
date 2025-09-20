@@ -1,69 +1,39 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { data, getResultsWithDistricts, repo } from "@/lib/data";
+import { db } from "@/lib/data";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  // Fetch dashboard statistics
-  // TODO: Replace with Prisma queries when database is ready
-  // const [
-  //   totalUsers,
-  //   totalDistricts,
-  //   totalResults,
-  //   totalNotices,
-  //   totalForms,
-  //   totalOfficials,
-  //   recentResults,
-  //   recentNotices
-  // ] = await Promise.all([
-  //   prisma.user.count(),
-  //   prisma.district.count(),
-  //   prisma.result.count(),
-  //   prisma.notice.count(),
-  //   prisma.formDef.count(),
-  //   prisma.official.count(),
-  //   prisma.result.findMany({
-  //     orderBy: { date: "desc" },
-  //     take: 5,
-  //     include: { district: true }
-  //   }),
-  //   prisma.notice.findMany({
-  //     orderBy: { createdAt: "desc" },
-  //     take: 5
-  //   })
-  // ]);
-
-  // Prisma-backed with mock fallback
+  // Fetch dashboard statistics from database
   const [
+    stats,
+    activity
+  ] = await Promise.all([
+    db.getDashboardStats(),
+    db.getRecentActivity()
+  ]);
+
+  const {
     totalUsers,
     totalDistricts,
     totalResults,
     totalNotices,
     totalForms,
     totalSubmissions,
-    totalOfficials,
+    totalOfficials
+  } = stats;
+
+  const {
     recentResults,
     recentNotices,
-  ] = await Promise.all([
-    repo.users.count(),
-    repo.districts.count(),
-    repo.results.count(),
-    repo.notices.count(),
-    repo.forms.count(),
-    repo.forms.submissions.count(),
-    repo.officials.count(),
-    repo.results.list().then((r: any[]) => r.slice(0, 5)),
-    repo.notices.list().then((n: any[]) => n.slice(0, 5)),
-  ]);
+    recentSubmissions
+  } = activity;
 
+  // Get form definitions for display
+  const formDefs = await db.getFormDefs(true);
   const formKeyToTitle: Record<string, string> = Object.fromEntries(
-    data.formDefs.map((f) => [f.key, f.title])
+    formDefs.map((f) => [f.key, f.title])
   );
-
-  const recentSubmissions = await repo.forms.submissions
-    .list()
-    .then((s: any[]) => s.slice(0, 5));
 
   return (
     <section className="py-8">

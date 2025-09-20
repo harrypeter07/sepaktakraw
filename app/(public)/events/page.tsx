@@ -1,89 +1,51 @@
 
 import { Button, Card, Section, Grid, Badge } from "@/components/ui";
+import { db } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function EventsPage() {
-  // Mock data for events since we don't have a database connection
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "Mumbai District Championship 2024",
-      date: "2024-12-20",
-      teamA: "Mumbai A",
-      teamB: "Mumbai B",
-      level: "District",
-      stage: "Final",
-      venue: "Mumbai Sports Complex",
-      district: { name: "Mumbai" },
-      type: "Tournament"
-    },
-    {
-      id: 2,
-      title: "Pune Open Tournament",
-      date: "2024-12-25",
-      teamA: "Pune Warriors",
-      teamB: "Pune Eagles",
-      level: "Open",
-      stage: "Semi-Final",
-      venue: "Pune Indoor Stadium",
-      district: { name: "Pune" },
-      type: "Tournament"
-    },
-    {
-      id: 3,
-      title: "Youth Training Camp",
-      date: "2024-12-28",
-      teamA: "Youth Team A",
-      teamB: "Youth Team B",
-      level: "Training",
-      stage: "Practice Match",
-      venue: "Nagpur Sports Academy",
-      district: { name: "Nagpur" },
-      type: "Training"
-    }
-  ];
+  // Fetch real events data from database
+  const allResults = await db.getResults({ published: true, limit: 20 });
+  
+  // Separate upcoming and past events based on date
+  const now = new Date();
+  const upcomingEvents = allResults
+    .filter(result => new Date(result.date) > now)
+    .slice(0, 6)
+    .map(result => ({
+      id: result.id,
+      title: `${result.level} ${result.stage || 'Match'}`,
+      date: result.date.toISOString().split('T')[0],
+      teamA: result.teamA,
+      teamB: result.teamB,
+      level: result.level,
+      stage: result.stage || 'Match',
+      venue: result.venue,
+      district: result.district ? { name: result.district.name } : null,
+      type: result.level === 'Training' ? 'Training' : 
+            result.level === 'Workshop' ? 'Workshop' : 'Tournament'
+    }));
 
-  const pastEvents = [
-    {
-      id: 4,
-      title: "State Championship 2024",
-      date: "2024-11-15",
-      teamA: "Maharashtra A",
-      teamB: "Maharashtra B",
-      level: "State",
-      stage: "Final",
-      venue: "Mumbai Sports Complex",
-      district: { name: "Mumbai" },
-      type: "Tournament",
-      winner: "Maharashtra A"
-    },
-    {
-      id: 5,
-      title: "District League 2024",
-      date: "2024-11-10",
-      teamA: "Aurangabad Stars",
-      teamB: "Aurangabad Warriors",
-      level: "District",
-      stage: "League Match",
-      venue: "Aurangabad Stadium",
-      district: { name: "Aurangabad" },
-      type: "League",
-      winner: "Aurangabad Stars"
-    },
-    {
-      id: 6,
-      title: "Coaching Workshop",
-      date: "2024-11-05",
-      teamA: "Coaches Group A",
-      teamB: "Coaches Group B",
-      level: "Workshop",
-      stage: "Demonstration",
-      venue: "Pune Sports Academy",
-      district: { name: "Pune" },
-      type: "Workshop"
-    }
-  ];
+  const pastEvents = allResults
+    .filter(result => new Date(result.date) <= now)
+    .slice(0, 6)
+    .map(result => ({
+      id: result.id,
+      title: `${result.level} ${result.stage || 'Match'}`,
+      date: result.date.toISOString().split('T')[0],
+      teamA: result.teamA,
+      teamB: result.teamB,
+      level: result.level,
+      stage: result.stage || 'Match',
+      venue: result.venue,
+      district: result.district ? { name: result.district.name } : null,
+      type: result.level === 'Training' ? 'Training' : 
+            result.level === 'Workshop' ? 'Workshop' : 'Tournament',
+      winner: result.scoreA !== null && result.scoreB !== null 
+        ? (result.scoreA > result.scoreB ? result.teamA : result.teamB)
+        : null
+    }));
 
   return (
     <div className="min-h-screen bg-off-white py-8 md:py-12">
