@@ -9,34 +9,38 @@ export default async function ResultsPage() {
   const results = await db.getResults({ published: true, limit: 20 });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-        <div className="mx-auto max-w-6xl px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Match Results
-          </h1>
-          <p className="text-xl text-blue-100">
+    <div className="min-h-screen bg-off-white py-8 md:py-12">
+      <div className="container-content">
+        {/* Header */}
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-display text-dark-gray mb-3 md:mb-4">Match Results</h1>
+          <p className="text-lead">
             Latest results and scores from Maharashtra Sepaktakraw Association
           </p>
         </div>
-      </section>
 
-      {/* Results List */}
-      <section className="py-16">
-        <div className="mx-auto max-w-6xl px-4">
+        {/* Results List */}
+        <Section title="Recent Results" className="mb-8 md:mb-12">
           {results.length > 0 ? (
-            <div className="grid gap-6">
+            <div className="space-y-4">
               {results.map((result) => (
-                <div key={result.id} className="bg-white rounded-lg shadow-md p-6">
+                <Card key={result.id} className="hover:shadow-md transition-shadow duration-200">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-4 mb-3">
-                        <h3 className="text-xl font-semibold text-gray-900">
+                        <h3 className="text-heading">
                           {result.teamA} vs {result.teamB}
                         </h3>
+                        <Badge variant="secondary" size="sm">
+                          {result.level}
+                        </Badge>
+                        {result.stage && (
+                          <Badge variant="outline" size="sm">
+                            {result.stage}
+                          </Badge>
+                        )}
                       </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                      <div className="mobile-grid-2 md:grid-cols-4 gap-4 text-small text-medium-gray">
                         <div>
                           <span className="font-medium">Date:</span>
                           <br />
@@ -46,21 +50,21 @@ export default async function ResultsPage() {
                           <div>
                             <span className="font-medium">Venue:</span>
                             <br />
-                            {result.venue}
+                            <span className="line-clamp-2">{result.venue}</span>
                           </div>
                         )}
-                        {result.level && (
+                        {result.district && (
                           <div>
-                            <span className="font-medium">Level:</span>
+                            <span className="font-medium">District:</span>
                             <br />
-                            {result.level}
+                            {result.district.name}
                           </div>
                         )}
-                        {result.stage && (
+                        {result.matchNo && (
                           <div>
-                            <span className="font-medium">Stage:</span>
+                            <span className="font-medium">Match:</span>
                             <br />
-                            {result.stage}
+                            {result.matchNo}
                           </div>
                         )}
                       </div>
@@ -68,61 +72,71 @@ export default async function ResultsPage() {
                     <div className="mt-4 md:mt-0 md:ml-6">
                       {result.scoreA !== null && result.scoreB !== null ? (
                         <div className="text-center">
-                          <div className="text-3xl font-bold text-blue-600 mb-2">
+                          <div className="text-3xl font-bold text-bright-red mb-2">
                             {result.scoreA} - {result.scoreB}
                           </div>
-                          <div className="text-sm text-gray-500">Final Score</div>
+                          <div className="text-small text-medium-gray">Final Score</div>
                         </div>
                       ) : (
                         <div className="text-center">
-                          <div className="text-2xl font-semibold text-gray-400 mb-2">TBD</div>
-                          <div className="text-sm text-gray-500">Score Pending</div>
+                          <div className="text-2xl font-semibold text-medium-gray mb-2">TBD</div>
+                          <div className="text-small text-medium-gray">Score Pending</div>
                         </div>
                       )}
                     </div>
                   </div>
                   {result.notes && (
                     <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm text-gray-700">
+                      <div className="text-small text-dark-gray">
                         <span className="font-medium">Notes:</span> {result.notes}
                       </div>
                     </div>
                   )}
-                </div>
+                </Card>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <div className="text-gray-500 text-lg mb-2">No results available</div>
-              <p className="text-gray-400">Check back later for the latest match results</p>
-            </div>
+            <Card>
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <svg className="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-medium text-dark-gray mb-2">No Results Available</h3>
+                <p className="text-medium-gray">Check back later for the latest match results</p>
+              </div>
+            </Card>
           )}
-        </div>
-      </section>
+        </Section>
 
-      {/* Footer CTA */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Stay Updated</h2>
-          <p className="text-gray-600 mb-6">
-            Get the latest results, notices, and updates from the Maharashtra Sepaktakraw Association
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/notices"
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-            >
-              View Notices
-            </Link>
-            <Link
-              href="/districts"
-              className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-            >
-              Explore Districts
-            </Link>
-          </div>
-        </div>
-      </section>
+        {/* CTA Section */}
+        <Section title="Stay Updated" className="mb-8 md:mb-12">
+          <Card className="bg-gradient-to-r from-bright-red to-orange text-white text-center">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+              Get the Latest Updates
+            </h3>
+            <p className="text-lg text-white/90 mb-6">
+              Stay informed with the latest results, notices, and updates from the 
+              Maharashtra Sepaktakraw Association.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                href="/notices"
+                className="btn-secondary bg-white text-bright-red hover:bg-white/90"
+              >
+                View Notices
+              </Link>
+              <Link
+                href="/districts"
+                className="btn-outline bg-white text-bright-red hover:bg-white/90"
+              >
+                Explore Districts
+              </Link>
+            </div>
+          </Card>
+        </Section>
+      </div>
     </div>
   );
 }

@@ -1,20 +1,12 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { db } from "@/lib/data";
+import { Card, Section, Grid, Badge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
 export default async function NoticesPage() {
-  const supabase = createClient();
-  let notices: any[] = [];
-
-  try {
-    const { data, error } = await supabase
-      .from("notices")
-      .select("id, title, body, category, attachments, priority, createdAt, published")
-      .eq("published", true)
-      .order("createdAt", { ascending: false });
-    if (!error && data) notices = data;
-  } catch {}
+  // Fetch notices from database
+  const notices = await db.getNotices({ published: true, limit: 20 });
 
   const noticesByCategory = notices.reduce((acc: Record<string, any[]>, notice: any) => {
     const category = notice.category || "General";
