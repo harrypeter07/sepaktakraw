@@ -377,11 +377,11 @@ export class DatabaseService {
     });
   }
 
-  async createStaticDoc(data: any) {
+  async createStaticDoc(data: StaticDocData) {
     return await prisma.staticDoc.create({ data });
   }
 
-  async updateStaticDoc(id: number, data: any) {
+  async updateStaticDoc(id: number, data: Partial<StaticDocData>) {
     return await prisma.staticDoc.update({
       where: { id },
       data
@@ -409,7 +409,7 @@ export class DatabaseService {
     });
   }
 
-  async createFormDef(data: any) {
+  async createFormDef(data: FormDefData) {
     return await prisma.formDef.create({ data });
   }
 
