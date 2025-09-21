@@ -9,7 +9,7 @@ export default function NewUserPage() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("VIEWER");
   const [districtId, setDistrictId] = useState<number | "">("");
-  const [districts, setDistricts] = useState<any[]>([]);
+  const [districts, setDistricts] = useState<{ id: number; name: string }[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -28,8 +28,8 @@ export default function NewUserPage() {
       });
       if (!res.ok) throw new Error('Failed to create user');
       router.push('/admin/users');
-    } catch (e: any) {
-      setError(e.message || 'Failed to save');
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to save');
     } finally { setIsSaving(false); }
   }
 

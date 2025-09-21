@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const published = searchParams.get("published");
     const limit = searchParams.get("limit");
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (status) where.status = status;
     if (published !== null) where.published = published === "true";
 

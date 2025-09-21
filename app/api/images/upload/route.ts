@@ -37,10 +37,10 @@ export async function POST(req: NextRequest) {
       data: result
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Image upload error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to upload image" },
+      { error: error instanceof Error ? error.message : "Failed to upload image" },
       { status: 500 }
     );
   }
@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
       width: width ? parseInt(width) : undefined,
       height: height ? parseInt(height) : undefined,
       quality: quality ? parseInt(quality) : undefined,
-      format: format as any
+      format: format as 'webp' | 'jpeg' | 'png' | undefined
     });
 
     return NextResponse.json({
@@ -83,10 +83,10 @@ export async function GET(req: NextRequest) {
       }
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Image optimization error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to optimize image" },
+      { error: error instanceof Error ? error.message : "Failed to optimize image" },
       { status: 500 }
     );
   }

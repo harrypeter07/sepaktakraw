@@ -35,7 +35,6 @@ export function OptimizedImage({
   fallback,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   responsive = true,
-  lazy = true,
   ...props
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,16 +58,7 @@ export function OptimizedImage({
     '2xl': { width: 1536, height }
   }) : {};
 
-  // Generate srcSet for responsive images
-  const srcSet = responsive ? Object.entries(responsiveUrls)
-    .map(([size, url]) => {
-      const width = size === 'sm' ? 640 : 
-                   size === 'md' ? 768 : 
-                   size === 'lg' ? 1024 : 
-                   size === 'xl' ? 1280 : 1536;
-      return `${url} ${width}w`;
-    })
-    .join(', ') : undefined;
+  // Note: srcSet is not used with Next.js Image component as it handles responsive images automatically
 
   const handleLoad = () => {
     setIsLoading(false);
