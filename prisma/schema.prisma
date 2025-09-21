@@ -1,11 +1,10 @@
-// PostgreSQL (Supabase)
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -14,36 +13,28 @@ model User {
   email      String    @unique
   name       String?
   role       Role      @default(VIEWER)
-  district   District? @relation(fields: [districtId], references: [id])
   districtId Int?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-}
-
-enum Role {
-  SUPER_ADMIN
-  STATE_ADMIN
-  DISTRICT_ADMIN
-  EDITOR
-  VIEWER
+  district   District? @relation(fields: [districtId], references: [id])
 }
 
 model District {
-  id         Int        @id @default(autoincrement())
-  slug       String     @unique
+  id         Int         @id @default(autoincrement())
+  slug       String      @unique
   name       String
   about      String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   address    String?
-  phone      String?
   email      String?
+  phone      String?
   website    String?
-  officials  Official[]
-  teams      Team[]
-  results    Result[]
-  users      User[]
   candidates Candidate[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  officials  Official[]
+  results    Result[]
+  teams      Team[]
+  users      User[]
 }
 
 model Official {
@@ -77,11 +68,11 @@ model Result {
   date       DateTime
   venue      String?
   districtId Int?
-  district   District? @relation(fields: [districtId], references: [id])
   tags       String[]
-  notes      String?
   published  Boolean   @default(true)
   createdAt  DateTime  @default(now())
+  notes      String?
+  district   District? @relation(fields: [districtId], references: [id])
 }
 
 model Notice {
@@ -91,10 +82,10 @@ model Notice {
   body        String
   category    String
   fileUrl     String?
-  attachments String[]
-  priority    String   @default("NORMAL")
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
+  attachments String[]
+  priority    String   @default("NORMAL")
 }
 
 model StaticDoc {
@@ -124,63 +115,81 @@ model Submission {
 }
 
 model Election {
-  id          Int      @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   title       String
   description String?
   startDate   DateTime
   endDate     DateTime
-  status      ElectionStatus @default(UPCOMING)
-  type        String   @default("GENERAL") // GENERAL, BY_ELECTION, SPECIAL
-  published   Boolean  @default(true)
-  documents   ElectionDocument[]
+  status      ElectionStatus     @default(UPCOMING)
+  type        String             @default("GENERAL")
+  published   Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
   candidates  Candidate[]
+  documents   ElectionDocument[]
   votes       Vote[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }
 
 model ElectionDocument {
   id         Int      @id @default(autoincrement())
   title      String
-  type       String   // NOTICE, SCHEDULE, FORM, RESULT
+  type       String
   fileUrl    String?
   content    String?
   electionId Int
-  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
 }
 
 model Candidate {
-  id         Int      @id @default(autoincrement())
+  id         Int             @id @default(autoincrement())
   name       String
   position   String
   districtId Int?
-  district   District? @relation(fields: [districtId], references: [id])
   electionId Int
-  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  votes      Vote[]
   bio        String?
   manifesto  String?
   photoUrl   String?
   status     CandidateStatus @default(ACTIVE)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  district   District?       @relation(fields: [districtId], references: [id])
+  election   Election        @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  votes      Vote[]
 }
 
 model Vote {
-  id         Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   candidateId Int
-  candidate  Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  electionId Int
-  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  voterId    String?  // User ID if authenticated voting
-  voterEmail String?  // Email for anonymous voting
-  ipAddress  String?
-  createdAt  DateTime @default(now())
-  
+  electionId  Int
+  voterId     String?
+  voterEmail  String?
+  ipAddress   String?
+  createdAt   DateTime  @default(now())
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  election    Election  @relation(fields: [electionId], references: [id], onDelete: Cascade)
+
   @@unique([electionId, voterId])
   @@unique([electionId, voterEmail])
   @@unique([electionId, ipAddress])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  SUPER_ADMIN
+  STATE_ADMIN
+  DISTRICT_ADMIN
+  EDITOR
+  VIEWER
 }
 
 enum ElectionStatus {
@@ -195,14 +204,3 @@ enum CandidateStatus {
   WITHDRAWN
   DISQUALIFIED
 }
-
-model AuditLog {
-  id        String   @id @default(cuid())
-  userId    String?
-  action    String
-  entity    String
-  entityId  String?
-  ip        String?
-  createdAt DateTime @default(now())
-}
-
