@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { db } from "@/lib/data";
-import { HeroSection } from "@/components/sections/HeroSection";
+import { ModernHeroSection } from "@/components/sections/ModernHeroSection";
 import { Card, Section, Grid, Badge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
@@ -52,9 +52,9 @@ export default async function HomePage() {
   } catch {}
 
   return (
-    <div className="min-h-screen bg-off-white">
-      {/* Hero Section with Image Carousel and News Sidebar */}
-      <HeroSection 
+    <div className="min-h-screen">
+      {/* Modern Hero Section */}
+      <ModernHeroSection 
         recentNotices={recentNotices}
         recentResults={recentResults}
         recentElections={recentElections}
