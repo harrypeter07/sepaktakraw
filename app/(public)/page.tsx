@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { db } from "@/lib/data";
 import { ModernHeroSection } from "@/components/sections/ModernHeroSection";
 import { Card, Section, Grid, Badge } from "@/components/ui";
@@ -7,7 +7,10 @@ import { Card, Section, Grid, Badge } from "@/components/ui";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const supabase = createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
   // Recent Results
   let recentResults: any[] = [];
@@ -76,8 +79,18 @@ export default async function HomePage() {
   // Recent Elections
   try {
     console.log('Fetching elections from database...');
-    recentElections = await db.getElections({ published: true, limit: 3 });
-    console.log('Elections fetched successfully:', recentElections?.length || 0, 'items');
+    const { data: elections, error: electionsError } = await supabase
+      .from("Election")
+      .select("*")
+      .eq("published", true)
+      .limit(3);
+    
+    if (electionsError) {
+      console.error('Error fetching elections:', electionsError);
+    } else {
+      console.log('Elections fetched successfully:', elections?.length || 0, 'items');
+      recentElections = elections || [];
+    }
   } catch (err) {
     console.error('Exception fetching elections:', err);
   }
