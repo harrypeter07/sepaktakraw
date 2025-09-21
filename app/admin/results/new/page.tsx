@@ -15,7 +15,7 @@ export default function NewResultPage() {
   const [stage, setStage] = useState("");
   const [districtId, setDistrictId] = useState<number | "">("");
   const [published, setPublished] = useState(true);
-  const [districts, setDistricts] = useState<any[]>([]);
+  const [districts, setDistricts] = useState<{ id: number; name: string }[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -46,8 +46,8 @@ export default function NewResultPage() {
       });
       if (!res.ok) throw new Error("Failed to create result");
       router.push("/admin/results");
-    } catch (e: any) {
-      setError(e.message || "Failed to save");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Failed to save");
     } finally {
       setIsSaving(false);
     }
