@@ -1,20 +1,12 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { repo } from "@/lib/data";
+import { db } from "@/lib/data";
 import Link from "next/link";
 import { NoticeActions } from "./NoticeActions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminNotices() {
-  // Fetch all notices
-  // TODO: Replace with Prisma query when database is ready
-  // const notices = await prisma.notice.findMany({
-  //   orderBy: {
-  //     createdAt: "desc"
-  //   }
-  // });
-
-  const notices = await repo.notices.list();
+  // Fetch all notices from database
+  const notices = await db.getNotices();
 
   return (
     <section className="py-8">

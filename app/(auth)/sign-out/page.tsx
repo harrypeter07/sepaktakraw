@@ -8,13 +8,23 @@ export default function SignOutPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // TODO: Implement actual sign out with Supabase
-    // For now, just redirect after a short delay
-    const timer = setTimeout(() => {
-      router.push("/");
-    }, 2000);
+    // Call the sign-out API
+    const signOut = async () => {
+      try {
+        await fetch("/api/auth", {
+          method: "DELETE",
+        });
+      } catch (error) {
+        console.error("Sign out error:", error);
+      } finally {
+        // Redirect after a short delay
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    signOut();
   }, [router]);
 
   return (

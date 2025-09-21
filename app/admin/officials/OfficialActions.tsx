@@ -8,9 +8,10 @@ type OfficialActionsProps = {
 
 export function OfficialActions({ officialId }: OfficialActionsProps) {
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this official?")) {
-      // TODO: Implement delete logic via API when backend is ready
-    }
+    if (!confirm("Are you sure you want to delete this official?")) return;
+    fetch(`/api/officials/${officialId}`, { method: 'DELETE' })
+      .then(() => location.reload())
+      .catch(() => alert('Failed to delete official'));
   };
 
   return (
@@ -21,12 +22,7 @@ export function OfficialActions({ officialId }: OfficialActionsProps) {
       >
         Edit
       </Link>
-      <button className="text-red-600 hover:text-red-900" onClick={() => {
-        handleDelete();
-        fetch(`/api/officials/${officialId}`, { method: 'DELETE' })
-          .then(() => location.reload())
-          .catch(() => alert('Failed to delete official'));
-      }}>
+      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
         Delete
       </button>
     </div>

@@ -1,23 +1,12 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { repo } from "@/lib/data";
+import { db } from "@/lib/data";
 import Link from "next/link";
 import { UserActions } from "./UserActions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminUsers() {
-  // Fetch all users with district information
-  // TODO: Replace with Prisma query when database is ready
-  // const users = await prisma.user.findMany({
-  //   include: {
-  //     district: true
-  //   },
-  //   orderBy: {
-  //     createdAt: "desc"
-  //   }
-  // });
-
-  const users = await repo.users.list();
+  // Fetch all users with district information from database
+  const users = await db.getUsers();
 
   return (
     <section className="py-8">

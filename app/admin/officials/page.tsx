@@ -1,23 +1,12 @@
-// import { prisma } from "@/lib/prisma"; // Commented out for future database implementation
-import { repo } from "@/lib/data";
+import { db } from "@/lib/data";
 import Link from "next/link";
 import { OfficialActions } from "./OfficialActions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminOfficials() {
-  // Fetch all officials with district information
-  // TODO: Replace with Prisma query when database is ready
-  // const officials = await prisma.official.findMany({
-  //   include: {
-  //     district: true
-  //   },
-  //   orderBy: {
-  //     name: "asc"
-  //   }
-  // });
-
-  const officials = await repo.officials.list();
+  // Fetch all officials with district information from database
+  const officials = await db.getOfficials();
 
   return (
     <section className="py-8">

@@ -15,11 +15,38 @@ export function ContactForm() {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit form");
+      }
+
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error: any) {
+      setSubmitStatus("error");
+      setErrorMessage(error.message || "Failed to submit form");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -89,11 +116,21 @@ export function ContactForm() {
         </CardContent>
         
         <CardFooter className="flex justify-end space-x-3">
-          <Button variant="outline" type="button">
-            Cancel
+          {submitStatus === "success" && (
+            <div className="text-green-600 text-sm">
+              Message sent successfully! We'll get back to you soon.
+            </div>
+          )}
+          {submitStatus === "error" && (
+            <div className="text-red-600 text-sm">
+              {errorMessage}
+            </div>
+          )}
+          <Button variant="outline" type="button" onClick={() => setFormData({ name: "", email: "", subject: "", message: "" })}>
+            Clear
           </Button>
-          <Button type="submit">
-            Send Message
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
         </CardFooter>
       </form>

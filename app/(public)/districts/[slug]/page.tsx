@@ -1,25 +1,17 @@
 import { notFound } from "next/navigation";
-import { repo } from "@/lib/data";
+import { db } from "@/lib/data";
 import { Button, Card, Section, Grid, Badge } from "@/components/ui";
 
 export default async function DistrictPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const districts = await repo.safe(
-    () => prisma.district.findMany() as any,
-    (await import("@/lib/data")).data.districts as any,
-  );
-  const district = districts.find((d: any) => d.slug === slug);
+  // Fetch district from database
+  const district = await db.getDistrictBySlug(slug);
   
   if (!district) return notFound();
 
-  // Mock officials data for the district
-  const mockOfficials = [
-    { id: 1, name: "Rajesh Kumar", position: "District President", phone: "+91-98765-43210", email: "president@mskt-mumbai.org" },
-    { id: 2, name: "Priya Sharma", position: "District Secretary", phone: "+91-98765-43211", email: "secretary@mskt-mumbai.org" },
-    { id: 3, name: "Amit Patel", position: "District Treasurer", phone: "+91-98765-43212", email: "treasurer@mskt-mumbai.org" },
-    { id: 4, name: "Dr. Meera Singh", position: "Technical Director", phone: "+91-98765-43213", email: "technical@mskt-mumbai.org" },
-  ];
+  // Fetch officials for this district from database
+  const officials = await db.getOfficials(district.id);
 
   return (
     <div className="min-h-screen bg-off-white py-8 md:py-12">
@@ -87,33 +79,46 @@ export default async function DistrictPage({ params }: { params: Promise<{ slug:
 
         {/* District Officials */}
         <Section title="District Officials" className="mb-8 md:mb-12">
-          <Grid cols={2} gap="lg">
-            {mockOfficials.map((official) => (
-              <Card key={official.id} className="hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 bg-bright-red/10 rounded-full flex items-center justify-center">
-                      <span className="text-2xl text-bright-red">👤</span>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-heading mb-1">{official.name}</h3>
-                    <Badge variant="primary" size="sm" className="mb-3">{official.position}</Badge>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center">
-                        <span className="text-medium-gray mr-2">📞</span>
-                        <span className="text-dark-gray">{official.phone}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="text-medium-gray mr-2">✉️</span>
-                        <span className="text-dark-gray">{official.email}</span>
+          {officials.length > 0 ? (
+            <Grid cols={2} gap="lg">
+              {officials.map((official) => (
+                <Card key={official.id} className="hover:shadow-md transition-shadow duration-200">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 bg-bright-red/10 rounded-full flex items-center justify-center">
+                        <span className="text-2xl text-bright-red">👤</span>
                       </div>
                     </div>
+                    <div className="flex-1">
+                      <h3 className="text-heading mb-1">{official.name}</h3>
+                      <Badge variant="primary" size="sm" className="mb-3">{official.position}</Badge>
+                      <div className="space-y-2 text-sm">
+                        {official.phone && (
+                          <div className="flex items-center">
+                            <span className="text-medium-gray mr-2">📞</span>
+                            <span className="text-dark-gray">{official.phone}</span>
+                          </div>
+                        )}
+                        {official.email && (
+                          <div className="flex items-center">
+                            <span className="text-medium-gray mr-2">✉️</span>
+                            <span className="text-dark-gray">{official.email}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
-          </Grid>
+                </Card>
+              ))}
+            </Grid>
+          ) : (
+            <Card>
+              <div className="text-center py-8">
+                <h3 className="text-heading mb-4">No Officials Listed</h3>
+                <p className="text-body">Officials information will be updated soon.</p>
+              </div>
+            </Card>
+          )}
         </Section>
 
         {/* Upcoming Events */}

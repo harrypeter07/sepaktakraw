@@ -8,9 +8,10 @@ type UserActionsProps = {
 
 export function UserActions({ userId }: UserActionsProps) {
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this user?")) {
-      // TODO: Implement delete logic via API when backend is ready
-    }
+    if (!confirm("Are you sure you want to delete this user?")) return;
+    fetch(`/api/users/${userId}`, { method: 'DELETE' })
+      .then(() => location.reload())
+      .catch(() => alert('Failed to delete user'));
   };
 
   return (
@@ -21,15 +22,7 @@ export function UserActions({ userId }: UserActionsProps) {
       >
         Edit
       </Link>
-      <button
-        className="text-red-600 hover:text-red-900"
-        onClick={() => {
-          handleDelete();
-          fetch(`/api/users/${userId}`, { method: 'DELETE' })
-            .then(() => location.reload())
-            .catch(() => alert('Failed to delete user'));
-        }}
-      >
+      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
         Delete
       </button>
     </div>

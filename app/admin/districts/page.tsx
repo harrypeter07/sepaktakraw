@@ -8,87 +8,92 @@ export default async function AdminDistricts() {
   const districts = await db.getDistricts();
 
   return (
-    <section className="py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">District Management</h1>
-        <Link
-          href="/admin/districts/new"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Add District
-        </Link>
-      </div>
+    <div className="min-h-screen bg-off-white py-8 md:py-12">
+      <div className="container-content">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-display text-dark-gray">District Management</h1>
+          <Link
+            href="/admin/districts/new"
+            className="btn-primary"
+          >
+            Add District
+          </Link>
+        </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {districts.map((district) => (
-          <div key={district.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-              <div className="text-white text-6xl font-bold">
-                {district.name.charAt(0)}
+        <div className="grid-responsive">
+          {districts.map((district) => (
+            <div key={district.id} className="card-hover">
+              <div className="h-32 bg-gradient-to-br from-bright-red to-orange flex items-center justify-center mb-4 rounded-lg">
+                <div className="text-white text-4xl font-bold">
+                  {district.name.charAt(0)}
+                </div>
               </div>
-            </div>
-            
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              
+              <h3 className="text-heading mb-3">
                 {district.name}
               </h3>
               
               {district.about && (
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-small text-medium-gray mb-4 line-clamp-2">
                   {district.about}
                 </p>
               )}
               
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="mobile-grid-2 gap-3 mb-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-xl font-bold text-bright-red">
                     {district._count.officials}
                   </div>
-                  <div className="text-xs text-gray-500">Officials</div>
+                  <div className="text-xs text-medium-gray">Officials</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">
+                  <div className="text-xl font-bold text-orange">
                     {district._count.results}
                   </div>
-                  <div className="text-xs text-gray-500">Results</div>
+                  <div className="text-xs text-medium-gray">Results</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">
+                  <div className="text-xl font-bold text-dark-gray">
                     {district._count.users}
                   </div>
-                  <div className="text-xs text-gray-500">Users</div>
+                  <div className="text-xs text-medium-gray">Users</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">
+                  <div className="text-xl font-bold text-medium-gray">
                     {district._count.teams}
                   </div>
-                  <div className="text-xs text-gray-500">Teams</div>
+                  <div className="text-xs text-medium-gray">Teams</div>
                 </div>
               </div>
-              
-
               
               <div className="flex justify-between items-center">
                 <Link
                   href={`/admin/districts/${district.id}/edit`}
-                  className="text-blue-600 hover:text-blue-800 font-semibold text-sm hover:underline"
+                  className="text-bright-red hover:text-red-700 font-medium text-sm hover:underline"
                 >
                   Edit District
                 </Link>
-                
-
+                <span className="text-xs text-medium-gray">
+                  {district.slug}
+                </span>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {districts.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-500 text-lg">No districts found</div>
-          <p className="text-gray-400 mt-2">Get started by adding your first district</p>
+          ))}
         </div>
-      )}
-    </section>
+
+        {districts.length === 0 && (
+          <div className="card text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <svg className="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-medium text-dark-gray mb-2">No Districts Found</h3>
+            <p className="text-medium-gray">Get started by adding your first district</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

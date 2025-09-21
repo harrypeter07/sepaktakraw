@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { data } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    // Use mock data instead of Prisma for now
-    const rows = data.submissions.sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    // Get submissions from database
+    const rows = await prisma.submission.findMany({
+      orderBy: { createdAt: "desc" }
+    });
     
     const header = ["id", "formKey", "data", "createdAt"];
     const csv = [header.join(",")].concat(

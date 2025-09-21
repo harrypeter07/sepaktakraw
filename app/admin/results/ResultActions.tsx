@@ -8,9 +8,10 @@ type ResultActionsProps = {
 
 export function ResultActions({ resultId }: ResultActionsProps) {
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this result?")) {
-      // TODO: Implement delete logic via API when backend is ready
-    }
+    if (!confirm("Are you sure you want to delete this result?")) return;
+    fetch(`/api/results/${resultId}`, { method: 'DELETE' })
+      .then(() => location.reload())
+      .catch(() => alert('Failed to delete result'));
   };
 
   return (
@@ -21,12 +22,7 @@ export function ResultActions({ resultId }: ResultActionsProps) {
       >
         Edit
       </Link>
-      <button className="text-red-600 hover:text-red-900" onClick={() => {
-        handleDelete();
-        fetch(`/api/results/${resultId}`, { method: 'DELETE' })
-          .then(() => location.reload())
-          .catch(() => alert('Failed to delete result'));
-      }}>
+      <button className="text-red-600 hover:text-red-900" onClick={handleDelete}>
         Delete
       </button>
     </div>
