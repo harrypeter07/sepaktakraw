@@ -3,32 +3,32 @@
 export function LogoStrip() {
   const logos = [
     {
-      src: "/logo-mskt.svg",
+      src: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
       alt: "Maharashtra Sepaktakraw Association",
       name: "MSKT"
     },
     {
-      src: "/logo-sports-authority.svg",
+      src: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=100&fit=crop&crop=center",
       alt: "Sports Authority of India",
       name: "SAI"
     },
     {
-      src: "/logo-government.svg",
+      src: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=200&h=100&fit=crop&crop=center",
       alt: "Government of Maharashtra",
       name: "GoM"
     },
     {
-      src: "/logo-olympic.svg",
+      src: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=100&fit=crop&crop=center",
       alt: "Indian Olympic Association",
       name: "IOA"
     },
     {
-      src: "/logo-asiad.svg",
+      src: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
       alt: "Asian Games Federation",
       name: "AGF"
     },
     {
-      src: "/logo-istaf.svg",
+      src: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=100&fit=crop&crop=center",
       alt: "International Sepaktakraw Federation",
       name: "ISTAF"
     }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
+import { formatDate, formatDateShort } from "@/lib/date-utils";
 
 interface ModernHeroSectionProps {
   recentNotices: any[];
@@ -107,13 +108,13 @@ export function ModernHeroSection({
                 {/* Main Image Card */}
                 <div className="relative overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300">
                   <OptimizedImage
-                    src="/hero-sepaktakraw-team.jpg"
+                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center"
                     alt="Maharashtra Sepaktakraw team celebrating victory at national championship"
                     width={600}
                     height={400}
                     className="w-full h-[350px] object-cover"
-                    fallback="/placeholder-hero.jpg"
-                    placeholder="/placeholder-hero.jpg"
+                    fallback="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center"
+                    placeholder="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=75&fit=crop&crop=center&blur=20"
                     quality={90}
                     format="webp"
                     responsive={true}
@@ -178,10 +179,7 @@ export function ModernHeroSection({
                           {item.title}
                         </h4>
                         <p className="text-xs text-gray-500 mt-1">
-                          {new Date(item.date).toLocaleDateString('en-IN', {
-                            day: 'numeric',
-                            month: 'short'
-                          })}
+                          {formatDateShort(item.date)}
                         </p>
                       </div>
                     </div>
@@ -244,11 +242,7 @@ export function ModernHeroSection({
                         {item.title}
                       </h4>
                       <p className="text-xs text-gray-500 mt-2">
-                        {new Date(item.date).toLocaleDateString('en-IN', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric'
-                        })}
+                        {formatDate(item.date)}
                       </p>
                     </div>
                   </div>
