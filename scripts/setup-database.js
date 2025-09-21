@@ -1,116 +1,226 @@
-#!/usr/bin/env node
-/**
- * Complete Database Setup Script
- * 
- * This script will:
- * 1. Update the database schema with missing fields
- * 2. Seed the database with comprehensive sample data
- * 
- * Run with: node scripts/setup-database.js
- */
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config({ path: '.env.local' });
 
-const { execSync } = require('child_process');
-const path = require('path');
-const fs = require('fs');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-console.log('🚀 Starting Complete Database Setup...\n');
-
-async function runCommand(command, description) {
-  console.log(`📋 ${description}...`);
-  try {
-    execSync(command, { stdio: 'inherit' });
-    console.log(`✅ ${description} completed successfully!\n`);
-  } catch (error) {
-    console.error(`❌ Error during ${description.toLowerCase()}:`, error.message);
-    throw error;
-  }
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local');
+  process.exit(1);
 }
 
-async function setupDatabase() {
-  try {
-    // Step 1: Check if we have the required environment variables
-    console.log('🔍 Checking environment configuration...');
-    
-    const envPath = path.join(process.cwd(), '.env.local');
-    if (!fs.existsSync(envPath)) {
-      console.error('❌ .env.local file not found!');
-      console.log('Please create a .env.local file with your Supabase credentials:');
-      console.log('NEXT_PUBLIC_SUPABASE_URL=your_supabase_url');
-      console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key');
-      process.exit(1);
-    }
-    
-    const envContent = fs.readFileSync(envPath, 'utf8');
-    if (!envContent.includes('NEXT_PUBLIC_SUPABASE_URL') || !envContent.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY')) {
-      console.error('❌ Supabase environment variables not found in .env.local!');
-      console.log('Please add the following to your .env.local file:');
-      console.log('NEXT_PUBLIC_SUPABASE_URL=your_supabase_url');
-      console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key');
-      process.exit(1);
-    }
-    
-    console.log('✅ Environment configuration looks good!\n');
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Step 2: Run Prisma migrations to ensure schema is up to date
-    await runCommand('npx prisma db push', 'Updating database schema with Prisma');
-
-    // Step 3: Install tsx if not available
+async function checkTables() {
+  console.log('🔍 Checking database tables...');
+  
+  const tables = ['Result', 'Notice', 'District', 'Election'];
+  
+  for (const table of tables) {
     try {
-      execSync('npx tsx --version', { stdio: 'ignore' });
-    } catch (error) {
-      console.log('📦 Installing tsx for TypeScript execution...');
-      await runCommand('npm install -g tsx', 'Installing tsx globally');
+      const { data, error } = await supabase
+        .from(table)
+        .select('*')
+        .limit(1);
+      
+      if (error) {
+        console.log(`❌ Table ${table}: ${error.message}`);
+      } else {
+        console.log(`✅ Table ${table}: Exists (${data?.length || 0} records)`);
+      }
+    } catch (err) {
+      console.log(`❌ Table ${table}: ${err.message}`);
     }
-
-    // Step 4: Run the schema update SQL (if needed)
-    console.log('📋 Updating database schema with additional fields...');
-    const sqlPath = path.join(__dirname, 'update-schema.sql');
-    if (fs.existsSync(sqlPath)) {
-      console.log('⚠️  Note: You may need to run the SQL commands in update-schema.sql manually in your Supabase dashboard');
-      console.log('   The script will continue with seeding...\n');
-    }
-
-    // Step 5: Run the seeding script
-    await runCommand('npx tsx scripts/seed-supabase.ts', 'Seeding database with sample data');
-
-    console.log('🎉 Database setup completed successfully!');
-    console.log('\n📋 What was set up:');
-    console.log('   ✅ Database schema updated');
-    console.log('   ✅ 10 districts with contact information');
-    console.log('   ✅ 10 officials across districts');
-    console.log('   ✅ 16 teams in various categories');
-    console.log('   ✅ 8 match results with scores and notes');
-    console.log('   ✅ 8 notices with attachments and priorities');
-    console.log('   ✅ 6 users with different roles');
-    console.log('   ✅ 8 static documents for compliance');
-    console.log('   ✅ 3 form definitions');
-    console.log('   ✅ 3 sample form submissions');
-    
-    console.log('\n🚀 Your website is now ready!');
-    console.log('   • Visit /districts to see all districts');
-    console.log('   • Visit /notices to see categorized notices');
-    console.log('   • Visit /results to see match results');
-    console.log('   • Visit /admin to access admin features');
-    
-    console.log('\n💡 Next steps:');
-    console.log('   • Update your Supabase RLS policies if needed');
-    console.log('   • Customize the sample data as required');
-    console.log('   • Test all pages to ensure everything works');
-
-  } catch (error) {
-    console.error('\n❌ Setup failed:', error.message);
-    console.log('\n🔧 Troubleshooting:');
-    console.log('   1. Check your Supabase credentials in .env.local');
-    console.log('   2. Ensure your Supabase project is active');
-    console.log('   3. Verify your database schema matches the expected structure');
-    console.log('   4. Check your internet connection');
-    process.exit(1);
   }
 }
 
-// Run the setup
-if (require.main === module) {
-  setupDatabase().catch(console.error);
+async function addSampleData() {
+  console.log('\n📝 Adding sample data...');
+  
+  try {
+    // Add sample notices
+    const { error: noticesError } = await supabase
+      .from('Notice')
+      .upsert([
+        {
+          title: 'Maharashtra State Championship 2024',
+          slug: 'maharashtra-state-championship-2024',
+          body: 'The Maharashtra State Sepaktakraw Championship 2024 will be held from March 15-20, 2024 at the Shivaji Park Sports Complex, Mumbai.',
+          category: 'Tournament',
+          priority: 'HIGH',
+          published: true
+        },
+        {
+          title: 'Youth Development Program Launch',
+          slug: 'youth-development-program-launch',
+          body: 'We are excited to announce the launch of our new Youth Development Program aimed at nurturing young talent across Maharashtra.',
+          category: 'Development',
+          priority: 'NORMAL',
+          published: true
+        },
+        {
+          title: 'National Team Selection Trials',
+          slug: 'national-team-selection-trials',
+          body: 'Selection trials for the Indian National Sepaktakraw Team will be conducted on February 25-26, 2024.',
+          category: 'Selection',
+          priority: 'HIGH',
+          published: true
+        }
+      ], { onConflict: 'slug' });
+
+    if (noticesError) {
+      console.log('❌ Error adding notices:', noticesError.message);
+    } else {
+      console.log('✅ Notices added successfully');
+    }
+
+    // Add sample results
+    const { error: resultsError } = await supabase
+      .from('Result')
+      .upsert([
+        {
+          level: 'State',
+          stage: 'Final',
+          teamA: 'Mumbai District',
+          teamB: 'Pune District',
+          scoreA: 21,
+          scoreB: 18,
+          date: '2024-01-15',
+          venue: 'Shivaji Park Sports Complex',
+          published: true
+        },
+        {
+          level: 'District',
+          stage: 'Semi-Final',
+          teamA: 'Thane District',
+          teamB: 'Nashik District',
+          scoreA: 21,
+          scoreB: 15,
+          date: '2024-01-10',
+          venue: 'Thane Sports Center',
+          published: true
+        }
+      ], { onConflict: 'id' });
+
+    if (resultsError) {
+      console.log('❌ Error adding results:', resultsError.message);
+    } else {
+      console.log('✅ Results added successfully');
+    }
+
+    // Add sample districts
+    const { error: districtsError } = await supabase
+      .from('District')
+      .upsert([
+        {
+          name: 'Mumbai',
+          slug: 'mumbai',
+          about: 'Mumbai District Sepaktakraw Association - Leading the sport in the financial capital of India',
+          updatedAt: new Date().toISOString()
+        },
+        {
+          name: 'Pune',
+          slug: 'pune',
+          about: 'Pune District Sepaktakraw Association - Promoting sepaktakraw in the cultural capital of Maharashtra',
+          updatedAt: new Date().toISOString()
+        },
+        {
+          name: 'Nagpur',
+          slug: 'nagpur',
+          about: 'Nagpur District Sepaktakraw Association - Developing sepaktakraw in Vidarbha region',
+          updatedAt: new Date().toISOString()
+        }
+      ], { onConflict: 'slug' });
+
+    if (districtsError) {
+      console.log('❌ Error adding districts:', districtsError.message);
+    } else {
+      console.log('✅ Districts added successfully');
+    }
+
+    // Add sample elections
+    const { error: electionsError } = await supabase
+      .from('Election')
+      .upsert([
+        {
+          title: 'District President Election 2024',
+          description: 'Election for the position of District President across all districts in Maharashtra',
+          startDate: '2024-02-01',
+          endDate: '2024-02-28',
+          status: 'ACTIVE',
+          type: 'GENERAL',
+          published: true,
+          updatedAt: new Date().toISOString()
+        }
+      ], { onConflict: 'id' });
+
+    if (electionsError) {
+      console.log('❌ Error adding elections:', electionsError.message);
+    } else {
+      console.log('✅ Elections added successfully');
+    }
+
+  } catch (error) {
+    console.error('❌ Error adding sample data:', error.message);
+  }
 }
 
-module.exports = setupDatabase;
+async function testDataFetch() {
+  console.log('\n🧪 Testing data fetch...');
+  
+  try {
+    // Test notices
+    const { data: notices, error: noticesError } = await supabase
+      .from('Notice')
+      .select('*')
+      .eq('published', true)
+      .limit(3);
+    
+    if (noticesError) {
+      console.log('❌ Error fetching notices:', noticesError.message);
+    } else {
+      console.log(`✅ Notices fetched: ${notices?.length || 0} items`);
+    }
+
+    // Test results
+    const { data: results, error: resultsError } = await supabase
+      .from('Result')
+      .select('*')
+      .eq('published', true)
+      .limit(3);
+    
+    if (resultsError) {
+      console.log('❌ Error fetching results:', resultsError.message);
+    } else {
+      console.log(`✅ Results fetched: ${results?.length || 0} items`);
+    }
+
+    // Test districts
+    const { data: districts, error: districtsError } = await supabase
+      .from('District')
+      .select('*')
+      .limit(3);
+    
+    if (districtsError) {
+      console.log('❌ Error fetching districts:', districtsError.message);
+    } else {
+      console.log(`✅ Districts fetched: ${districts?.length || 0} items`);
+    }
+
+  } catch (error) {
+    console.error('❌ Error testing data fetch:', error.message);
+  }
+}
+
+async function main() {
+  console.log('🚀 Database Setup and Test Script');
+  console.log('=====================================');
+  
+  await checkTables();
+  await addSampleData();
+  await testDataFetch();
+  
+  console.log('\n✅ Setup complete! Check your application at http://localhost:3001');
+}
+
+main().catch(console.error);

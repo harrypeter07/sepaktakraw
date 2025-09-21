@@ -16,40 +16,71 @@ export default async function HomePage() {
   let recentElections: any[] = [];
 
   try {
+    console.log('Fetching results from database...');
     const { data, error } = await supabase
       .from("Result")
       .select("id, date, teamA, teamB, scoreA, scoreB, venue, published")
       .eq("published", true)
       .order("date", { ascending: false })
       .limit(3);
-    if (!error && data) recentResults = data;
-  } catch {}
+    
+    if (error) {
+      console.error('Error fetching results:', error);
+    } else {
+      console.log('Results fetched successfully:', data?.length || 0, 'items');
+      recentResults = data || [];
+    }
+  } catch (err) {
+    console.error('Exception fetching results:', err);
+  }
 
   // Recent Notices
   try {
+    console.log('Fetching notices from database...');
     const { data, error } = await supabase
-      .from("notices")
+      .from("Notice")
       .select("id, title, body, category, createdAt, published, priority")
       .eq("published", true)
       .order("createdAt", { ascending: false })
       .limit(5);
-    if (!error && data) recentNotices = data;
-  } catch {}
+    
+    if (error) {
+      console.error('Error fetching notices:', error);
+    } else {
+      console.log('Notices fetched successfully:', data?.length || 0, 'items');
+      recentNotices = data || [];
+    }
+  } catch (err) {
+    console.error('Exception fetching notices:', err);
+  }
 
   // Districts
   try {
+    console.log('Fetching districts from database...');
     const { data, error } = await supabase
-      .from("districts")
+      .from("District")
       .select("id, name, slug, about")
       .order("name", { ascending: true })
       .limit(6);
-    if (!error && data) districts = data;
-  } catch {}
+    
+    if (error) {
+      console.error('Error fetching districts:', error);
+    } else {
+      console.log('Districts fetched successfully:', data?.length || 0, 'items');
+      districts = data || [];
+    }
+  } catch (err) {
+    console.error('Exception fetching districts:', err);
+  }
 
   // Recent Elections
   try {
+    console.log('Fetching elections from database...');
     recentElections = await db.getElections({ published: true, limit: 3 });
-  } catch {}
+    console.log('Elections fetched successfully:', recentElections?.length || 0, 'items');
+  } catch (err) {
+    console.error('Exception fetching elections:', err);
+  }
 
   return (
     <div className="min-h-screen">

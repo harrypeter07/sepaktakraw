@@ -3,12 +3,39 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
-import { formatDate, formatDateShort } from "@/lib/date-utils";
+import { formatDateShort } from "@/lib/date-utils";
 
 interface ModernHeroSectionProps {
-  recentNotices: any[];
-  recentResults: any[];
-  recentElections?: any[];
+  recentNotices: Array<{
+    id: number;
+    title: string;
+    body: string;
+    category: string;
+    createdAt: string;
+    published: boolean;
+    priority: string;
+  }>;
+  recentResults: Array<{
+    id: number;
+    date: string;
+    teamA: string;
+    teamB: string;
+    scoreA: number | null;
+    scoreB: number | null;
+    venue: string | null;
+    published: boolean;
+  }>;
+  recentElections?: Array<{
+    id: number;
+    title: string;
+    description: string | null;
+    startDate: string;
+    endDate: string;
+    status: string;
+    type: string;
+    published: boolean;
+    createdAt: string;
+  }>;
 }
 
 export function ModernHeroSection({ 
@@ -20,7 +47,11 @@ export function ModernHeroSection({
 
   useEffect(() => {
     setIsLoaded(true);
-  }, []);
+    console.log('ModernHeroSection received data:');
+    console.log('recentNotices:', recentNotices?.length || 0, 'items');
+    console.log('recentResults:', recentResults?.length || 0, 'items');
+    console.log('recentElections:', recentElections?.length || 0, 'items');
+  }, [recentNotices, recentResults, recentElections]);
 
   // Combine recent content for sidebar
   const recentContent = [
@@ -50,21 +81,24 @@ export function ModernHeroSection({
     }))
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
+  console.log('Combined recentContent:', recentContent.length, 'items');
+  console.log('recentContent details:', recentContent);
+
   return (
     <section 
       role="banner" 
       className="relative min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-orange-100 overflow-hidden"
     >
       {/* Hero Container */}
-      <div className="relative z-10 px-3 sm:px-4 lg:px-6 py-8">
+      <div className="relative z-10 px-2 sm:px-3 lg:px-4 py-6">
         <div className="max-w-[1280px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start min-h-[60vh]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-2.5 items-start min-h-[60vh]">
             
             {/* First Column - Sepaktakraw Info (3 columns on desktop, full width on mobile/tablet) */}
             <div className={`lg:col-span-3 order-1 transition-all duration-300 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
             }`}>
-              <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 lg:p-6 shadow-lg h-full">
+              <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 lg:p-4 shadow-lg h-full border border-gray-200">
                 <div className="text-center mb-4 lg:mb-6">
                   {/* Badge */}
                   <div className="inline-flex items-center gap-2 bg-orange-500 text-white px-3 py-1.5 rounded-md text-xs font-semibold tracking-wider uppercase mb-3 lg:mb-4">
@@ -130,7 +164,7 @@ export function ModernHeroSection({
             }`}>
               <div className="relative group">
                 {/* Main Image Card */}
-                <div className="relative overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300">
+                <div className="relative overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300 border border-gray-200">
                   <OptimizedImage
                     src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center"
                     alt="Maharashtra Sepaktakraw team celebrating victory at national championship"
@@ -165,14 +199,14 @@ export function ModernHeroSection({
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
             }`}>
               {recentContent.length > 0 && (
-                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 lg:p-4 shadow-lg h-full">
+                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 lg:p-4 shadow-lg h-full border border-gray-200">
                   <div className="flex items-center gap-2 mb-3 lg:mb-4">
                     <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                     <h3 className="font-bold text-gray-800 text-sm lg:text-base tracking-wide uppercase">Latest News & Notices</h3>
                   </div>
                   
                   <div className="space-y-2 lg:space-y-3">
-                    {recentContent.slice(0, 4).map((item, index) => (
+                    {recentContent.slice(0, 4).map((item) => (
                       <Link
                         key={item.id}
                         href={item.href}
