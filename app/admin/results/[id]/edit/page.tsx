@@ -6,30 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 export default function EditResultPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [form, setForm] = useState<{
-    teamA: string;
-    teamB: string;
-    scoreA: number | "";
-    scoreB: number | "";
-    date: string;
-    venue: string;
-    level: string;
-    stage: string;
-    districtId: number | "";
-    published: boolean;
-  }>({
-    teamA: "",
-    teamB: "",
-    scoreA: "",
-    scoreB: "",
-    date: "",
-    venue: "",
-    level: "STATE",
-    stage: "",
-    districtId: "",
-    published: false,
-  });
-  const [districts, setDistricts] = useState<{ id: number; name: string }[]>([]);
+  const [form, setForm] = useState<any>({});
+  const [districts, setDistricts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

@@ -6,18 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 export default function EditUserPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [form, setForm] = useState<{
-    email: string;
-    name: string;
-    role: string;
-    districtId: number | "";
-  }>({
-    email: "",
-    name: "",
-    role: "VIEWER",
-    districtId: "",
-  });
-  const [districts, setDistricts] = useState<{ id: number; name: string }[]>([]);
+  const [form, setForm] = useState<any>({});
+  const [districts, setDistricts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
