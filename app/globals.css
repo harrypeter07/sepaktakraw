@@ -1,9 +1,9 @@
+/* Import Hero Section Styles */
+@import '../styles/hero.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import Hero Section Styles */
-@import '../styles/hero.css';
 
 /* shadcn/ui CSS Variables */
 @layer base {

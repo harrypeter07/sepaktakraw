@@ -138,28 +138,95 @@ export function ModernHeroSection({
         </div>
       </div>
 
-      {/* Recent Updates Sidebar */}
+      {/* News & Notices Section - Mobile (Below Hero) */}
+      {recentContent.length > 0 && (
+        <div className="block xl:hidden px-3 sm:px-4 lg:px-6 py-6">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                <h3 className="font-bold text-gray-800 text-sm tracking-wide uppercase">Latest News & Notices</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {recentContent.slice(0, 4).map((item, index) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className="block group"
+                  >
+                    <div className="flex items-start gap-2 p-3 rounded-md hover:bg-orange-50 transition-colors duration-200 border border-gray-100 hover:border-orange-200">
+                      <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
+                        item.priority === "HIGH" ? "bg-red-500" : "bg-blue-500"
+                      }`} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                            item.priority === "HIGH" 
+                              ? "bg-red-100 text-red-800" 
+                              : "bg-orange-100 text-orange-800"
+                          }`}>
+                            {item.category}
+                          </span>
+                          {item.priority === "HIGH" && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                              URGENT
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-orange-600 transition-colors leading-tight">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {new Date(item.date).toLocaleDateString('en-IN', {
+                            day: 'numeric',
+                            month: 'short'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <Link 
+                  href="/notices" 
+                  className="flex items-center justify-center gap-2 text-blue-600 hover:text-orange-600 font-medium text-sm transition-colors"
+                >
+                  View All News & Notices
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* News & Notices Section - Desktop (Right Side) */}
       {recentContent.length > 0 && (
         <div className="absolute top-1/2 right-3 lg:right-6 transform -translate-y-1/2 z-20 hidden xl:block">
-          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg max-w-sm">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-5 shadow-lg max-w-sm">
+            <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-              <h3 className="font-bold text-gray-800 text-sm tracking-wide uppercase">Latest Updates</h3>
+              <h3 className="font-bold text-gray-800 text-sm tracking-wide uppercase">Latest News & Notices</h3>
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-3">
               {recentContent.map((item, index) => (
                 <Link
                   key={item.id}
                   href={item.href}
                   className="block group"
                 >
-                  <div className="flex items-start gap-2 p-2 rounded-md hover:bg-orange-50 transition-colors duration-200">
+                  <div className="flex items-start gap-3 p-3 rounded-md hover:bg-orange-50 transition-colors duration-200 border border-gray-100 hover:border-orange-200">
                     <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
                       item.priority === "HIGH" ? "bg-red-500" : "bg-blue-500"
                     }`} />
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1 mb-1">
+                      <div className="flex items-center gap-2 mb-2">
                         <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
                           item.priority === "HIGH" 
                             ? "bg-red-100 text-red-800" 
@@ -173,11 +240,15 @@ export function ModernHeroSection({
                           </span>
                         )}
                       </div>
-                      <h4 className="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-orange-600 transition-colors">
+                      <h4 className="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-orange-600 transition-colors leading-tight">
                         {item.title}
                       </h4>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {new Date(item.date).toLocaleDateString()}
+                      <p className="text-xs text-gray-500 mt-2">
+                        {new Date(item.date).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric'
+                        })}
                       </p>
                     </div>
                   </div>
@@ -185,12 +256,12 @@ export function ModernHeroSection({
               ))}
             </div>
 
-            <div className="mt-3 pt-3 border-t border-gray-200">
+            <div className="mt-4 pt-4 border-t border-gray-200">
               <Link 
                 href="/notices" 
                 className="flex items-center justify-center gap-2 text-blue-600 hover:text-orange-600 font-medium text-sm transition-colors"
               >
-                View All Updates
+                View All News & Notices
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>

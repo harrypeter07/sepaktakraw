@@ -35,10 +35,10 @@ export function LogoStrip() {
   ];
 
   return (
-    <section className="bg-white border-b border-gray-200 py-3">
+    <section className="bg-white border-b border-gray-200 py-6">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-center">
-          <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-8 overflow-x-auto scrollbar-hide">
             {logos.map((logo, index) => (
               <div
                 key={index}
@@ -47,7 +47,7 @@ export function LogoStrip() {
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-8 sm:h-10 opacity-60 hover:opacity-100 transition-opacity duration-200 filter grayscale hover:grayscale-0"
+                  className="h-10 sm:h-12 opacity-60 hover:opacity-100 transition-opacity duration-200 filter grayscale hover:grayscale-0"
                   onError={(e) => {
                     // Fallback to text if image fails to load
                     const target = e.target as HTMLImageElement;
