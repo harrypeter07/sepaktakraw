@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   try {
     const { data, error } = await supabase
-      .from("results")
+      .from("Result")
       .select("id, date, teamA, teamB, scoreA, scoreB, venue, published")
       .eq("published", true)
       .order("date", { ascending: false })
