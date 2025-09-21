@@ -29,20 +29,21 @@ enum Role {
 }
 
 model District {
-  id        Int        @id @default(autoincrement())
-  slug      String     @unique
-  name      String
-  about     String?
-  address   String?
-  phone     String?
-  email     String?
-  website   String?
-  officials Official[]
-  teams     Team[]
-  results   Result[]
-  users     User[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id         Int        @id @default(autoincrement())
+  slug       String     @unique
+  name       String
+  about      String?
+  address    String?
+  phone      String?
+  email      String?
+  website    String?
+  officials  Official[]
+  teams      Team[]
+  results    Result[]
+  users      User[]
+  candidates Candidate[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Official {
@@ -120,6 +121,79 @@ model Submission {
   formKey   String
   data      Json
   createdAt DateTime @default(now())
+}
+
+model Election {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  status      ElectionStatus @default(UPCOMING)
+  type        String   @default("GENERAL") // GENERAL, BY_ELECTION, SPECIAL
+  published   Boolean  @default(true)
+  documents   ElectionDocument[]
+  candidates  Candidate[]
+  votes       Vote[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ElectionDocument {
+  id         Int      @id @default(autoincrement())
+  title      String
+  type       String   // NOTICE, SCHEDULE, FORM, RESULT
+  fileUrl    String?
+  content    String?
+  electionId Int
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Candidate {
+  id         Int      @id @default(autoincrement())
+  name       String
+  position   String
+  districtId Int?
+  district   District? @relation(fields: [districtId], references: [id])
+  electionId Int
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  votes      Vote[]
+  bio        String?
+  manifesto  String?
+  photoUrl   String?
+  status     CandidateStatus @default(ACTIVE)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Vote {
+  id         Int      @id @default(autoincrement())
+  candidateId Int
+  candidate  Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  electionId Int
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  voterId    String?  // User ID if authenticated voting
+  voterEmail String?  // Email for anonymous voting
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  
+  @@unique([electionId, voterId])
+  @@unique([electionId, voterEmail])
+  @@unique([electionId, ipAddress])
+}
+
+enum ElectionStatus {
+  UPCOMING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum CandidateStatus {
+  ACTIVE
+  WITHDRAWN
+  DISQUALIFIED
 }
 
 model AuditLog {

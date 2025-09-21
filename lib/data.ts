@@ -393,9 +393,173 @@ export class DatabaseService {
     };
   }
 
+  // Elections
+  async getElections(filters?: {
+    status?: string;
+    published?: boolean;
+    limit?: number;
+  }) {
+    const where: any = {};
+    if (filters?.status) where.status = filters.status;
+    if (filters?.published !== undefined) where.published = filters.published;
+
+    return await prisma.election.findMany({
+      where,
+      include: {
+        documents: true,
+        candidates: {
+          include: { district: true }
+        },
+        _count: {
+          select: {
+            candidates: true,
+            votes: true
+          }
+        }
+      },
+      orderBy: { startDate: "desc" },
+      take: filters?.limit || 50
+    });
+  }
+
+  async getElection(id: number) {
+    return await prisma.election.findUnique({
+      where: { id },
+      include: {
+        documents: true,
+        candidates: {
+          include: { district: true }
+        },
+        votes: true,
+        _count: {
+          select: {
+            candidates: true,
+            votes: true
+          }
+        }
+      }
+    });
+  }
+
+  async createElection(data: any) {
+    return await prisma.election.create({ data });
+  }
+
+  async updateElection(id: number, data: any) {
+    return await prisma.election.update({
+      where: { id },
+      data
+    });
+  }
+
+  async deleteElection(id: number) {
+    return await prisma.election.delete({
+      where: { id }
+    });
+  }
+
+  // Election Documents
+  async getElectionDocuments(electionId: number) {
+    return await prisma.electionDocument.findMany({
+      where: { electionId },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+
+  async createElectionDocument(data: any) {
+    return await prisma.electionDocument.create({ data });
+  }
+
+  async updateElectionDocument(id: number, data: any) {
+    return await prisma.electionDocument.update({
+      where: { id },
+      data
+    });
+  }
+
+  async deleteElectionDocument(id: number) {
+    return await prisma.electionDocument.delete({
+      where: { id }
+    });
+  }
+
+  // Candidates
+  async getCandidates(electionId?: number) {
+    const where = electionId ? { electionId } : {};
+    return await prisma.candidate.findMany({
+      where,
+      include: { 
+        district: true,
+        election: true,
+        _count: {
+          select: { votes: true }
+        }
+      },
+      orderBy: { name: "asc" }
+    });
+  }
+
+  async getCandidate(id: number) {
+    return await prisma.candidate.findUnique({
+      where: { id },
+      include: { 
+        district: true,
+        election: true,
+        votes: true
+      }
+    });
+  }
+
+  async createCandidate(data: any) {
+    return await prisma.candidate.create({ data });
+  }
+
+  async updateCandidate(id: number, data: any) {
+    return await prisma.candidate.update({
+      where: { id },
+      data
+    });
+  }
+
+  async deleteCandidate(id: number) {
+    return await prisma.candidate.delete({
+      where: { id }
+    });
+  }
+
+  // Votes
+  async getVotes(electionId?: number) {
+    const where = electionId ? { electionId } : {};
+    return await prisma.vote.findMany({
+      where,
+      include: { 
+        candidate: true,
+        election: true
+      },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+
+  async createVote(data: any) {
+    return await prisma.vote.create({ data });
+  }
+
+  async getVoteStats(electionId: number) {
+    const stats = await prisma.vote.groupBy({
+      by: ['candidateId'],
+      where: { electionId },
+      _count: { candidateId: true }
+    });
+
+    return stats.map(stat => ({
+      candidateId: stat.candidateId,
+      voteCount: stat._count.candidateId
+    }));
+  }
+
   // Recent Activity
   async getRecentActivity() {
-    const [recentResults, recentNotices, recentSubmissions] = await Promise.all([
+    const [recentResults, recentNotices, recentSubmissions, recentElections] = await Promise.all([
       prisma.result.findMany({
         orderBy: { date: "desc" },
         take: 5,
@@ -408,13 +572,23 @@ export class DatabaseService {
       prisma.submission.findMany({
         orderBy: { createdAt: "desc" },
         take: 5
+      }),
+      prisma.election.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        include: {
+          _count: {
+            select: { candidates: true, votes: true }
+          }
+        }
       })
     ]);
 
     return {
       recentResults,
       recentNotices,
-      recentSubmissions
+      recentSubmissions,
+      recentElections
     };
   }
 }
