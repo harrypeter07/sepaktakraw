@@ -14,7 +14,8 @@
     "seed:elections": "npx tsx scripts/seed-elections.ts",
     "setup:db": "node scripts/setup-database.js",
     "setup:supabase": "node scripts/setup-supabase-only.js",
-    "setup:elections": "node scripts/setup-elections.js"
+    "setup:elections": "node scripts/setup-elections.js",
+    "setup:images": "node scripts/setup-images.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
