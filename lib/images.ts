@@ -263,7 +263,7 @@ export function getResponsiveImageUrls(
  */
 export async function createImageBucket(bucketName: string = 'images'): Promise<boolean> {
   try {
-    const { data, error } = await supabase.storage.createBucket(bucketName, {
+    const { error } = await supabase.storage.createBucket(bucketName, {
       public: true,
       allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
       fileSizeLimit: 10 * 1024 * 1024 // 10MB limit

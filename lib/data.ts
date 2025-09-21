@@ -413,7 +413,7 @@ export class DatabaseService {
     return await prisma.formDef.create({ data });
   }
 
-  async updateFormDef(id: number, data: any) {
+  async updateFormDef(id: number, data: Partial<FormDefData>) {
     return await prisma.formDef.update({
       where: { id },
       data
@@ -447,7 +447,7 @@ export class DatabaseService {
     });
   }
 
-  async createSubmission(data: any) {
+  async createSubmission(data: SubmissionData) {
     return await prisma.submission.create({ data });
   }
 
@@ -539,11 +539,11 @@ export class DatabaseService {
     });
   }
 
-  async createElection(data: any) {
+  async createElection(data: ElectionData) {
     return await prisma.election.create({ data });
   }
 
-  async updateElection(id: number, data: any) {
+  async updateElection(id: number, data: Partial<ElectionData>) {
     return await prisma.election.update({
       where: { id },
       data
@@ -564,11 +564,11 @@ export class DatabaseService {
     });
   }
 
-  async createElectionDocument(data: any) {
+  async createElectionDocument(data: ElectionDocumentData) {
     return await prisma.electionDocument.create({ data });
   }
 
-  async updateElectionDocument(id: number, data: any) {
+  async updateElectionDocument(id: number, data: Partial<ElectionDocumentData>) {
     return await prisma.electionDocument.update({
       where: { id },
       data
@@ -608,11 +608,11 @@ export class DatabaseService {
     });
   }
 
-  async createCandidate(data: any) {
+  async createCandidate(data: CandidateData) {
     return await prisma.candidate.create({ data });
   }
 
-  async updateCandidate(id: number, data: any) {
+  async updateCandidate(id: number, data: Partial<CandidateData>) {
     return await prisma.candidate.update({
       where: { id },
       data
@@ -638,7 +638,7 @@ export class DatabaseService {
     });
   }
 
-  async createVote(data: any) {
+  async createVote(data: VoteData) {
     return await prisma.vote.create({ data });
   }
 
