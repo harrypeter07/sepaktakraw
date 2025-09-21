@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { db } from "@/lib/data";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { Card, Section, Grid, Badge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +13,7 @@ export default async function HomePage() {
   let recentResults: any[] = [];
   let recentNotices: any[] = [];
   let districts: any[] = [];
+  let recentElections: any[] = [];
 
   try {
     const { data, error } = await supabase
@@ -25,10 +29,10 @@ export default async function HomePage() {
   try {
     const { data, error } = await supabase
       .from("notices")
-      .select("id, title, body, category, createdAt, published")
+      .select("id, title, body, category, createdAt, published, priority")
       .eq("published", true)
       .order("createdAt", { ascending: false })
-      .limit(3);
+      .limit(5);
     if (!error && data) recentNotices = data;
   } catch {}
 
@@ -40,6 +44,11 @@ export default async function HomePage() {
       .order("name", { ascending: true })
       .limit(6);
     if (!error && data) districts = data;
+  } catch {}
+
+  // Recent Elections
+  try {
+    recentElections = await db.getElections({ published: true, limit: 3 });
   } catch {}
 
   return (
