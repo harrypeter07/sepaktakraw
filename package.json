@@ -11,8 +11,10 @@
     "seed": "node scripts/run-seed.js",
     "seed:supabase": "npx tsx scripts/seed-supabase.ts",
     "seed:prisma": "npx tsx scripts/seed-prisma.ts",
+    "seed:elections": "npx tsx scripts/seed-elections.ts",
     "setup:db": "node scripts/setup-database.js",
-    "setup:supabase": "node scripts/setup-supabase-only.js"
+    "setup:supabase": "node scripts/setup-supabase-only.js",
+    "setup:elections": "node scripts/setup-elections.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

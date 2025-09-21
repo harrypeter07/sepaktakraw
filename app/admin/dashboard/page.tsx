@@ -26,7 +26,8 @@ export default async function AdminDashboard() {
   const {
     recentResults,
     recentNotices,
-    recentSubmissions
+    recentSubmissions,
+    recentElections
   } = activity;
 
   // Get form definitions for display
@@ -190,7 +191,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="card">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-heading">Recent Results</h2>
@@ -269,6 +270,32 @@ export default async function AdminDashboard() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-heading">Recent Elections</h2>
+              <Link href="/admin/elections" className="text-sm text-bright-red hover:text-red-700">
+                View All →
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {recentElections.map((election) => (
+                <div key={election.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div>
+                    <div className="text-sm font-medium text-dark-gray line-clamp-1">
+                      {election.title}
+                    </div>
+                    <div className="text-xs text-medium-gray">
+                      {new Date(election.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <div className="text-xs text-medium-gray">
+                    {election._count.candidates} candidates
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
