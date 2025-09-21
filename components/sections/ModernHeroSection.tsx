@@ -167,16 +167,18 @@ export function ModernHeroSection({
                 {/* Main Image Card */}
                 <div className="relative overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300 border border-gray-200">
                   <OptimizedImage
-                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center"
+                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=800&fit=crop&crop=center&q=95"
                     alt="Maharashtra Sepaktakraw team celebrating victory at national championship"
-                    width={600}
-                    height={400}
+                    width={1200}
+                    height={800}
                     className="w-full h-64 md:h-80 lg:h-96 object-cover"
-                    fallback="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center"
+                    fallback="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=800&fit=crop&crop=center&q=95"
                     placeholder="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=75&fit=crop&crop=center&blur=20"
-                    quality={90}
+                    quality={95}
                     format="webp"
                     responsive={true}
+                    priority={true}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                   />
                   
                   {/* Gradient Overlay */}

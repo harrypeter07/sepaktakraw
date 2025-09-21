@@ -159,12 +159,13 @@ export function HeroImage({ src, alt, className = "", ...props }: {
       alt={alt}
       width={1200}
       height={600}
-      quality={85}
+      quality={95}
       format="webp"
       fit="cover"
       responsive={true}
       priority={true}
       className={`w-full h-full object-cover ${className}`}
+      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
       {...props}
     />
   );

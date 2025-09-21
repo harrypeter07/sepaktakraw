@@ -13,7 +13,7 @@ export default function EditOfficialPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`/api/officials`).then(r => r.json()).then((list) => list.find((o: any) => String(o.id) === String(id))),
+      fetch(`/api/officials/${id}`).then(r => r.json()),
       fetch('/api/districts').then(r => r.json()),
     ]).then(([o, d]) => {
       if (!o) throw new Error('Not found');
