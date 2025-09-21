@@ -79,18 +79,9 @@ export default async function HomePage() {
   // Recent Elections
   try {
     console.log('Fetching elections from database...');
-    const { data: elections, error: electionsError } = await supabase
-      .from("Election")
-      .select("*")
-      .eq("published", true)
-      .limit(3);
-    
-    if (electionsError) {
-      console.error('Error fetching elections:', electionsError);
-    } else {
-      console.log('Elections fetched successfully:', elections?.length || 0, 'items');
-      recentElections = elections || [];
-    }
+    const elections = await db.getElections({ published: true, limit: 3 });
+    console.log('Elections fetched successfully:', elections?.length || 0, 'items');
+    recentElections = elections || [];
   } catch (err) {
     console.error('Exception fetching elections:', err);
   }

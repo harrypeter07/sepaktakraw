@@ -1,5 +1,103 @@
 import { prisma } from "@/lib/prisma";
 
+// Type definitions for database operations
+interface DistrictData {
+  name: string;
+  slug: string;
+  about?: string;
+}
+
+interface OfficialData {
+  name: string;
+  position: string;
+  email?: string;
+  phone?: string;
+  districtId: number;
+}
+
+interface TeamData {
+  name: string;
+  level: string;
+  districtId: number;
+}
+
+interface ResultData {
+  teamA: string;
+  teamB: string;
+  scoreA?: number;
+  scoreB?: number;
+  date: Date;
+  level: string;
+  venue?: string;
+  published: boolean;
+  districtId: number;
+}
+
+interface NoticeData {
+  title: string;
+  body: string;
+  category: string;
+  priority?: string;
+  published: boolean;
+}
+
+interface UserData {
+  name: string;
+  email: string;
+  role: string;
+  districtId?: number;
+}
+
+interface StaticDocData {
+  title: string;
+  content: string;
+  section: string;
+}
+
+interface FormDefData {
+  key: string;
+  title: string;
+  description?: string;
+  fields: unknown;
+  active: boolean;
+}
+
+interface SubmissionData {
+  formKey: string;
+  data: unknown;
+  submittedBy?: string;
+}
+
+interface ElectionData {
+  title: string;
+  description?: string;
+  type: string;
+  status: string;
+  startDate: Date;
+  endDate: Date;
+  published: boolean;
+}
+
+interface ElectionDocumentData {
+  title: string;
+  description?: string;
+  fileUrl: string;
+  electionId: number;
+}
+
+interface CandidateData {
+  name: string;
+  position: string;
+  districtId: number;
+  electionId: number;
+}
+
+interface VoteData {
+  candidateId: number;
+  electionId: number;
+  voterId?: string;
+}
+
 // Database service layer for all data operations
 export class DatabaseService {
   // Districts
@@ -42,11 +140,11 @@ export class DatabaseService {
     });
   }
 
-  async createDistrict(data: any) {
+  async createDistrict(data: DistrictData) {
     return await prisma.district.create({ data });
   }
 
-  async updateDistrict(id: number, data: any) {
+  async updateDistrict(id: number, data: Partial<DistrictData>) {
     return await prisma.district.update({
       where: { id },
       data
@@ -76,11 +174,11 @@ export class DatabaseService {
     });
   }
 
-  async createOfficial(data: any) {
+  async createOfficial(data: OfficialData) {
     return await prisma.official.create({ data });
   }
 
-  async updateOfficial(id: number, data: any) {
+  async updateOfficial(id: number, data: Partial<OfficialData>) {
     return await prisma.official.update({
       where: { id },
       data
@@ -110,11 +208,11 @@ export class DatabaseService {
     });
   }
 
-  async createTeam(data: any) {
+  async createTeam(data: TeamData) {
     return await prisma.team.create({ data });
   }
 
-  async updateTeam(id: number, data: any) {
+  async updateTeam(id: number, data: Partial<TeamData>) {
     return await prisma.team.update({
       where: { id },
       data
@@ -134,7 +232,7 @@ export class DatabaseService {
     published?: boolean;
     limit?: number;
   }) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (filters?.districtId) where.districtId = filters.districtId;
     if (filters?.level) where.level = filters.level;
     if (filters?.published !== undefined) where.published = filters.published;
@@ -154,11 +252,11 @@ export class DatabaseService {
     });
   }
 
-  async createResult(data: any) {
+  async createResult(data: ResultData) {
     return await prisma.result.create({ data });
   }
 
-  async updateResult(id: number, data: any) {
+  async updateResult(id: number, data: Partial<ResultData>) {
     return await prisma.result.update({
       where: { id },
       data
@@ -177,7 +275,7 @@ export class DatabaseService {
     published?: boolean;
     limit?: number;
   }) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (filters?.category) where.category = filters.category;
     if (filters?.published !== undefined) where.published = filters.published;
 
@@ -200,11 +298,11 @@ export class DatabaseService {
     });
   }
 
-  async createNotice(data: any) {
+  async createNotice(data: NoticeData) {
     return await prisma.notice.create({ data });
   }
 
-  async updateNotice(id: number, data: any) {
+  async updateNotice(id: number, data: Partial<NoticeData>) {
     return await prisma.notice.update({
       where: { id },
       data
@@ -222,7 +320,7 @@ export class DatabaseService {
     role?: string;
     districtId?: number;
   }) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (filters?.role) where.role = filters.role;
     if (filters?.districtId) where.districtId = filters.districtId;
 
@@ -247,11 +345,11 @@ export class DatabaseService {
     });
   }
 
-  async createUser(data: any) {
+  async createUser(data: UserData) {
     return await prisma.user.create({ data });
   }
 
-  async updateUser(id: string, data: any) {
+  async updateUser(id: string, data: Partial<UserData>) {
     return await prisma.user.update({
       where: { id },
       data
@@ -333,7 +431,7 @@ export class DatabaseService {
     formKey?: string;
     limit?: number;
   }) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (filters?.formKey) where.formKey = filters.formKey;
 
     return await prisma.submission.findMany({
@@ -399,7 +497,7 @@ export class DatabaseService {
     published?: boolean;
     limit?: number;
   }) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (filters?.status) where.status = filters.status;
     if (filters?.published !== undefined) where.published = filters.published;
 
