@@ -41,9 +41,9 @@ export function ContactForm() {
 
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error: any) {
+    } catch (error: unknown) {
       setSubmitStatus("error");
-      setErrorMessage(error.message || "Failed to submit form");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to submit form");
     } finally {
       setIsSubmitting(false);
     }
@@ -118,7 +118,7 @@ export function ContactForm() {
         <CardFooter className="flex justify-end space-x-3">
           {submitStatus === "success" && (
             <div className="text-green-600 text-sm">
-              Message sent successfully! We'll get back to you soon.
+              Message sent successfully! We&apos;ll get back to you soon.
             </div>
           )}
           {submitStatus === "error" && (

@@ -32,8 +32,8 @@ export default function EditResultPage() {
     }).catch(() => setError("Failed to load")).finally(() => setLoading(false));
   }, [id]);
 
-  function change<K extends keyof typeof form>(key: K, value: any) {
-    setForm((f: any) => ({ ...f, [key]: value }));
+  function change<K extends keyof typeof form>(key: K, value: string | number | boolean) {
+    setForm((f: typeof form) => ({ ...f, [key]: value }));
   }
 
   async function save(e: React.FormEvent) {

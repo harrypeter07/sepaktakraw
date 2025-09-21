@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export function LogoStrip() {
   const logos = [
     {
@@ -44,9 +46,11 @@ export function LogoStrip() {
                 key={index}
                 className="flex items-center justify-center flex-shrink-0 group"
               >
-                <img
+                <Image
                   src={logo.src}
                   alt={logo.alt}
+                  width={200}
+                  height={100}
                   className="h-10 sm:h-12 opacity-60 hover:opacity-100 transition-opacity duration-200 filter grayscale hover:grayscale-0"
                   onError={(e) => {
                     // Fallback to text if image fails to load

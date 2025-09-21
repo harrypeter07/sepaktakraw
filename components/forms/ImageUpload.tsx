@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -65,8 +66,8 @@ export function ImageUpload({
       setPreviewUrl(data.data.cdnUrl);
       setImageUrl("");
       setError("");
-    } catch (err: any) {
-      setError(err.message || "Failed to upload image");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to upload image");
     } finally {
       setIsUploading(false);
     }
@@ -111,8 +112,8 @@ export function ImageUpload({
       onImageUpload(data.data);
       setPreviewUrl(data.data.cdnUrl);
       setError("");
-    } catch (err: any) {
-      setError(err.message || "Failed to upload image");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to upload image");
     } finally {
       setIsUploading(false);
     }
@@ -208,9 +209,11 @@ export function ImageUpload({
         {previewUrl && (
           <div className="space-y-4">
             <div className="relative">
-              <img
+              <Image
                 src={previewUrl}
                 alt="Preview"
+                width={400}
+                height={192}
                 className="w-full h-48 object-cover rounded-lg border"
                 onError={() => setError("Failed to load image preview")}
               />

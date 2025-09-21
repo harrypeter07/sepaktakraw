@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { getOptimizedImageUrl, getResponsiveImageUrls } from "@/lib/images";
 
 interface OptimizedImageProps {
@@ -87,7 +88,7 @@ export function OptimizedImage({
       {isLoading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
           {placeholder ? (
-            <img src={placeholder} alt="" className="w-full h-full object-cover opacity-50" />
+            <Image src={placeholder} alt="" width={width || 400} height={height || 300} className="w-full h-full object-cover opacity-50" />
           ) : (
             <div className="w-8 h-8 bg-gray-300 rounded"></div>
           )}
@@ -95,14 +96,13 @@ export function OptimizedImage({
       )}
 
       {/* Main image */}
-      <img
+      <Image
         src={finalSrc}
         alt={alt}
-        width={width}
-        height={height}
-        srcSet={srcSet}
+        width={width || 400}
+        height={height || 300}
         sizes={sizes}
-        loading={lazy && !priority ? "lazy" : "eager"}
+        priority={priority}
         onLoad={handleLoad}
         onError={handleError}
         className={`transition-opacity duration-300 ${
